@@ -1,0 +1,29 @@
+---
+/**
+ * Process — 4 étapes « Comment ça se passe » (devis → volume → planification → transport).
+ */
+const steps = [
+	{ number: 1, title: "Demande de devis", description: "Formulaire ou appel : nous recueillons vos besoins (dates, volume, étages, accès)." },
+	{ number: 2, title: "Estimation du volume", description: "Évaluation du nombre de m³ et du matériel nécessaire pour un devis précis." },
+	{ number: 3, title: "Planification", description: "Nous fixons la date et l’horaire d’intervention selon votre disponibilité." },
+	{ number: 4, title: "Transport sécurisé", description: "Déménagement et livraison avec soin, assurance et suivi jusqu’à la remise des clés." },
+];
+---
+<section class="py-16 md:py-24 bg-gray-50" aria-labelledby="process-heading">
+	<div class="container mx-auto px-4 max-w-6xl">
+		<h2 id="process-heading" class="text-2xl md:text-3xl font-bold text-gray-900 text-center mb-12">
+			Comment ça se passe
+		</h2>
+		<ol class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 list-none m-0 p-0 counter-reset-none">
+			{steps.map((step) => (
+				<li class="relative flex flex-col">
+					<span class="inline-flex w-10 h-10 items-center justify-center rounded-full bg-emerald-600 text-white font-bold text-lg mb-4" aria-hidden="true">
+						{step.number}
+					</span>
+					<h3 class="text-lg font-semibold text-gray-900 mb-2">{step.title}</h3>
+					<p class="text-gray-600">{step.description}</p>
+				</li>
+			))}
+		</ol>
+	</div>
+</section>

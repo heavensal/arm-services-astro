@@ -1,0 +1,27 @@
+---
+/**
+ * FinalCTA — section finale : CTA principal = appeler, secondaire = contact.
+ */
+interface Props {
+	contactUrl?: string;
+	phone?: string;
+}
+
+const { contactUrl = "#contact", phone = "06 43 09 65 97" } = Astro.props;
+const telHref = `tel:${phone.replace(/\s/g, "")}`;
+---
+<section id="contact" class="py-16 md:py-20 border-t border-gray-200" aria-label="Nous contacter">
+	<div class="container mx-auto px-4 max-w-2xl text-center">
+		<p class="text-gray-600 mb-6">
+			Une question ou prêt à planifier votre déménagement ? Appelez-nous.
+		</p>
+		<div class="flex flex-col sm:flex-row gap-4 justify-center">
+			<a href={telHref} class="inline-flex items-center justify-center px-8 py-4 bg-emerald-600 text-white font-semibold rounded-lg hover:bg-emerald-700 transition-colors">
+				Appeler le {phone}
+			</a>
+			<a href={contactUrl} class="inline-flex items-center justify-center px-6 py-4 border-2 border-gray-300 text-gray-700 font-semibold rounded-lg hover:border-emerald-500 hover:text-emerald-600 transition-colors">
+				Nous contacter
+			</a>
+		</div>
+	</div>
+</section>

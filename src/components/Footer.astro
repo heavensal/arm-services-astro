@@ -1,0 +1,30 @@
+---
+/**
+ * Footer — mentions légales : ARM Services, SIRET, capital, contact.
+ */
+interface Props {
+	phone?: string;
+}
+
+const { phone = "06 43 09 65 97" } = Astro.props;
+const telHref = `tel:${phone.replace(/\s/g, "")}`;
+---
+<footer class="bg-gray-900 text-gray-300 py-10 px-4" role="contentinfo">
+	<div class="container mx-auto max-w-4xl">
+		<div class="text-center text-sm mb-6">
+			<p class="font-semibold text-white mb-2">ARM Services</p>
+			<p class="mb-1">Déménagement — Marseille & toute la France sur devis</p>
+			<p class="mb-1">
+				<a href={telHref} class="text-emerald-400 hover:text-emerald-300">{phone}</a>
+			</p>
+		</div>
+		<nav class="flex flex-wrap justify-center gap-x-6 gap-y-1 text-sm mb-4" aria-label="Mentions légales et politiques">
+			<a href="/mentions-legales" class="text-gray-400 hover:text-white">Mentions légales</a>
+			<a href="/politique-confidentialite" class="text-gray-400 hover:text-white">Politique de confidentialité</a>
+			<a href="/conditions-generales" class="text-gray-400 hover:text-white">Conditions générales</a>
+		</nav>
+		<p class="text-center text-gray-500 text-sm">
+			SIRET 938 889 334 00018 — Capital social 6 300 €
+		</p>
+	</div>
+</footer>

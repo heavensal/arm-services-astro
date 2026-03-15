@@ -1,0 +1,29 @@
+---
+/**
+ * Services — cartes présentant les prestations (déménagement particulier, entreprise, etc.).
+ */
+const services = [
+	{ title: "Déménagement particulier", description: "Maison, appartement : nous gérons l’intégralité de votre déménagement avec soin et réactivité." },
+	{ title: "Déménagement entreprise", description: "Bureaux, locaux commerciaux : planning sur mesure et intervention discrète pour ne pas perturber votre activité." },
+	{ title: "Déménagement longue distance", description: "France et international : transport sécurisé et suivi pour vos biens sur toute la distance." },
+	{ title: "Transport de meubles", description: "Achat, vente ou don : livraison et mise en place de vos meubles en toute sécurité." },
+	{ title: "Aide au chargement", description: "Un coup de main pour charger ou décharger un véhicule : équipe disponible à la demande." },
+];
+---
+<section class="py-16 md:py-24" aria-labelledby="services-heading">
+	<div class="container mx-auto px-4 max-w-6xl">
+		<h2 id="services-heading" class="text-2xl md:text-3xl font-bold text-gray-900 text-center mb-12">
+			Nos services
+		</h2>
+		<ul class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 list-none m-0 p-0">
+			{services.map((service) => (
+				<li>
+					<article class="h-full p-6 bg-white border border-gray-200 rounded-xl shadow-sm hover:shadow-md transition-shadow">
+						<h3 class="text-lg font-semibold text-gray-900 mb-2">{service.title}</h3>
+						<p class="text-gray-600">{service.description}</p>
+					</article>
+				</li>
+			))}
+		</ul>
+	</div>
+</section>

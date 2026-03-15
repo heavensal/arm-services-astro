@@ -1,11 +1,33 @@
 ---
-import Welcome from '../components/Welcome.astro';
+/**
+ * Homepage — site vitrine ARM Services (déménagement).
+ */
 import Layout from '../layouts/Layout.astro';
+import Hero from '../components/Hero.astro';
+import TrustBar from '../components/TrustBar.astro';
+import Services from '../components/Services.astro';
+import Process from '../components/Process.astro';
+import Areas from '../components/Areas.astro';
+import WhyUs from '../components/WhyUs.astro';
+import Reviews from '../components/Reviews.astro';
+import QuoteCTA from '../components/QuoteCTA.astro';
+import FinalCTA from '../components/FinalCTA.astro';
+import Footer from '../components/Footer.astro';
 
-// Welcome to Astro! Wondering what to do next? Check out the Astro documentation at https://docs.astro.build
-// Don't want to use any of this? Delete everything in this file, the `assets`, `components`, and `layouts` directories, and start fresh.
+const phone = "06 43 09 65 97";
 ---
 
 <Layout>
-	<Welcome />
+	<main>
+		<Hero phone={phone} quoteUrl="#devis" />
+		<TrustBar />
+		<Services />
+		<Process />
+		<Areas />
+		<WhyUs />
+		<Reviews />
+		<QuoteCTA phone={phone} quoteUrl="#devis" />
+		<FinalCTA contactUrl="#contact" phone={phone} />
+		<Footer phone={phone} />
+	</main>
 </Layout>

@@ -1,0 +1,55 @@
+---
+/**
+ * Hero — bannière plein écran avec image en fond, H1 SEO, CTA principal = appeler.
+ * L’image occupe tout le viewport (mobile et desktop).
+ */
+import heroImage from '../assets/images/hero_truck.jpg';
+
+interface Props {
+	phone?: string;
+	quoteUrl?: string;
+}
+
+const { phone = "06 43 09 65 97", quoteUrl = "#devis" } = Astro.props;
+const telHref = `tel:${phone.replace(/\s/g, "")}`;
+---
+<section
+	class="relative min-h-screen w-full flex flex-col justify-center px-4 py-20"
+	aria-label="Accueil ARM Services"
+>
+	<!-- Image en fond : tout l’écran -->
+	<div class="absolute inset-0 z-0">
+		<img
+			src={heroImage.src}
+			alt="Camion de déménagement ARM Services"
+			class="w-full h-full object-cover"
+			fetchpriority="high"
+		/>
+		<!-- Overlay pour lisibilité du texte -->
+		<div class="absolute inset-0 bg-black/50" aria-hidden="true"></div>
+	</div>
+
+	<!-- Contenu au-dessus de l’image -->
+	<div class="relative z-10 container mx-auto max-w-3xl text-center text-white">
+		<h1 class="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold leading-tight mb-4">
+			ARM Services — Déménagement à Marseille & partout en France
+		</h1>
+		<p class="text-lg md:text-xl text-white/90 mb-8">
+			Basés à Marseille, nous intervenons sur toute la France sur devis. Devis gratuit, équipe pro, assurance incluse.
+		</p>
+		<div class="flex flex-col sm:flex-row gap-4 justify-center">
+			<a
+				href={telHref}
+				class="inline-flex items-center justify-center px-8 py-4 bg-emerald-600 text-white font-semibold rounded-lg hover:bg-emerald-700 transition-colors focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-900"
+			>
+				Appeler le 06 43 09 65 97
+			</a>
+			<a
+				href={quoteUrl}
+				class="inline-flex items-center justify-center px-8 py-4 border-2 border-white text-white font-semibold rounded-lg hover:bg-white hover:text-gray-900 transition-colors"
+			>
+				Demander un devis gratuit
+			</a>
+		</div>
+	</div>
+</section>
