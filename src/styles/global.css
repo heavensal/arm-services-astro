@@ -82,3 +82,70 @@ body::-webkit-scrollbar-thumb {
 		opacity: 1;
 	}
 }
+
+/**
+ * ----------------------------------------
+ * Services — scroll reveal (fade-in + léger lift)
+ * ----------------------------------------
+ */
+.services-reveal h2,
+.services-reveal li article {
+	opacity: 0;
+	transform: translateY(14px);
+	transition:
+		opacity 0.65s cubic-bezier(0.39, 0.575, 0.565, 1),
+		transform 0.65s cubic-bezier(0.39, 0.575, 0.565, 1),
+		box-shadow 0.2s ease;
+}
+
+.services-reveal li article {
+	transition-delay: 0ms;
+}
+
+.services-reveal.is-in-view h2 {
+	opacity: 1;
+	transform: translateY(0);
+	transition-delay: 0ms;
+}
+
+.services-reveal.is-in-view li article {
+	opacity: 1;
+	transform: translateY(0);
+	transition-delay: var(--services-reveal-delay, 0ms);
+}
+
+/**
+ * Grille « Nos services » : atténuer les cartes non survolées.
+ * Spécificité > .services-reveal.is-in-view li article (sinon opacity:1 écrase les utilitaires Tailwind du ul).
+ */
+.services-reveal.is-in-view ul:hover li article {
+	opacity: 0.4;
+}
+
+.services-reveal.is-in-view ul:hover li:hover article {
+	opacity: 1;
+}
+
+.services-reveal.is-in-view ul:focus-within li article {
+	opacity: 0.4;
+}
+
+.services-reveal.is-in-view ul:focus-within li:focus-within article {
+	opacity: 1;
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.services-reveal h2,
+	.services-reveal li article {
+		opacity: 1;
+		transform: none;
+		transition: none;
+	}
+
+	.services-reveal.is-in-view ul:hover li article,
+	.services-reveal.is-in-view ul:hover li:hover article,
+	.services-reveal.is-in-view ul:focus-within li article,
+	.services-reveal.is-in-view ul:focus-within li:focus-within article {
+		opacity: 1;
+	}
+}

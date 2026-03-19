@@ -9,19 +9,23 @@ const steps = [
 	{ number: 4, title: "Transport sécurisé", description: "Déménagement et livraison avec soin, assurance et suivi jusqu’à la remise des clés." },
 ];
 ---
-<section class="py-16 md:py-24 bg-gray-50" aria-labelledby="process-heading">
-	<div class="container mx-auto px-4 max-w-6xl">
+<section class="py-16 md:py-24 bg-white" aria-labelledby="process-heading">
+	<div class="container mx-auto px-4 md:px-16 py-16 md:py-24 rounded-xl max-w-6xl bg-blue-armenian/5">
 		<h2 id="process-heading" class="text-2xl md:text-3xl font-bold text-gray-900 text-center mb-12">
 			Comment ça se passe
 		</h2>
-		<ol class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 list-none m-0 p-0 counter-reset-none">
+		<ol
+			class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 list-none m-0 p-0 counter-reset-none [&_li_article]:transition-opacity [&_li_article]:duration-300 hover:[&_li_article]:opacity-40 hover:[&_li:hover_article]:opacity-100 focus-within:[&_li_article]:opacity-40 focus-within:[&_li:focus-within_article]:opacity-100"
+		>
 			{steps.map((step) => (
 				<li class="relative flex flex-col">
-					<span class="inline-flex w-10 h-10 items-center justify-center rounded-full bg-orange-armenian text-white font-bold text-lg mb-4" aria-hidden="true">
-						{step.number}
-					</span>
-					<h3 class="text-lg font-semibold text-gray-900 mb-2">{step.title}</h3>
-					<p class="text-gray-600">{step.description}</p>
+					<article class="cursor-default flex h-full flex-col rounded-xl p-4 -m-4 md:p-5 md:-m-5">
+						<span class="inline-flex w-10 h-10 items-center justify-center rounded-full bg-orange-armenian text-white font-bold text-lg mb-4" aria-hidden="true">
+							{step.number}
+						</span>
+						<h3 class="text-lg font-semibold text-gray-900 mb-2">{step.title}</h3>
+						<p class="text-gray-600">{step.description}</p>
+					</article>
 				</li>
 			))}
 		</ol>
