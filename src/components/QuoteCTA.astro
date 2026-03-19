@@ -20,7 +20,7 @@ const telHref = `tel:${phone.replace(/\s/g, "")}`;
 	aria-labelledby="quote-cta-heading"
 >
 	<!-- Overlay pour lisibilité -->
-	<div class="absolute inset-0 bg-blue-armenian/90" aria-hidden="true"></div>
+	<div class="absolute inset-0 bg-blue-armenian/70" aria-hidden="true"></div>
 
 	<div class="relative z-10 container mx-auto px-4 max-w-3xl text-center">
 		<h2 id="quote-cta-heading" class="text-2xl md:text-3xl font-bold text-white mb-4">
@@ -30,10 +30,10 @@ const telHref = `tel:${phone.replace(/\s/g, "")}`;
 			Appelez-nous au {phone} ou demandez un devis en ligne. Réponse rapide, sans engagement.
 		</p>
 		<div class="flex flex-col sm:flex-row gap-4 justify-center">
-			<a href={telHref} class="inline-flex items-center justify-center px-8 py-4 bg-white text-red-armenian font-semibold rounded-lg hover:bg-gray-100 transition-colors focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-blue-armenian">
+			<a href={telHref} class="inline-flex items-center justify-center px-8 py-4 bg-orange-armenian text-white font-semibold rounded-lg hover:brightness-95 transition-colors focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-blue-armenian">
 				Appeler le {phone}
 			</a>
-			<a href={quoteUrl} class="inline-flex items-center justify-center px-8 py-4 border-2 border-white text-white font-semibold rounded-lg hover:bg-white hover:text-blue-armenian transition-colors">
+			<a href={quoteUrl} class="inline-flex items-center justify-center px-8 py-4 border-2 border-orange-armenian text-white font-semibold rounded-lg hover:bg-orange-armenian hover:text-white transition-colors">
 				Demander un devis en ligne
 			</a>
 		</div>

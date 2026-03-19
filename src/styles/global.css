@@ -21,8 +21,19 @@ body::-webkit-scrollbar-track {
 }
 
 body::-webkit-scrollbar-thumb {
-	background: linear-gradient(to bottom, var(--red-armenian), var(--blue-armenian), var(--orange-armenian));
-	border-radius: 16px;
+	background: var(--orange-armenian);
+	border-radius: 12px;
 }
 
+.gradient-mask-armenian {
+	/* Gradient sur le texte : on clip le fond au glyphes. */
+	background: linear-gradient(
+		90deg,
+		rgba(242, 168, 0, 1) 100%
+	);
+	-webkit-background-clip: text;
+	background-clip: text;
+	color: transparent;
+	-webkit-text-fill-color: transparent;
+}
 
