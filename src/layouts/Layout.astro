@@ -1,27 +1,60 @@
 ---
 /**
  * Layout principal — SEO, langue FR, chargement Tailwind.
- * Props optionnelles pour personnaliser le titre et la description par page.
+ * Props optionnelles pour personnaliser le titre, la description et l’image Open Graph par page.
  */
 import '../styles/global.css';
 
 interface Props {
 	title?: string;
 	description?: string;
+	/** Fichier dans `public/` (sans slash initial), ex. android-chrome-512x512.png — idéal : image 1200×630 dédiée */
+	ogImage?: string;
 }
 
-const { title = "ARM Services | Déménagement Marseille & France — Devis gratuit", description = "ARM Services, déménagement à Marseille et partout en France sur devis. Devis gratuit au 06 43 09 65 97. Assurance incluse, équipe professionnelle." } = Astro.props;
+const {
+	title = 'ARM Services | Déménagement Marseille & France — Devis gratuit',
+	description = 'ARM Services, déménagement à Marseille et partout en France sur devis. Devis gratuit au 06 43 09 65 97. Assurance incluse, équipe professionnelle.',
+	ogImage = 'android-chrome-512x512.png',
+} = Astro.props;
+
+/** Toujours terminer par `/` pour que `new URL(fichier, base)` reste sous le sous-chemin (GitHub Pages + `base`). */
+const base =
+	import.meta.env.BASE_URL.endsWith('/')
+		? import.meta.env.BASE_URL
+		: `${import.meta.env.BASE_URL}/`;
+const canonicalURL = new URL(Astro.url.pathname, Astro.site);
+const ogImageURL = new URL(ogImage, new URL(base, Astro.site));
 ---
 <!doctype html>
 <html lang="fr" class="scroll-smooth">
 	<head>
 		<meta charset="UTF-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<link rel="icon" href="/favicon.ico" />
 		<meta name="generator" content={Astro.generator} />
 		<title>{title}</title>
 		<meta name="description" content={description} />
+		<link rel="canonical" href={canonicalURL.href} />
+
+		<meta property="og:type" content="website" />
+		<meta property="og:title" content={title} />
+		<meta property="og:description" content={description} />
+		<meta property="og:url" content={canonicalURL.href} />
+		<meta property="og:locale" content="fr_FR" />
+		<meta property="og:site_name" content="ARM Services" />
+		<meta property="og:image" content={ogImageURL.href} />
+
+		<meta name="twitter:card" content="summary_large_image" />
+		<meta name="twitter:title" content={title} />
+		<meta name="twitter:description" content={description} />
+		<meta name="twitter:image" content={ogImageURL.href} />
+
+		<link rel="manifest" href={`${base}site.webmanifest`} />
+		<link rel="apple-touch-icon" href={`${base}apple-touch-icon.png`} />
+		<link rel="icon" type="image/svg+xml" href={`${base}favicon.svg`} />
+		<link rel="icon" href={`${base}favicon.ico`} sizes="any" />
+		<link rel="icon" type="image/png" sizes="32x32" href={`${base}favicon-32x32.png`} />
+		<link rel="icon" type="image/png" sizes="16x16" href={`${base}favicon-16x16.png`} />
 	</head>
 	<body class="min-h-screen antialiased text-gray-900">
 		<slot />

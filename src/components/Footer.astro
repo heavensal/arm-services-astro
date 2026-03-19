@@ -11,6 +11,9 @@ interface Props {
 
 const { phone = "06 43 09 65 97" } = Astro.props;
 const telHref = `tel:${phone.replace(/\s/g, "")}`;
+const base = import.meta.env.BASE_URL.endsWith('/')
+	? import.meta.env.BASE_URL
+	: `${import.meta.env.BASE_URL}/`;
 ---
 <footer class="bg-gray-900 text-gray-300 w-full" role="contentinfo">
 	<div class="flex flex-col md:flex-row min-h-full">
@@ -51,9 +54,9 @@ const telHref = `tel:${phone.replace(/\s/g, "")}`;
 
 				<div class="flex flex-col lg:flex-row justify-between items-center lg:items-end gap-6 text-sm">
 					<nav class="flex flex-wrap justify-center lg:justify-start gap-x-6 gap-y-2" aria-label="Mentions légales et politiques">
-						<a href="/mentions-legales" class="text-gray-400 hover:text-white transition-colors">Mentions légales</a>
-						<a href="/politique-confidentialite" class="text-gray-400 hover:text-white transition-colors">Politique de confidentialité</a>
-						<a href="/conditions-generales" class="text-gray-400 hover:text-white transition-colors">Conditions générales</a>
+						<a href={`${base}mentions-legales`} class="text-gray-400 hover:text-white transition-colors">Mentions légales</a>
+						<a href={`${base}politique-confidentialite`} class="text-gray-400 hover:text-white transition-colors">Politique de confidentialité</a>
+						<a href={`${base}conditions-generales`} class="text-gray-400 hover:text-white transition-colors">Conditions générales</a>
 					</nav>
 					<p class="text-center lg:text-right text-gray-500 whitespace-nowrap">
 						SIRET 938 889 334 00018<br />Capital social 6 300 €

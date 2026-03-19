@@ -1,0 +1,6 @@
+# https://heavensal.github.io/arm-services-astro/
+# Domaines envisagés (à décider) : arm-services-demenagement.fr, arm-services.fr
+User-agent: *
+Allow: /
+
+Sitemap: https://heavensal.github.io/arm-services-astro/sitemap-index.xml
