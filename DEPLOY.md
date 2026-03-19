@@ -113,4 +113,4 @@ Variables optionnelles :
 | Service des fichiers| VPS     | Nginx, `root /var/www/arm-services` |
 | Port (ex. proposé)  | VPS     | 9000 (ou 80/443 avec server_name)  |
 
-Site accessible par exemple sur **http://51.75.124.208:9000** (ou l’URL de votre domaine si configurée).
+Site accessible par exemple sur **<http://51.75.124.208:9000>** (ou l’URL de votre domaine si configurée).
