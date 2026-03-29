@@ -5,15 +5,22 @@ import sitemap from '@astrojs/sitemap';
 
 // https://astro.build/config
 //
-// Production actuelle (GitHub Pages) :
-//   https://heavensal.github.io/arm-services-astro/
+// IMPORTANT — `site` + `base` doivent correspondre à l’URL où le site est réellement servi
+// (sinon plus de CSS/JS : les fichiers sont cherchés au mauvais chemin).
 //
-// Noms de domaine à arbitrer / acheter (mise à jour `site` + redirections le jour venu) :
-//   - https://arm-services-demenagement.fr
-//   - https://arm-services.fr
+// A) Domaine personnalisé (GitHub Pages « Custom domain » ou Nginx en racine) :
+const site = 'https://arm-services-demenagement.fr';
+const base = '/';
+//
+// B) Démo uniquement sur GitHub Pages sans domaine perso :
+//    https://heavensal.github.io/arm-services-astro/
+// const site = 'https://heavensal.github.io';
+// const base = '/arm-services-astro';
+//
+// https://docs.astro.build/en/reference/configuration-reference/#base
 export default defineConfig({
-	site: 'https://heavensal.github.io',
-	base: '/arm-services-astro',
+	site,
+	base,
 	output: 'static',
 	integrations: [sitemap()],
 	vite: {
