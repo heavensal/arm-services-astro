@@ -1,0 +1,93 @@
+---
+description: ARM Services project instructions - context, styling, and development guidelines
+globs:
+alwaysApply: true
+---
+
+# Cursor ARM Services Instructions
+
+## First Steps
+
+**READ THE README.md FIRST.** It contains essential documentation about:
+- Project structure and file organization
+- Component patterns and usage
+- SEO configuration
+- Tailwind styling conventions and Armenian theme
+
+## Project Context
+
+- Landing page for ARM Services, moving company based in Marseille
+- Services: moving and delivery throughout France
+- Target: individual and professional clients
+- Conversion goal: phone calls and quote requests
+
+## Key Files
+
+| File | Purpose |
+|------|---------|
+| `astro.config.mjs` | SEO: Site URL and base path |
+| `src/layouts/Layout.astro` | SEO: Meta tags, Open Graph |
+| `src/pages/index.astro` | Homepage, phone number config |
+| `src/styles/global.css` | Tailwind theme + animations |
+
+## Component Pattern
+
+Components are standalone with optional props:
+
+```astro
+---
+interface Props {
+  phone?: string;
+}
+
+const { phone = "06 43 09 65 97" } = Astro.props;
+---
+
+<section class="..." aria-label="Description">
+  <!-- Content -->
+</section>
+```
+
+## Tailwind CSS — STRICT RULES
+
+### ✅ ALWAYS: Native Tailwind Classes Only
+
+```astro
+<div class="flex items-center gap-4 px-6 py-4">
+<button class="rounded-lg bg-orange-armenian hover:brightness-95">
+```
+
+### ❌ NEVER: Arbitrary Values (Brackets)
+
+```astro
+<!-- FORBIDDEN -->
+<div class="w-[347px] text-[#1a2b3c]">
+```
+
+### ❌ NEVER: Inline Styles
+
+```astro
+<!-- FORBIDDEN -->
+<div style="margin: 23px;">
+```
+
+### Animation Priority
+
+1. Native Tailwind: `animate-pulse`, `animate-spin`, `animate-bounce`
+2. Transitions: `transition-colors duration-200`
+3. Existing: `fade-in`, `services-reveal` (in `global.css`)
+4. New keyframes: Only if explicitly requested (include `prefers-reduced-motion`)
+
+## Color Palette (Armenian Theme)
+
+- **Orange**: `orange-armenian` (`#F2A800`) — Primary CTAs
+- **Red**: `red-armenian` (`#D90012`) — Secondary accents
+- **Blue**: `blue-armenian` (`#0033A0`) — Tertiary accents
+- **Background**: `gray-900` (dark), `gray-100` (light)
+- **Text**: `gray-900` (headings), `gray-600` (body)
+
+## Conversion Focus
+
+- Primary CTA: Phone call (`tel:` link)
+- Secondary CTA: Quote request (`#devis`)
+- Emphasize: reliability, insurance, professionalism

@@ -3,21 +3,27 @@ import { defineConfig } from 'astro/config';
 import tailwind from '@tailwindcss/vite';
 import sitemap from '@astrojs/sitemap';
 
-// https://astro.build/config
-//
-// IMPORTANT — `site` + `base` doivent correspondre à l’URL où le site est réellement servi
-// (sinon plus de CSS/JS : les fichiers sont cherchés au mauvais chemin).
-//
-// A) Domaine personnalisé (GitHub Pages « Custom domain » ou Nginx en racine) :
+/**
+ * Astro configuration for ARM Services landing page.
+ *
+ * SEO: Update `site` and `base` when deploying to production.
+ *
+ * Deployment scenarios:
+ * - Custom domain: site = 'https://arm-services-demenagement.fr', base = '/'
+ * - GitHub Pages: site = 'https://heavensal.github.io', base = '/arm-services-astro'
+ */
+
+// SEO: Production site URL (affects canonical URLs, sitemap, Open Graph)
 const site = 'https://arm-services-demenagement.fr';
+
+// SEO: Base path ('/' for custom domain, '/repo-name' for GitHub Pages subdirectory)
 const base = '/';
-//
-// B) Démo uniquement sur GitHub Pages sans domaine perso :
-//    https://heavensal.github.io/arm-services-astro/
+
+// Alternative for GitHub Pages without custom domain:
 // const site = 'https://heavensal.github.io';
 // const base = '/arm-services-astro';
-//
-// https://docs.astro.build/en/reference/configuration-reference/#base
+
+// https://astro.build/config
 export default defineConfig({
 	site,
 	base,
