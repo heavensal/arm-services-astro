@@ -1,0 +1,64 @@
+---
+import { getFixedT, isMultilangEnabled, type Locale } from '../i18n/i18n';
+import { pageHref, pageRoutes } from '../lib/paths';
+
+interface Props {
+	locale: Locale;
+}
+
+const { locale } = Astro.props;
+const t = getFixedT(locale);
+
+const multilangEnabled = isMultilangEnabled();
+---
+
+{
+	multilangEnabled && (
+		<nav
+			class="absolute top-6 right-4 z-20 flex items-center gap-2 text-xs font-medium tracking-wide text-white/70"
+			aria-label={t('LanguageSwitcher.ariaLabel')}
+		>
+			{locale === 'fr' ? (
+				<span
+					class="rounded-sm px-1.5 py-0.5 text-white"
+					aria-current="true"
+					lang="fr"
+				>
+					{t('LanguageSwitcher.labelFr')}
+				</span>
+			) : (
+				<a
+					href={pageHref(pageRoutes.home)}
+					hreflang="fr"
+					lang="fr"
+					title={t('LanguageSwitcher.titleFr')}
+					class="rounded-sm px-1.5 py-0.5 transition-colors hover:text-white focus:outline-none focus-visible:ring-2 focus-visible:ring-white"
+				>
+					{t('LanguageSwitcher.labelFr')}
+				</a>
+			)}
+			<span class="text-white/40" aria-hidden="true">
+				|
+			</span>
+			{locale === 'en' ? (
+				<span
+					class="rounded-sm px-1.5 py-0.5 text-white"
+					aria-current="true"
+					lang="en"
+				>
+					{t('LanguageSwitcher.labelEn')}
+				</span>
+			) : (
+				<a
+					href={pageHref(pageRoutes.englishHome)}
+					hreflang="en"
+					lang="en"
+					title={t('LanguageSwitcher.titleEn')}
+					class="rounded-sm px-1.5 py-0.5 transition-colors hover:text-white focus:outline-none focus-visible:ring-2 focus-visible:ring-white"
+				>
+					{t('LanguageSwitcher.labelEn')}
+				</a>
+			)}
+		</nav>
+	)
+}

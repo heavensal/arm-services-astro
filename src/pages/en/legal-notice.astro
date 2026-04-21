@@ -1,0 +1,24 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import LegalNoticeArticle from '../../components/legal/LegalNoticeArticle.astro';
+import { getFixedT, type Locale } from '../../i18n/i18n';
+import { absolutePageUrl, buildLegalAlternateLanguages } from '../../lib/seo';
+import { pageRoutes } from '../../lib/paths';
+
+const locale: Locale = 'en';
+const t = getFixedT(locale);
+const frUrl = absolutePageUrl(Astro.site, pageRoutes.legalNotice);
+const enUrl = absolutePageUrl(Astro.site, `en/${pageRoutes.legalNotice}`);
+---
+
+<Layout
+	lang="en"
+	ogLocale="en_US"
+	ogLocaleAlternate="fr_FR"
+	title={t('LegalNotice.metaTitle')}
+	description={t('LegalNotice.metaDescription')}
+	alternateLanguages={buildLegalAlternateLanguages(frUrl, enUrl)}
+	skipToContentLabel={t('Layout.skipToContent')}
+>
+	<LegalNoticeArticle locale={locale} />
+</Layout>

@@ -10,9 +10,22 @@ alwaysApply: true
 
 **READ THE README.md FIRST.** It contains essential documentation about:
 - Project structure and file organization
-- Component patterns and usage
-- SEO configuration
-- Tailwind styling conventions and Armenian theme
+- Component patterns (`locale`, `getFixedT`, `LandingHome`)
+- SEO configuration and `// SEO:` markers (`astro.config.mjs`, Layout, `public/`)
+- Legal pages: `legal-notice`, `privacy-policy`, `terms-of-service` (+ `en/` mirrors)
+- Tailwind styling conventions, Armenian theme, and `global.css` animations
+
+**Also read `AGENTS.md` and `AGENTS.project.md`** (Codex / other agents use the same guidance).
+
+## Content and Language
+
+- Copy lives in **`src/i18n/locales/fr.json`** and **`en.json`**.
+- Section components require **`locale: 'fr' | 'en'`**.
+- **`ENABLE_MULTILANG=false`** (default): hides the hero language switcher; **`/en/`** and English legal URLs remain valid for SEO.
+
+## SEO Markers
+
+Look for `// SEO:` in `astro.config.mjs` when changing deployment URL or base path.
 
 ## Project Context
 
@@ -25,26 +38,29 @@ alwaysApply: true
 
 | File | Purpose |
 |------|---------|
-| `astro.config.mjs` | SEO: Site URL and base path |
-| `src/layouts/Layout.astro` | SEO: Meta tags, Open Graph |
-| `src/pages/index.astro` | Homepage, phone number config |
+| `src/site.config.ts` | Contact, social, SEO defaults |
+| `astro.config.mjs` | Site URL and base path |
+| `src/layouts/Layout.astro` | Meta, hreflang, JSON-LD, skip link |
+| `src/pages/index.astro` / `en/index.astro` | Localized home |
+| `src/components/LandingHome.astro` | Section composition |
+| `src/i18n/locales/*.json` | All translatable strings |
 | `src/styles/global.css` | Tailwind theme + animations |
 
 ## Component Pattern
 
-Components are standalone with optional props:
-
 ```astro
 ---
+import { getFixedT, type Locale } from '../i18n/i18n';
+
 interface Props {
-  phone?: string;
+  locale: Locale;
 }
 
-const { phone = "06 43 09 65 97" } = Astro.props;
+const { locale } = Astro.props;
+const t = getFixedT(locale);
 ---
 
-<section class="..." aria-label="Description">
-  <!-- Content -->
+<section class="..." aria-label={t('Section.aria')}>
 </section>
 ```
 
@@ -64,7 +80,7 @@ const { phone = "06 43 09 65 97" } = Astro.props;
 <div class="w-[347px] text-[#1a2b3c]">
 ```
 
-### ❌ NEVER: Inline Styles
+### ❌ NEVER: Inline Styles (except existing Quote CTA background-image)
 
 ```astro
 <!-- FORBIDDEN -->

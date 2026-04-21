@@ -1,0 +1,66 @@
+---
+import { getFixedT, type Locale } from '../../i18n/i18n';
+import { homePathForLocale, pageHref } from '../../lib/paths';
+
+interface Props {
+	locale: Locale;
+}
+
+const { locale } = Astro.props;
+const t = getFixedT(locale);
+const homeUrl = pageHref(homePathForLocale(locale));
+---
+
+<main class="min-h-screen">
+	<article class="container mx-auto max-w-3xl px-4 py-12 md:py-16">
+		<header class="mb-10">
+			<a href={homeUrl} class="text-red-armenian hover:text-blue-armenian text-sm font-medium mb-4 inline-block">
+				{t('Terms.back')}
+			</a>
+			<h1 class="text-3xl md:text-4xl font-bold text-gray-900">{t('Terms.h1')}</h1>
+			<p class="text-gray-500 mt-2">{t('Terms.updated')}</p>
+		</header>
+
+		<div class="prose prose-gray max-w-none space-y-8 text-gray-700">
+			<section>
+				<h2 class="text-xl font-semibold text-gray-900 mb-2">{t('Terms.s1h')}</h2>
+				<p>{t('Terms.s1p1')}</p>
+			</section>
+			<section>
+				<h2 class="text-xl font-semibold text-gray-900 mb-2">{t('Terms.s2h')}</h2>
+				<p>{t('Terms.s2p1')}</p>
+				<p>{t('Terms.s2p2')}</p>
+			</section>
+			<section>
+				<h2 class="text-xl font-semibold text-gray-900 mb-2">{t('Terms.s3h')}</h2>
+				<p>{t('Terms.s3p1')}</p>
+				<p>{t('Terms.s3p2')}</p>
+			</section>
+			<section>
+				<h2 class="text-xl font-semibold text-gray-900 mb-2">{t('Terms.s4h')}</h2>
+				<p>{t('Terms.s4p1')}</p>
+			</section>
+			<section>
+				<h2 class="text-xl font-semibold text-gray-900 mb-2">{t('Terms.s5h')}</h2>
+				<p>{t('Terms.s5p1')}</p>
+				<p>{t('Terms.s5p2')}</p>
+			</section>
+			<section>
+				<h2 class="text-xl font-semibold text-gray-900 mb-2">{t('Terms.s6h')}</h2>
+				<p>{t('Terms.s6p1')}</p>
+			</section>
+			<section>
+				<h2 class="text-xl font-semibold text-gray-900 mb-2">{t('Terms.s7h')}</h2>
+				<p>{t('Terms.s7p1')}</p>
+			</section>
+			<section>
+				<h2 class="text-xl font-semibold text-gray-900 mb-2">{t('Terms.s8h')}</h2>
+				<p>{t('Terms.s8p1')}</p>
+			</section>
+			<section>
+				<h2 class="text-xl font-semibold text-gray-900 mb-2">{t('Terms.s9h')}</h2>
+				<p set:html={t('Terms.s9p1')} />
+			</section>
+		</div>
+	</article>
+</main>

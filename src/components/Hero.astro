@@ -1,27 +1,32 @@
 ---
 /**
- * Hero — bannière plein écran avec image en fond, H1 SEO (déménagement + livraison), CTA principal = appeler.
- * L’image occupe tout le viewport (mobile et desktop).
+ * Hero — bannière plein écran, H1 SEO, CTA téléphone + ancre devis.
  */
 import heroImage from '../assets/images/hero_truck.jpg';
+import { getFixedT, type Locale } from '../i18n/i18n';
+import LanguageSwitcher from './LanguageSwitcher.astro';
+import { siteConfig } from '../site.config';
 
 interface Props {
+	locale: Locale;
 	phone?: string;
 	quoteUrl?: string;
 }
 
-const { phone = "06 43 09 65 97", quoteUrl = "#devis" } = Astro.props;
-const telHref = `tel:${phone.replace(/\s/g, "")}`;
+const { locale, phone = '06 43 09 65 97', quoteUrl = '#devis' } = Astro.props;
+const t = getFixedT(locale);
+const telHref = `tel:${phone.replace(/\s/g, '')}`;
+const email = siteConfig.contact.email;
 ---
 <section
 	class="relative min-h-screen w-full flex flex-col justify-center px-4 py-20 bg-gray-900"
-	aria-label="Accueil ARM Services"
+	aria-label={t('Hero.ariaLabel')}
 >
-	<!-- Image + overlay : fade-in en 2e (après le texte) -->
+	<LanguageSwitcher locale={locale} />
 	<div class="absolute inset-0 z-0 fade-in fade-in-delay-2">
 		<img
 			src={heroImage.src}
-			alt="Camion de déménagement ARM Services"
+			alt={t('Hero.imageAlt')}
 			class="w-full h-full object-cover"
 			fetchpriority="high"
 		/>
@@ -29,28 +34,38 @@ const telHref = `tel:${phone.replace(/\s/g, "")}`;
 	</div>
 
 	<div class="relative z-10 container mx-auto max-w-3xl text-center text-white">
-		<!-- Texte : fade-in en 1er -->
 		<div class="fade-in fade-in-delay-1">
 			<h1 class="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold leading-tight mb-4">
-				ARM Services <br><span class="gradient-mask-armenian">Déménagement et Livraison</span><br> à Marseille &amp; partout en France
+				{t('Hero.h1Line1')}
+				<br /><span class="gradient-mask-armenian">{t('Hero.h1Line2')}</span><br />{
+					t('Hero.h1Line3')
+				}
 			</h1>
-			<p class="text-lg md:text-xl text-white/90 mb-8">
-				Basés à Marseille, nous intervenons sur toute la France sur devis. Devis gratuit, équipe pro, assurance incluse.
+			<p class="text-lg md:text-xl text-white/90 mb-3">
+				{t('Hero.lead')}
+			</p>
+			<p class="text-sm md:text-base text-white/80 mb-8 max-w-xl mx-auto">
+				{t('Hero.contactIntro', { phone })}
+				<a
+					href={`mailto:${email}`}
+					class="text-orange-armenian underline decoration-orange-armenian/80 underline-offset-2 hover:text-white transition-colors"
+				>
+					{email}
+				</a>
 			</p>
 		</div>
-		<!-- Boutons : fade-in en 3e -->
 		<div class="flex flex-col sm:flex-row gap-4 justify-center fade-in fade-in-delay-3">
 			<a
 				href={telHref}
-				class="inline-flex items-center justify-center px-8 py-4 bg-orange-armenian text-white font-semibold rounded-lg hover:brightness-95 transition-colors focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-900"
+				class="cursor-pointer inline-flex items-center justify-center px-8 py-4 bg-orange-armenian text-white font-semibold rounded-lg hover:brightness-95 transition-colors focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-900"
 			>
-				Contactez-Nous
+				{t('Hero.primaryCta', { phone })}
 			</a>
 			<a
 				href={quoteUrl}
-				class="inline-flex items-center justify-center px-8 py-4 border-2 border-orange-armenian text-white font-semibold rounded-lg hover:bg-orange-armenian hover:text-white transition-colors"
+				class="cursor-pointer inline-flex items-center justify-center px-8 py-4 border-2 border-orange-armenian text-white font-semibold rounded-lg hover:bg-orange-armenian hover:text-white transition-colors"
 			>
-				En Savoir Plus
+				{t('Hero.secondaryCta')}
 			</a>
 		</div>
 	</div>

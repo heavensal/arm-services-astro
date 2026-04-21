@@ -1,14 +1,14 @@
 ---
-import Layout from '../layouts/Layout.astro';
-import LandingHome from '../components/LandingHome.astro';
-import { getFixedT, type Locale } from '../i18n/i18n';
+import Layout from '../../layouts/Layout.astro';
+import LandingHome from '../../components/LandingHome.astro';
+import { getFixedT, type Locale } from '../../i18n/i18n';
 import {
 	buildHomeAlternateLanguages,
 	buildLandingJsonLd,
 	getAlternateLanguageUrls,
-} from '../lib/seo';
+} from '../../lib/seo';
 
-const locale: Locale = 'fr';
+const locale: Locale = 'en';
 const t = getFixedT(locale);
 
 const alternates = getAlternateLanguageUrls(Astro.site);
@@ -17,9 +17,9 @@ const jsonLd = alternates ? buildLandingJsonLd(alternates) : undefined;
 ---
 
 <Layout
-	lang="fr"
-	ogLocale="fr_FR"
-	ogLocaleAlternate="en_US"
+	lang="en"
+	ogLocale="en_US"
+	ogLocaleAlternate="fr_FR"
 	title={t('LandingPage.metaTitle')}
 	description={t('LandingPage.metaDescription')}
 	alternateLanguages={alternateLanguages}

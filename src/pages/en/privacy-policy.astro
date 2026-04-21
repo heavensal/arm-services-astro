@@ -1,0 +1,24 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import PrivacyArticle from '../../components/legal/PrivacyArticle.astro';
+import { getFixedT, type Locale } from '../../i18n/i18n';
+import { absolutePageUrl, buildLegalAlternateLanguages } from '../../lib/seo';
+import { pageRoutes } from '../../lib/paths';
+
+const locale: Locale = 'en';
+const t = getFixedT(locale);
+const frUrl = absolutePageUrl(Astro.site, pageRoutes.privacyPolicy);
+const enUrl = absolutePageUrl(Astro.site, `en/${pageRoutes.privacyPolicy}`);
+---
+
+<Layout
+	lang="en"
+	ogLocale="en_US"
+	ogLocaleAlternate="fr_FR"
+	title={t('Privacy.metaTitle')}
+	description={t('Privacy.metaDescription')}
+	alternateLanguages={buildLegalAlternateLanguages(frUrl, enUrl)}
+	skipToContentLabel={t('Layout.skipToContent')}
+>
+	<PrivacyArticle locale={locale} />
+</Layout>

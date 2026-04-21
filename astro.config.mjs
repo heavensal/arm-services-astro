@@ -29,6 +29,10 @@ export default defineConfig({
 	base,
 	output: 'static',
 	integrations: [sitemap()],
+	prefetch: {
+		prefetchAll: true,
+		defaultStrategy: 'viewport',
+	},
 	vite: {
 		plugins: [tailwind()],
 	},

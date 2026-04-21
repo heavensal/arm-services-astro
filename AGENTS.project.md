@@ -6,10 +6,11 @@ These complement the base instructions in `AGENTS.md`.
 ## First Steps
 
 **READ THE README.md FIRST** to understand:
-- How to configure the project (`astro.config.mjs`, `Layout.astro`)
+- How to configure the project (`astro.config.mjs`, `Layout.astro`, `public/` static assets)
 - Component patterns and usage
-- SEO configuration
-- Tailwind styling conventions and Armenian theme
+- SEO configuration and `// SEO:` markers in code
+- Legal pages (English slugs, FR + `en/` routes), i18n JSON, `.env` / ContentForge / **`PUBLIC_CONTACT_FORM_URL`** + **`PUBLIC_CONTACT_FORM_TOKEN`**
+- Tailwind styling conventions, Armenian theme, and `global.css` animations
 
 ## Project Context
 
@@ -22,30 +23,61 @@ These complement the base instructions in `AGENTS.md`.
 
 | File | Purpose |
 |------|---------|
-| `astro.config.mjs` | SEO: Site URL and base path |
+| `astro.config.mjs` | SEO: Site URL and base path (see `// SEO:` comments) |
 | `src/layouts/Layout.astro` | SEO: Meta tags, Open Graph, default title/description |
-| `src/pages/index.astro` | Homepage with phone number configuration |
+| `src/site.config.ts` | SEO/contact/social single source of truth |
+| `src/pages/index.astro` | French homepage (`LandingHome`) |
+| `src/pages/en/index.astro` | English homepage |
+| `src/pages/legal-notice.astro` / `en/legal-notice.astro` | Legal notice |
+| `src/pages/privacy-policy.astro` / `en/privacy-policy.astro` | Privacy |
+| `src/pages/terms-of-service.astro` / `en/terms-of-service.astro` | Terms (CGV) |
+| `src/i18n/locales/*.json` | All landing + legal copy |
+| `src/lib/seo.ts`, `src/lib/paths.ts` | hreflang helpers, JSON-LD |
+| `src/lib/contentforge.ts` | FAQ API base URL |
+| `ContactFormDialog.astro` | Modal form: `POST` ContentForge `{ from_email, from_name, subject, message, fields }` + `Authorization: Bearer` to `PUBLIC_CONTACT_FORM_URL` |
+| `src/templates/email/contact-message.html` | Reference HTML for outbound email (placeholders) |
+| `src/lib/email/contactMailHtml.ts` | `buildArmContactEmailHtml()` for external mailer |
+| `.env` / `.env.example` | `ENABLE_MULTILANG`, `CONTENTFORGE_*`, **`PUBLIC_CONTACT_FORM_URL`**, **`PUBLIC_CONTACT_FORM_TOKEN`** |
 | `src/styles/global.css` | Tailwind theme (Armenian colors) and animations |
 | `src/components/` | Landing page sections |
+| `public/` | Favicons, manifest, default OG image |
+
+## Contact form (static / GitHub Pages)
+
+The site is **static**: email sending uses **ContentForge** (`PUBLIC_CONTACT_FORM_URL`, e.g. `…/api/v1/send_form`) with **`PUBLIC_CONTACT_FORM_TOKEN`** (Bearer). Configure **CORS** for `https://arm-services-demenagement.fr` and `http://localhost:4321` in dev. **SMTP** variables in `.env.example` document the **Rails** environment, not Astro.
+
+## SEO Markers
+
+Comments marked `// SEO:` flag values to update for production or a new domain:
+- `astro.config.mjs` — `site` and `base`
+- When changing site identity, also review `Layout.astro` defaults and `public/` (manifest, OG image)
+
+## Creating New Landing Sections
+
+1. Add `src/components/NewSection.astro` following the component pattern below (one section ≈ one concern, keep files under ~150 lines).
+2. Register strings in **`fr.json` and `en.json`** (keep ARM tone and facts).
+3. Import the section in **`LandingHome.astro`** inside `<main id="main-content">` in the desired order.
+4. Pass **`locale`** (and `phone` when needed) consistently with sibling sections.
+5. Use semantic HTML, `aria-label` / headings as appropriate, and respect Tailwind rules in `AGENTS.md`.
 
 ## Component Architecture
 
-Components are standalone Astro files with optional props:
+Landing sections take **`locale`** and use **`getFixedT(locale)`** for copy:
 
 ```astro
 ---
-/**
- * ComponentName — description of the section.
- */
+import { getFixedT, type Locale } from '../i18n/i18n';
+
 interface Props {
-  phone?: string;
+  locale: Locale;
 }
 
-const { phone = "06 43 09 65 97" } = Astro.props;
+const { locale } = Astro.props;
+const t = getFixedT(locale);
 ---
 
-<section class="..." aria-label="Section description">
-  <!-- Content -->
+<section class="..." aria-label={t('Section.aria')}>
+  <!-- {t('Section.title')} -->
 </section>
 ```
 

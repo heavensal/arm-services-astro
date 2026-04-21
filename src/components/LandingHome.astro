@@ -1,0 +1,39 @@
+---
+/**
+ * LandingHome — composition des sections ARM Services (ordre et props).
+ */
+import { type Locale } from '../i18n/i18n';
+import { siteConfig } from '../site.config';
+import Hero from './Hero.astro';
+import TrustBar from './TrustBar.astro';
+import Services from './Services.astro';
+import Process from './Process.astro';
+import Areas from './Areas.astro';
+import WhyUs from './WhyUs.astro';
+import Reviews from './Reviews.astro';
+import FaqSection from './FaqSection.astro';
+import QuoteCTA from './QuoteCTA.astro';
+import FinalCTA from './FinalCTA.astro';
+import Footer from './Footer.astro';
+
+interface Props {
+	locale: Locale;
+}
+
+const { locale } = Astro.props;
+const phone = siteConfig.contact.phone;
+---
+
+<Hero locale={locale} phone={phone} quoteUrl="#devis" />
+<TrustBar locale={locale} />
+<main id="main-content">
+	<Services locale={locale} />
+	<Process locale={locale} />
+	<Areas locale={locale} />
+	<WhyUs locale={locale} />
+	<Reviews locale={locale} />
+	<FaqSection locale={locale} />
+	<QuoteCTA locale={locale} phone={phone} quoteUrl="#devis" />
+	<FinalCTA locale={locale} phone={phone} />
+</main>
+<Footer locale={locale} phone={phone} />

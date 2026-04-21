@@ -1,0 +1,131 @@
+---
+import {
+	contentforgeApiUrl,
+	isContentforgeEnabled,
+} from '../lib/contentforge';
+import { getFixedT, type Locale } from '../i18n/i18n';
+
+interface Props {
+	locale: Locale;
+}
+
+interface ApiFaq {
+	answer?: string;
+	question?: string;
+	position?: number;
+}
+
+interface FaqItem {
+	answer: string;
+	question: string;
+}
+
+const { locale } = Astro.props;
+const t = getFixedT(locale);
+
+const faqKeys = ['item1', 'item2', 'item3', 'item4'] as const;
+
+const getFallbackItems = (): FaqItem[] =>
+	faqKeys
+		.map((itemKey) => {
+			const questionKey = `Faq.${itemKey}Question`;
+			const answerKey = `Faq.${itemKey}Answer`;
+			const question = t(questionKey);
+			const answer = t(answerKey);
+			if (question === questionKey || answer === answerKey) return null;
+			return { answer, question };
+		})
+		.filter((item): item is FaqItem => item !== null);
+
+const faqsUrl = contentforgeApiUrl('faqs');
+const apiToken = import.meta.env.CONTENTFORGE_API_TOKEN;
+
+const getFaqItems = async (): Promise<FaqItem[]> => {
+	const fallback = getFallbackItems();
+	if (
+		!isContentforgeEnabled() ||
+		!apiToken ||
+		typeof apiToken !== 'string'
+	) {
+		return fallback;
+	}
+	try {
+		const response = await fetch(faqsUrl, {
+			headers: {
+				Authorization: `Bearer ${apiToken}`,
+				Accept: 'application/json',
+			},
+		});
+		if (!response.ok) return fallback;
+		const faqs = await response.json();
+		const rawItems = Array.isArray(faqs)
+			? faqs
+			: Array.isArray(faqs?.data)
+				? faqs.data
+				: [];
+		const fromApi = rawItems
+			.filter(
+				(faq: ApiFaq) =>
+					typeof faq?.question === 'string' &&
+					faq.question.length > 0 &&
+					typeof faq?.answer === 'string' &&
+					faq.answer.length > 0,
+			)
+			.sort((a: ApiFaq, b: ApiFaq) => (a.position ?? 0) - (b.position ?? 0))
+			.map((faq: ApiFaq) => ({
+				answer: faq.answer as string,
+				question: faq.question as string,
+			}));
+		return fromApi.length ? fromApi : fallback;
+	} catch (error) {
+		console.error('Failed to load FAQs from API', error);
+		return fallback;
+	}
+};
+
+const items = await getFaqItems();
+---
+
+<section
+	id="faq"
+	class="border-t border-gray-200 bg-gray-50 px-4 py-20 md:py-24"
+	aria-labelledby="heading-faq"
+>
+	<div class="container mx-auto max-w-4xl">
+		<header class="mx-auto mb-12 max-w-2xl text-center md:mb-14">
+			<h2
+				id="heading-faq"
+				class="mb-4 text-3xl font-bold text-gray-900 md:text-4xl"
+			>
+				{t('Faq.title')}
+			</h2>
+			<p class="leading-relaxed text-gray-600">{t('Faq.intro')}</p>
+		</header>
+		<div class="space-y-4">
+			{
+				items.map((item: FaqItem) => (
+					<details class="group rounded-lg border border-gray-200 bg-white">
+						<summary class="flex cursor-pointer list-none items-center justify-between gap-4 px-6 py-5 text-left marker:hidden focus:outline-none focus-visible:ring-2 focus-visible:ring-orange-armenian">
+							<span class="text-lg font-medium text-gray-900">
+								{item.question}
+							</span>
+							<span class="text-2xl text-gray-400 transition-transform group-open:rotate-45">
+								+
+							</span>
+						</summary>
+						<p class="px-6 pb-6 text-gray-600">{item.answer}</p>
+					</details>
+				))
+			}
+		</div>
+		<div class="mt-10 text-center">
+			<p class="text-sm text-gray-500">{t('Faq.moreQuestions')}</p>
+			<a
+				href="#contact"
+				class="mt-4 inline-flex items-center justify-center rounded-lg border border-gray-300 px-6 py-3 text-sm font-medium text-gray-700 transition-colors hover:border-gray-400 hover:bg-gray-50 focus:outline-none focus-visible:ring-2 focus-visible:ring-orange-armenian"
+			>
+				{t('Faq.contactCta')}
+			</a>
+		</div>
+	</div>
+</section>

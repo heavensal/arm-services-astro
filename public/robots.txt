@@ -1,6 +1,0 @@
-# https://arm-services-demenagement.fr/
-# (ancienne URL GitHub Pages : https://heavensal.github.io/arm-services-astro/ — autre base Astro)
-User-agent: *
-Allow: /
-
-Sitemap: https://arm-services-demenagement.fr/sitemap-index.xml

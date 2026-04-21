@@ -22,8 +22,12 @@ Site vitrine pour ARM Services, entreprise de déménagement basée à Marseille
 
 ## Fonctionnalités
 
-- **SEO** : Open Graph, Twitter Cards, canonical URLs, sitemap
-- **Sections landing** : Hero, TrustBar, Services, Process, Areas, WhyUs, Reviews, QuoteCTA, FinalCTA, Footer
+- **SEO** : Open Graph, Twitter Cards, canonical URLs, hreflang (FR + EN), JSON-LD, sitemap, `robots.txt` généré
+- **i18n** : français / anglais (`fr.json`, `en.json`), route `/en/` ; switcher masqué si `ENABLE_MULTILANG=false`
+- **FAQ** : ContentForge si `CONTENTFORGE_ENABLED=true` + token ; sinon texte dans `fr.json` / `en.json` (les avis viennent toujours des traductions)
+- **Formulaire de contact** : dialogue dans la section contact, `POST` vers ContentForge (`PUBLIC_CONTACT_FORM_URL` + **`PUBLIC_CONTACT_FORM_TOKEN`**, header `Authorization: Bearer`)
+- **Gabarit e-mail** : `src/templates/email/contact-message.html` et `buildArmContactEmailHtml()` dans `src/lib/email/contactMailHtml.ts` pour le service qui envoie les mails
+- **Sections landing** : Hero, TrustBar, Services, Process, Areas, WhyUs, Reviews, QuoteCTA, FinalCTA (inclut le formulaire), Footer
 - **Pages légales** : Mentions légales, Politique de confidentialité, CGV
 - **Accessibilité** : HTML sémantique, labels ARIA
 - **Animations** : Fade-in, scroll reveal avec `prefers-reduced-motion`
@@ -44,11 +48,11 @@ pnpm dev
 
 ### Configuration initiale
 
-Après clonage, mettre à jour ces fichiers :
+Après clonage, copier **`.env.example`** vers **`.env`** puis ajuster si besoin (`ENABLE_MULTILANG`, `CONTENTFORGE_*`, **`PUBLIC_CONTACT_FORM_URL`**, **`PUBLIC_CONTACT_FORM_TOKEN`**). Mettre à jour notamment :
 
 1. **`astro.config.mjs`** — Définir `site` et `base` pour l'URL de déploiement
-2. **`src/layouts/Layout.astro`** — Titre et description par défaut
-3. **`src/pages/index.astro`** — Numéro de téléphone
+2. **`src/site.config.ts`** — Identité du site, contact, réseaux, image OG
+3. **`src/i18n/locales/fr.json`** et **`en.json`** — Textes (accueil, sections, pages légales)
 
 ---
 
@@ -74,14 +78,33 @@ Après clonage, mettre à jour ces fichiers :
 │   │   ├── Reviews.astro
 │   │   ├── QuoteCTA.astro
 │   │   ├── FinalCTA.astro
+│   │   ├── ContactFormDialog.astro
 │   │   └── Footer.astro
+│   ├── lib/
+│   │   ├── email/
+│   │   │   └── contactMailHtml.ts
+│   │   ├── paths.ts
+│   │   ├── seo.ts
+│   │   └── contentforge.ts
+│   ├── templates/
+│   │   └── email/
+│   │       └── contact-message.html
 │   ├── layouts/
 │   │   └── Layout.astro      # SEO: Meta tags, Open Graph
+│   ├── i18n/
+│   │   ├── i18n.ts
+│   │   └── locales/          # fr.json, en.json
 │   ├── pages/
 │   │   ├── index.astro       # Page d'accueil
-│   │   ├── mentions-legales.astro
-│   │   ├── politique-confidentialite.astro
-│   │   └── conditions-generales.astro
+│   │   ├── legal-notice.astro
+│   │   ├── privacy-policy.astro
+│   │   ├── terms-of-service.astro
+│   │   ├── robots.txt.ts
+│   │   └── en/
+│   │       ├── index.astro
+│   │       ├── legal-notice.astro
+│   │       ├── privacy-policy.astro
+│   │       └── terms-of-service.astro
 │   └── styles/
 │       └── global.css        # Tailwind + thème arménien + animations
 ├── astro.config.mjs          # SEO: Site URL et base path
@@ -267,6 +290,9 @@ Le workflow `.github/workflows/deploy.yml` build et déploie sur push vers `main
 
 1. **Repository** → **Settings** → **Pages** : source **GitHub Actions**
 2. Configurer `site` et `base` dans `astro.config.mjs`
+3. **Settings** → **Secrets and variables** → **Actions** : ajouter **`PUBLIC_CONTACT_FORM_URL`** et **`PUBLIC_CONTACT_FORM_TOKEN`** (le workflow les injecte au `pnpm run build`)
+
+Le formulaire de contact nécessite **`PUBLIC_CONTACT_FORM_URL`** (ex. `https://contentforge.1344.fr/api/v1/send_form`) et **`PUBLIC_CONTACT_FORM_TOKEN`** dans `.env` (secrets GitHub Actions pour le déploiement). ContentForge doit autoriser le site en **CORS**.
 
 ### Domaine personnalisé
 

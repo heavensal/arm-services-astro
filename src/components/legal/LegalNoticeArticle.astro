@@ -1,0 +1,64 @@
+---
+import { getFixedT, type Locale } from '../../i18n/i18n';
+import { siteConfig } from '../../site.config';
+import { homePathForLocale, pageHref } from '../../lib/paths';
+
+interface Props {
+	locale: Locale;
+}
+
+const { locale } = Astro.props;
+const t = getFixedT(locale);
+const homeUrl = pageHref(homePathForLocale(locale));
+const email = siteConfig.contact.email;
+const phone = siteConfig.contact.phone;
+const tel = phone.replace(/\s/g, '');
+const phoneLink = `<a href="tel:${tel}" class="text-red-armenian hover:underline">${phone}</a>`;
+---
+
+<main class="min-h-screen">
+	<article class="container mx-auto max-w-3xl px-4 py-12 md:py-16">
+		<header class="mb-10">
+			<a href={homeUrl} class="text-red-armenian hover:text-blue-armenian text-sm font-medium mb-4 inline-block">
+				{t('LegalNotice.back')}
+			</a>
+			<h1 class="text-3xl md:text-4xl font-bold text-gray-900">{t('LegalNotice.h1')}</h1>
+			<p class="text-gray-500 mt-2">{t('LegalNotice.updated')}</p>
+		</header>
+
+		<div class="prose prose-gray max-w-none space-y-8 text-gray-700">
+			<section>
+				<h2 class="text-xl font-semibold text-gray-900 mb-2">{t('LegalNotice.s1h')}</h2>
+				<p
+					set:html={
+						t('LegalNotice.s1p1') +
+						' ' +
+						phoneLink +
+						' ' +
+						t('LegalNotice.s1p1After', { email })
+					}
+				/>
+			</section>
+			<section>
+				<h2 class="text-xl font-semibold text-gray-900 mb-2">{t('LegalNotice.s2h')}</h2>
+				<p>{t('LegalNotice.s2p1')}</p>
+			</section>
+			<section>
+				<h2 class="text-xl font-semibold text-gray-900 mb-2">{t('LegalNotice.s3h')}</h2>
+				<p set:html={t('LegalNotice.s3p1')} />
+			</section>
+			<section>
+				<h2 class="text-xl font-semibold text-gray-900 mb-2">{t('LegalNotice.s4h')}</h2>
+				<p>{t('LegalNotice.s4p1')}</p>
+			</section>
+			<section>
+				<h2 class="text-xl font-semibold text-gray-900 mb-2">{t('LegalNotice.s5h')}</h2>
+				<p>{t('LegalNotice.s5p1')}</p>
+			</section>
+			<section>
+				<h2 class="text-xl font-semibold text-gray-900 mb-2">{t('LegalNotice.s6h')}</h2>
+				<p>{t('LegalNotice.s6p1')}</p>
+			</section>
+		</div>
+	</article>
+</main>

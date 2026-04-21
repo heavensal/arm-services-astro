@@ -1,38 +1,39 @@
 ---
 import { Image } from 'astro:assets';
 import franceMap from '../assets/images/france_map.png';
+import { getFixedT, type Locale } from '../i18n/i18n';
 
-/**
- * Areas — zones desservies : basés à Marseille, intervention toute la France sur devis.
- */
-const regions = [
-	"Marseille", "Aix-en-Provence", "Toulon", "Nice", "Montpellier", "Lyon",
-	"Paris", "Bordeaux", "Toulouse", "Nantes", "Strasbourg", "Lille",
-	"Rennes", "Reims", "Saint-Étienne", "Grenoble", "Dijon", "Toute la France sur devis",
-];
+interface Props {
+	locale: Locale;
+}
+
+const { locale } = Astro.props;
+const t = getFixedT(locale);
+const citiesRaw = t('Areas.cities', { returnObjects: true });
+const cities = Array.isArray(citiesRaw) ? (citiesRaw as string[]) : [];
 ---
 <section class="py-16 md:py-24 bg-white" aria-labelledby="areas-heading">
 	<div class="container mx-auto px-4 max-w-6xl">
 		<h2 id="areas-heading" class="text-2xl md:text-3xl font-bold text-gray-900 text-center mb-4">
-			Zones desservies
+			{t('Areas.title')}
 		</h2>
 		<p class="text-gray-600 text-center mb-12 max-w-2xl mx-auto">
-			Basés à Marseille, nous effectuons déménagements et livraisons partout en France sur devis.
+			{t('Areas.intro')}
 		</p>
-		
+
 		<div class="flex flex-col md:flex-row items-center gap-12 lg:gap-20">
 			<div class="w-full md:w-1/2 flex justify-center">
-				<Image 
-					src={franceMap} 
-					alt="Carte de France illustrant les zones d'intervention d'ARM Services" 
+				<Image
+					src={franceMap}
+					alt={t('Areas.mapAlt')}
 					class="w-full max-w-md h-auto object-contain rounded-xl"
 					width={600}
 				/>
 			</div>
-			
+
 			<div class="w-full md:w-1/2">
 				<ul class="flex flex-wrap gap-3 list-none m-0 p-0">
-					{regions.map((area) => (
+					{cities.map((area) => (
 						<li>
 							<span
 								class="inline-block px-4 py-2 bg-orange-armenian text-gray-900 rounded-lg text-sm font-medium border border-orange-armenian/30 transition-colors hover:brightness-95"
@@ -47,7 +48,7 @@ const regions = [
 						href="#contact"
 						class="inline-flex items-center text-orange-armenian hover:text-red-armenian font-semibold transition-colors"
 					>
-						Demander un devis pour ma ville
+						{t('Areas.cta')}
 						<svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 ml-1" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
 					</a>
 				</div>

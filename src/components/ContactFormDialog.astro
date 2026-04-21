@@ -1,0 +1,246 @@
+---
+import { getFixedT, type Locale } from '../i18n/i18n';
+
+interface Props {
+	locale: Locale;
+}
+
+const { locale } = Astro.props;
+const t = getFixedT(locale);
+
+const contactApiUrl = import.meta.env.PUBLIC_CONTACT_FORM_URL ?? '';
+const contactApiToken = import.meta.env.PUBLIC_CONTACT_FORM_TOKEN ?? '';
+const contactEmailSubject = t('ContactForm.emailSubject');
+
+const formUi = {
+	sending: t('ContactForm.sending'),
+	success: t('ContactForm.success'),
+	error: t('ContactForm.error'),
+	errorNetwork: t('ContactForm.errorNetwork'),
+	errorConfig: t('ContactForm.errorConfig'),
+};
+---
+
+<div class="mt-8">
+	<button
+		type="button"
+		class="inline-flex items-center justify-center px-8 py-4 border-2 border-orange-armenian text-orange-armenian font-semibold rounded-lg hover:bg-orange-armenian hover:text-gray-900 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-orange-armenian focus-visible:ring-offset-2"
+		data-arm-contact-open
+		aria-haspopup="dialog"
+	>
+		{t('ContactForm.openCta')}
+	</button>
+</div>
+
+<dialog
+	id="arm-contact-dialog"
+	class="w-full max-w-lg rounded-xl border border-gray-200 bg-white p-0 text-left shadow-lg backdrop:bg-gray-900 backdrop:opacity-40 open:flex open:flex-col"
+	aria-labelledby="arm-contact-title"
+	aria-describedby="arm-contact-intro"
+>
+	<div class="border-b border-gray-100 px-6 py-4">
+		<h3 id="arm-contact-title" class="text-xl font-bold text-gray-900">
+			{t('ContactForm.dialogTitle')}
+		</h3>
+		<p id="arm-contact-intro" class="mt-1 text-sm text-gray-600">
+			{t('ContactForm.dialogIntro')}
+		</p>
+	</div>
+	<form id="arm-contact-form" class="flex flex-col gap-4 px-6 py-4">
+		<div>
+			<label for="arm-contact-last-name" class="mb-1 block text-sm font-medium text-gray-900">
+				{t('ContactForm.fieldLastName')}
+			</label>
+			<input
+				id="arm-contact-last-name"
+				name="lastName"
+				type="text"
+				autocomplete="family-name"
+				required
+				class="w-full rounded-lg border border-gray-300 px-3 py-2 text-gray-900 focus:border-orange-armenian focus:outline-none focus:ring-2 focus:ring-orange-armenian"
+			/>
+		</div>
+		<div>
+			<label for="arm-contact-first-name" class="mb-1 block text-sm font-medium text-gray-900">
+				{t('ContactForm.fieldFirstName')}
+			</label>
+			<input
+				id="arm-contact-first-name"
+				name="firstName"
+				type="text"
+				autocomplete="given-name"
+				required
+				class="w-full rounded-lg border border-gray-300 px-3 py-2 text-gray-900 focus:border-orange-armenian focus:outline-none focus:ring-2 focus:ring-orange-armenian"
+			/>
+		</div>
+		<div>
+			<label for="arm-contact-email" class="mb-1 block text-sm font-medium text-gray-900">
+				{t('ContactForm.fieldEmail')}
+			</label>
+			<input
+				id="arm-contact-email"
+				name="email"
+				type="email"
+				autocomplete="email"
+				required
+				class="w-full rounded-lg border border-gray-300 px-3 py-2 text-gray-900 focus:border-orange-armenian focus:outline-none focus:ring-2 focus:ring-orange-armenian"
+			/>
+		</div>
+		<div>
+			<label for="arm-contact-phone" class="mb-1 block text-sm font-medium text-gray-900">
+				{t('ContactForm.fieldPhone')}
+			</label>
+			<input
+				id="arm-contact-phone"
+				name="phone"
+				type="tel"
+				autocomplete="tel"
+				required
+				class="w-full rounded-lg border border-gray-300 px-3 py-2 text-gray-900 focus:border-orange-armenian focus:outline-none focus:ring-2 focus:ring-orange-armenian"
+			/>
+		</div>
+		<div>
+			<label for="arm-contact-company" class="mb-1 block text-sm font-medium text-gray-900">
+				{t('ContactForm.fieldCompany')}
+			</label>
+			<input
+				id="arm-contact-company"
+				name="company"
+				type="text"
+				autocomplete="organization"
+				class="w-full rounded-lg border border-gray-300 px-3 py-2 text-gray-900 focus:border-orange-armenian focus:outline-none focus:ring-2 focus:ring-orange-armenian"
+			/>
+		</div>
+		<div>
+			<label for="arm-contact-message" class="mb-1 block text-sm font-medium text-gray-900">
+				{t('ContactForm.fieldMessage')}
+			</label>
+			<textarea
+				id="arm-contact-message"
+				name="message"
+				rows="5"
+				placeholder={t('ContactForm.messagePlaceholder')}
+				class="w-full rounded-lg border border-gray-300 px-3 py-2 text-gray-900 placeholder:text-gray-400 focus:border-orange-armenian focus:outline-none focus:ring-2 focus:ring-orange-armenian"
+			></textarea>
+		</div>
+		<p
+			id="arm-contact-status"
+			class="hidden rounded-lg px-3 py-2 text-sm border"
+			role="status"
+		></p>
+		<div class="flex flex-wrap justify-end gap-3 border-t border-gray-100 pt-4">
+			<button
+				type="button"
+				class="rounded-lg border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus-visible:ring-2 focus-visible:ring-orange-armenian"
+				data-arm-contact-close
+			>
+				{t('ContactForm.close')}
+			</button>
+			<button
+				type="submit"
+				id="arm-contact-submit"
+				class="rounded-lg bg-orange-armenian px-4 py-2 text-sm font-semibold text-gray-900 hover:brightness-95 focus:outline-none focus-visible:ring-2 focus-visible:ring-orange-armenian focus-visible:ring-offset-2"
+			>
+				{t('ContactForm.submit')}
+			</button>
+		</div>
+	</form>
+</dialog>
+
+<script define:vars={{ contactApiUrl, contactApiToken, contactEmailSubject, formUi }}>
+	(() => {
+		const dialog = document.getElementById('arm-contact-dialog');
+		const form = document.getElementById('arm-contact-form');
+		const statusEl = document.getElementById('arm-contact-status');
+		const submitBtn = document.getElementById('arm-contact-submit');
+
+		function setStatus(kind, text) {
+			if (!statusEl) return;
+			statusEl.textContent = text;
+			statusEl.classList.remove('hidden', 'bg-green-50', 'border-green-200', 'text-green-900', 'bg-red-50', 'border-red-200', 'text-red-900', 'bg-amber-50', 'border-amber-200', 'text-amber-900');
+			if (kind === 'ok') {
+				statusEl.classList.add('bg-green-50', 'border-green-200', 'text-green-900', 'border');
+			} else if (kind === 'err') {
+				statusEl.classList.add('bg-red-50', 'border-red-200', 'text-red-900', 'border');
+			} else {
+				statusEl.classList.add('bg-amber-50', 'border-amber-200', 'text-amber-900', 'border');
+			}
+		}
+
+		function hideStatus() {
+			statusEl?.classList.add('hidden');
+		}
+
+		document.querySelectorAll('[data-arm-contact-open]').forEach((btn) => {
+			btn.addEventListener('click', () => {
+				hideStatus();
+				dialog?.showModal();
+			});
+		});
+
+		document.querySelectorAll('[data-arm-contact-close]').forEach((btn) => {
+			btn.addEventListener('click', () => dialog?.close());
+		});
+
+		dialog?.addEventListener('close', () => {
+			form?.reset();
+			hideStatus();
+		});
+
+		form?.addEventListener('submit', async (e) => {
+			e.preventDefault();
+			if (!contactApiUrl || !contactApiToken) {
+				setStatus('warn', formUi.errorConfig);
+				return;
+			}
+
+			const fd = new FormData(form);
+			const lastName = String(fd.get('lastName') || '').trim();
+			const firstName = String(fd.get('firstName') || '').trim();
+			const email = String(fd.get('email') || '').trim();
+			const phone = String(fd.get('phone') || '').trim();
+			const company = String(fd.get('company') || '').trim();
+			const message = String(fd.get('message') || '').trim();
+
+			/** ContentForge `POST /api/v1/send_form` — `fields` keys in fixed display order */
+			const payload = {
+				from_email: email,
+				from_name: `${firstName} ${lastName}`.trim(),
+				subject: contactEmailSubject,
+				message: message || '—',
+				fields: {
+					nom: lastName,
+					'prénom': firstName,
+					email,
+					'téléphone': phone,
+					Société: company,
+					'Message d\'informations': message || '—',
+				},
+			};
+
+			if (submitBtn) submitBtn.disabled = true;
+			setStatus('warn', formUi.sending);
+
+			try {
+				const res = await fetch(contactApiUrl, {
+					method: 'POST',
+					headers: {
+						'Content-Type': 'application/json',
+						Authorization: `Bearer ${contactApiToken}`,
+					},
+					body: JSON.stringify(payload),
+				});
+				if (res.ok) {
+					setStatus('ok', formUi.success);
+					form.reset();
+				} else {
+					setStatus('err', formUi.error);
+				}
+			} catch {
+				setStatus('err', formUi.errorNetwork);
+			} finally {
+				if (submitBtn) submitBtn.disabled = false;
+			}
+		});
+	})();
+</script>

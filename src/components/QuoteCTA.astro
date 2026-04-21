@@ -1,41 +1,48 @@
 ---
-/**
- * QuoteCTA — bloc CTA devis avec photo handshake en arrière-plan.
- * Overlay pour lisibilité du texte. Responsive : background cover.
- */
 import handshakeImage from '../assets/images/handshake.jpg';
+import { getFixedT, type Locale } from '../i18n/i18n';
+import { siteConfig } from '../site.config';
 
 interface Props {
+	locale: Locale;
 	phone?: string;
 	quoteUrl?: string;
 }
 
-const { phone = "06 43 09 65 97", quoteUrl = "#devis" } = Astro.props;
-const telHref = `tel:${phone.replace(/\s/g, "")}`;
+const { locale, phone = '06 43 09 65 97', quoteUrl = '#devis' } = Astro.props;
+const t = getFixedT(locale);
+const telHref = `tel:${phone.replace(/\s/g, '')}`;
+const email = siteConfig.contact.email;
 ---
 <section
 	id="devis"
-	class="relative min-h-[320px] md:min-h-[380px] py-16 md:py-24 bg-cover bg-center bg-no-repeat"
+	class="relative min-h-80 md:min-h-96 py-16 md:py-24 bg-cover bg-center bg-no-repeat"
 	style={`background-image: url(${handshakeImage.src});`}
 	aria-labelledby="quote-cta-heading"
 >
-	<!-- Overlay pour lisibilité -->
 	<div class="absolute inset-0 bg-blue-armenian/70" aria-hidden="true"></div>
 
 	<div class="relative z-10 container mx-auto px-4 max-w-3xl text-center">
 		<h2 id="quote-cta-heading" class="text-2xl md:text-3xl font-bold text-white mb-4">
-			Obtenez votre devis gratuit
+			{t('QuoteCTA.title')}
 		</h2>
 		<p class="text-white text-lg mb-8">
-			Appelez-nous au {phone} ou demandez un devis en ligne. Réponse rapide, sans engagement.
+			{t('QuoteCTA.lead', { phone })}
 		</p>
 		<div class="flex flex-col sm:flex-row gap-4 justify-center">
-			<a href={telHref} class="inline-flex items-center justify-center px-8 py-4 bg-orange-armenian text-white font-semibold rounded-lg hover:brightness-95 transition-colors focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-blue-armenian">
-				Appeler le {phone}
+			<a href={telHref} class="cursor-pointer inline-flex items-center justify-center px-8 py-4 bg-orange-armenian text-white font-semibold rounded-lg hover:brightness-95 transition-colors focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-blue-armenian">
+				{t('QuoteCTA.call', { phone })}
 			</a>
-			<a href={quoteUrl} class="inline-flex items-center justify-center px-8 py-4 border-2 border-orange-armenian text-white font-semibold rounded-lg hover:bg-orange-armenian hover:text-white transition-colors">
-				Demander un devis en ligne
+			<a href={quoteUrl} class="cursor-pointer inline-flex items-center justify-center px-8 py-4 border-2 border-orange-armenian text-white font-semibold rounded-lg hover:bg-orange-armenian hover:text-white transition-colors">
+				{t('QuoteCTA.online')}
 			</a>
 		</div>
+		<p class="mt-6 text-sm text-white/90">
+			{t('QuoteCTA.emailInfoPrefix')}
+			{' '}
+			<a href={`mailto:${email}`} class="text-white font-medium underline underline-offset-2 decoration-white/70 hover:decoration-white">
+				{email}
+			</a>
+		</p>
 	</div>
 </section>

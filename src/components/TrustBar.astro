@@ -1,23 +1,23 @@
 ---
-/**
- * TrustBar — arguments de confiance affichés en barre horizontale.
- * Renforce la crédibilité sans logique, contenu statique.
- */
-const items = [
-	{ label: "Devis gratuit", icon: "✓" },
-	{ label: "Assurance incluse", icon: "🛡" },
-	{ label: "Déménageurs professionnels", icon: "👷" },
-	{ label: "Intervention rapide", icon: "⚡" },
-	{ label: "Matériel de protection", icon: "📦" },
-];
+import { getFixedT, type Locale } from '../i18n/i18n';
+
+interface Props {
+	locale: Locale;
+}
+
+const { locale } = Astro.props;
+const t = getFixedT(locale);
+
+const keys = ['i1', 'i2', 'i3', 'i4', 'i5'] as const;
+const icons = ['✓', '🛡', '👷', '⚡', '📦'] as const;
 ---
-<section class="bg-gray-100 border-y border-gray-200" aria-label="Nos engagements">
+<section class="bg-gray-100 border-y border-gray-200" aria-label={t('TrustBar.ariaLabel')}>
 	<div class="container mx-auto px-4 py-6">
 		<ul class="flex flex-wrap justify-center gap-6 md:gap-10 list-none m-0 p-0">
-			{items.map((item) => (
+			{keys.map((key, index) => (
 				<li class="flex items-center gap-2 text-gray-700 font-medium">
-					<span class="text-orange-armenian" aria-hidden="true">{item.icon}</span>
-					<span>{item.label}</span>
+					<span class="text-orange-armenian" aria-hidden="true">{icons[index]}</span>
+					<span>{t(`TrustBar.${key}`)}</span>
 				</li>
 			))}
 		</ul>

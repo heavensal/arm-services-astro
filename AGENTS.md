@@ -8,8 +8,19 @@ They are reusable base instructions for Astro projects.
 **READ THE README.md FIRST.** It contains essential documentation about:
 - Project structure and file organization
 - Component patterns and usage
-- SEO configuration
-- Styling guidelines and Tailwind conventions
+- SEO configuration (`astro.config.mjs`, `Layout.astro`, `public/` assets)
+- Legal pages under `src/pages/` (`legal-notice`, `privacy-policy`, `terms-of-service`, plus `en/` mirrors)
+- i18n (`src/i18n/locales/`, `getFixedT(locale)`) and optional ContentForge FAQ
+- Styling guidelines, Armenian theme, and animations in `src/styles/global.css`
+
+Also read **`AGENTS.project.md`** for ARM Services–specific context (conversion, palette, component workflow).
+
+## Content and Language
+
+- All user-facing strings live in **`src/i18n/locales/fr.json`** and **`en.json`**, loaded via **`getFixedT(locale)`**.
+- Section components take a required **`locale: 'fr' | 'en'`** prop (see `LandingHome.astro`).
+- **`ENABLE_MULTILANG`** (`.env`): when `false`, the FR/EN switcher is hidden; English routes (`/en/`, legal pages under `en/`) remain available for SEO and direct links.
+- Keep component and variable names in English.
 
 ## Architecture and Components
 
@@ -40,13 +51,15 @@ This project uses **Tailwind CSS 4** with strict conventions:
 <div class="w-[347px] mt-[23px] text-[#1a2b3c] bg-[rgb(255,0,0)]">
 ```
 
-### ❌ NEVER: Use Inline Styles
+### ❌ NEVER: Use Inline Styles (except existing full-bleed background images)
 
 ```astro
 <!-- FORBIDDEN -->
 <div style="margin-top: 23px;">
 <div style={{ marginTop: '23px' }}>
 ```
+
+The Quote CTA section may keep a single `background-image` inline style for a dynamic asset URL; do not add new inline layout or typography styles.
 
 ### Animation Priority Order
 

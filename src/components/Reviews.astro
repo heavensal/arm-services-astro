@@ -1,23 +1,25 @@
 ---
-/**
- * Reviews — carousel d’avis clients (données factices).
- * Défilement horizontal au scroll (scroll-snap), pas de JS requis.
- */
-const reviews = [
-	{ name: "Sophie M.", stars: 5, text: "Équipe très professionnelle, rien de cassé, délais respectés. Je recommande ARM Services les yeux fermés." },
-	{ name: "Thomas L.", stars: 5, text: "Devis honnête et intervention rapide. Déménagement Marseille–Lyon sans stress. Merci !" },
-	{ name: "Marie D.", stars: 5, text: "Service impeccable du premier contact au déchargement. Prix transparent, équipe sympa." },
-	{ name: "Pierre F.", stars: 5, text: "Déménagement d’entreprise géré avec soin. ARM Services a su s’adapter à nos contraintes horaires." },
-	{ name: "Julie R.", stars: 5, text: "Enfin une société sérieuse. Devis gratuit, assurance incluse, tout s’est parfaitement passé." },
-];
+import { getFixedT, type Locale } from '../i18n/i18n';
+
+interface Props {
+	locale: Locale;
+}
+
+const { locale } = Astro.props;
+const t = getFixedT(locale);
+
+const reviews = [1, 2, 3, 4, 5].map((n) => ({
+	name: t(`Reviews.r${n}n`),
+	text: t(`Reviews.r${n}t`),
+	stars: 5,
+}));
 ---
 <section class="py-16 md:py-24 bg-gray-50 overflow-hidden" aria-labelledby="reviews-heading">
 	<div class="container mx-auto px-4 max-w-6xl">
 		<h2 id="reviews-heading" class="text-2xl md:text-3xl font-bold text-gray-900 text-center mb-12">
-			Avis clients
+			{t('Reviews.title')}
 		</h2>
 
-		<!-- Carousel : défilement horizontal avec scroll-snap -->
 		<div class="relative -mx-4 md:mx-0">
 			<div
 				class="flex gap-6 overflow-x-auto snap-x snap-mandatory scroll-smooth pb-4 px-4 md:px-0"
@@ -25,9 +27,9 @@ const reviews = [
 			>
 				{reviews.map((review) => (
 					<article
-						class="flex-shrink-0 w-[85vw] sm:w-96 snap-center bg-white rounded-xl shadow-md p-6 border border-gray-100"
+						class="flex-shrink-0 w-11/12 sm:w-96 max-w-sm snap-center bg-white rounded-xl shadow-md p-6 border border-gray-100"
 					>
-						<div class="flex items-center gap-1 mb-3" aria-label="5 étoiles">
+						<div class="flex items-center gap-1 mb-3" aria-label={t('Reviews.starsAria')}>
 							{Array.from({ length: review.stars }).map(() => (
 								<span class="text-amber-400" aria-hidden="true">★</span>
 							))}
@@ -40,13 +42,12 @@ const reviews = [
 		</div>
 
 		<p class="text-center text-gray-500 text-sm mt-6">
-			Faites-nous confiance pour votre déménagement — appelez pour un devis.
+			{t('Reviews.footer')}
 		</p>
 	</div>
 </section>
 
 <style>
-	/* Masquer la scrollbar sur certains navigateurs tout en garder le scroll */
 	@media (hover: none) {
 		.overflow-x-auto {
 			-webkit-overflow-scrolling: touch;
