@@ -13,6 +13,7 @@ import WhyUs from './WhyUs.astro';
 import Reviews from './Reviews.astro';
 import FaqSection from './FaqSection.astro';
 import QuoteCTA from './QuoteCTA.astro';
+import ContactFormDialog from './ContactFormDialog.astro';
 import FinalCTA from './FinalCTA.astro';
 import Footer from './Footer.astro';
 
@@ -24,7 +25,7 @@ const { locale } = Astro.props;
 const phone = siteConfig.contact.phone;
 ---
 
-<Hero locale={locale} phone={phone} quoteUrl="#devis" />
+<Hero locale={locale} />
 <TrustBar locale={locale} />
 <main id="main-content">
 	<Services locale={locale} />
@@ -33,7 +34,8 @@ const phone = siteConfig.contact.phone;
 	<WhyUs locale={locale} />
 	<Reviews locale={locale} />
 	<FaqSection locale={locale} />
-	<QuoteCTA locale={locale} phone={phone} quoteUrl="#devis" />
-	<FinalCTA locale={locale} phone={phone} />
+	<QuoteCTA locale={locale} />
+	<FinalCTA locale={locale} />
 </main>
+<ContactFormDialog locale={locale} showTrigger={false} />
 <Footer locale={locale} phone={phone} />

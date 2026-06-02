@@ -166,9 +166,7 @@ const fr = {
 	},
 	ContactForm: {
 		openCta: 'Demande de devis par formulaire',
-		dialogTitle: 'Demande de devis / contact',
-		dialogIntro:
-			'Les données sont envoyées à ContentForge (PUBLIC_CONTACT_FORM_URL et PUBLIC_CONTACT_FORM_TOKEN).',
+		dialogTitle: 'Demande de devis',
 		fieldLastName: 'Nom',
 		fieldFirstName: 'Prénom',
 		fieldEmail: 'Email',

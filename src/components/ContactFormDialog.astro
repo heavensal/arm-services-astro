@@ -3,10 +3,19 @@ import { getFixedT, type Locale } from '../i18n/i18n';
 
 interface Props {
 	locale: Locale;
+	showTrigger?: boolean;
+	triggerClass?: string;
+	triggerLabel?: string;
 }
 
-const { locale } = Astro.props;
+const {
+	locale,
+	showTrigger = true,
+	triggerClass = 'inline-flex items-center justify-center px-8 py-4 border-2 border-orange-armenian text-orange-armenian font-semibold rounded-lg hover:bg-orange-armenian hover:text-gray-900 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-orange-armenian focus-visible:ring-offset-2',
+	triggerLabel,
+} = Astro.props;
 const t = getFixedT(locale);
+const openLabel = triggerLabel ?? t('ContactForm.openCta');
 
 const contactApiUrl = import.meta.env.PUBLIC_CONTACT_FORM_URL ?? '';
 const contactApiToken = import.meta.env.PUBLIC_CONTACT_FORM_TOKEN ?? '';
@@ -21,30 +30,29 @@ const formUi = {
 };
 ---
 
-<div class="mt-8">
-	<button
-		type="button"
-		class="inline-flex items-center justify-center px-8 py-4 border-2 border-orange-armenian text-orange-armenian font-semibold rounded-lg hover:bg-orange-armenian hover:text-gray-900 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-orange-armenian focus-visible:ring-offset-2"
-		data-arm-contact-open
-		aria-haspopup="dialog"
-	>
-		{t('ContactForm.openCta')}
-	</button>
-</div>
+{showTrigger && (
+	<div class="mt-8">
+		<button
+			type="button"
+			class={triggerClass}
+			data-arm-contact-open
+			aria-haspopup="dialog"
+		>
+			{openLabel}
+		</button>
+	</div>
+)}
 
 <dialog
 	id="arm-contact-dialog"
-	class="w-full max-w-lg rounded-xl border border-gray-200 bg-white p-0 text-left shadow-lg backdrop:bg-gray-900 backdrop:opacity-40 open:flex open:flex-col"
+	class="fixed inset-0 m-auto h-fit max-h-screen w-full max-w-lg overflow-y-auto rounded-xl border border-gray-200 bg-white p-0 text-left shadow-lg backdrop:bg-gray-900 backdrop:opacity-40 open:flex open:flex-col"
 	aria-labelledby="arm-contact-title"
 	aria-describedby="arm-contact-intro"
 >
 	<div class="border-b border-gray-100 px-6 py-4">
-		<h3 id="arm-contact-title" class="text-xl font-bold text-gray-900">
+		<h3 id="arm-contact-title" class="text-xl text-center font-bold text-gray-900">
 			{t('ContactForm.dialogTitle')}
 		</h3>
-		<p id="arm-contact-intro" class="mt-1 text-sm text-gray-600">
-			{t('ContactForm.dialogIntro')}
-		</p>
 	</div>
 	<form id="arm-contact-form" class="flex flex-col gap-4 px-6 py-4">
 		<div>
@@ -128,7 +136,7 @@ const formUi = {
 			class="hidden rounded-lg px-3 py-2 text-sm border"
 			role="status"
 		></p>
-		<div class="flex flex-wrap justify-end gap-3 border-t border-gray-100 pt-4">
+		<div class="flex flex-wrap justify-center gap-3 border-t border-gray-100 pt-4">
 			<button
 				type="button"
 				class="rounded-lg border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus-visible:ring-2 focus-visible:ring-orange-armenian"
@@ -139,7 +147,7 @@ const formUi = {
 			<button
 				type="submit"
 				id="arm-contact-submit"
-				class="rounded-lg bg-orange-armenian px-4 py-2 text-sm font-semibold text-gray-900 hover:brightness-95 focus:outline-none focus-visible:ring-2 focus-visible:ring-orange-armenian focus-visible:ring-offset-2"
+				class="rounded-lg bg-orange-armenian px-4 py-2 text-sm font-semibold text-white hover:brightness-95 focus:outline-none focus-visible:ring-2 focus-visible:ring-orange-armenian focus-visible:ring-offset-2"
 			>
 				{t('ContactForm.submit')}
 			</button>
@@ -171,10 +179,18 @@ const formUi = {
 			statusEl?.classList.add('hidden');
 		}
 
+		const lockScroll = () => {
+			document.body.style.overflow = 'hidden';
+		};
+		const unlockScroll = () => {
+			document.body.style.overflow = '';
+		};
+
 		document.querySelectorAll('[data-arm-contact-open]').forEach((btn) => {
 			btn.addEventListener('click', () => {
 				hideStatus();
 				dialog?.showModal();
+				lockScroll();
 			});
 		});
 
@@ -185,6 +201,7 @@ const formUi = {
 		dialog?.addEventListener('close', () => {
 			form?.reset();
 			hideStatus();
+			unlockScroll();
 		});
 
 		form?.addEventListener('submit', async (e) => {

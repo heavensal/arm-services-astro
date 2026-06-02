@@ -17,13 +17,12 @@
 	"Hero": {
 		"ariaLabel": "ARM Services home",
 		"imageAlt": "ARM Services moving truck",
-		"h1Line1": "ARM Services",
-		"h1Line2": "Moving and delivery",
-		"h1Line3": "in Marseille & across France",
-		"lead": "Based in Marseille, we work nationwide on quotation. Free quotes, professional team, insurance included.",
-		"contactIntro": "Call {{phone}} or use the form to reach us. For your information — ",
-		"primaryCta": "Call {{phone}}",
-		"secondaryCta": "Request a quote (form)"
+		"h1Line1": "Planning a move?",
+		"h1Line2": "Move with total confidence",
+		"h1Line3": "",
+		"lead": "Speed, peace of mind and professional insurance included — your move is our priority.",
+		"primaryCta": "Contact us",
+		"secondaryCta": "Request a quote"
 	},
 	"TrustBar": {
 		"ariaLabel": "Our commitments",
@@ -93,19 +92,21 @@
 		"p3d": "Insurance included, protective equipment and suitable vehicles for your goods."
 	},
 	"Reviews": {
-		"title": "Customer reviews",
+		"title": "They trust us",
 		"starsAria": "5 stars",
-		"footer": "Trust us for your move — call for a quote.",
-		"r1n": "Sophie M.",
-		"r1t": "Very professional crew, nothing broken, deadlines met. I recommend ARM Services without hesitation.",
-		"r2n": "Thomas L.",
-		"r2t": "Honest quote and fast service. Marseille–Lyon move without stress. Thank you!",
-		"r3n": "Marie D.",
-		"r3t": "Impeccable service from first contact to unloading. Transparent pricing, friendly team.",
-		"r4n": "Pierre F.",
-		"r4t": "Office move handled with care. ARM Services adapted to our time constraints.",
-		"r5n": "Julie R.",
-		"r5t": "Finally a serious company. Free quote, insurance included, everything went perfectly."
+		"yoojoBadge": "Recognised provider on",
+		"yoojoStats": "{{count}}+ reviews, {{rating}} stars.",
+		"yoojoCta": "View our Yoojo profile",
+		"yoojoAria": "ARM Services profile on Yoojo — {{count}}+ reviews, {{rating}} out of 5",
+		"r1n": "Jasmyn",
+		"r1t": "Simply perfect! Great mood, hard-working and proactive. A Tetris pro on top of that. Highly recommended",
+		"r2n": "Emilie",
+		"r2t": "Highly recommend, very professional, very friendly, punctual, everything was perfect!",
+		"r3n": "Romuald",
+		"r3t": "Very reactive, great professional team for this type of work. Highly recommend",
+		"r4n": "Wassim",
+		"r4t": "Henrik was not only on time and well equipped but above all super efficient. I highly recommend him. Good mood and professionalism throughout. Don't hesitate!",
+		"source": "A few reviews from Yoojo"
 	},
 	"Faq": {
 		"title": "Frequently asked questions",
@@ -123,10 +124,8 @@
 	},
 	"QuoteCTA": {
 		"title": "Get your free quote",
-		"lead": "Call us on {{phone}} or send a request via the form. Fast response, no obligation.",
-		"emailInfoPrefix": "Contact email (for your information):",
-		"call": "Call {{phone}}",
-		"online": "Request a quote (form)"
+		"lead": "Free, no obligation — describe your project and get a fast response.",
+		"cta": "Request a quote"
 	},
 	"FinalCTA": {
 		"ariaLabel": "Contact us",

@@ -139,6 +139,15 @@ body::-webkit-scrollbar-thumb {
  * Grille « Nos services » : atténuer les cartes non survolées.
  * Spécificité > .services-reveal.is-in-view li article (sinon opacity:1 écrase les utilitaires Tailwind du ul).
  */
+.services-reveal.is-in-view ul:hover li article,
+.services-reveal.is-in-view ul:hover li:hover article,
+.services-reveal.is-in-view ul:focus-within li article,
+.services-reveal.is-in-view ul:focus-within li:focus-within article {
+	transition-delay: 0ms;
+	transition-duration: 0.3s;
+	transition-property: opacity, box-shadow;
+}
+
 .services-reveal.is-in-view ul:hover li article {
 	opacity: 0.4;
 }

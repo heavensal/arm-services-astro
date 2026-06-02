@@ -17,13 +17,12 @@
 	"Hero": {
 		"ariaLabel": "Accueil ARM Services",
 		"imageAlt": "Camion de déménagement ARM Services",
-		"h1Line1": "ARM Services",
-		"h1Line2": "Déménagement et Livraison",
-		"h1Line3": "à Marseille & partout en France",
-		"lead": "Basés à Marseille, nous intervenons sur toute la France sur devis. Devis gratuit, équipe pro, assurance incluse.",
-		"contactIntro": "Appelez le {{phone}} ou utilisez le formulaire pour nous contacter. À titre informatif — ",
-		"primaryCta": "Appeler le {{phone}}",
-		"secondaryCta": "Demander un devis (formulaire)"
+		"h1Line1": "Besoin d'un déménagement ?",
+		"h1Line2": "Déménagez en toute confiance",
+		"h1Line3": "",
+		"lead": "Rapidité, sérénité et assurance professionnelle incluse — votre déménagement, notre priorité.",
+		"primaryCta": "Contacter",
+		"secondaryCta": "Demander un devis"
 	},
 	"TrustBar": {
 		"ariaLabel": "Nos engagements",
@@ -93,19 +92,21 @@
 		"p3d": "Assurance incluse, matériel de protection et véhicules adaptés pour vos biens."
 	},
 	"Reviews": {
-		"title": "Avis clients",
+		"title": "Ils nous font confiance",
 		"starsAria": "5 étoiles",
-		"footer": "Faites-nous confiance pour votre déménagement — appelez pour un devis.",
-		"r1n": "Sophie M.",
-		"r1t": "Équipe très professionnelle, rien de cassé, délais respectés. Je recommande ARM Services les yeux fermés.",
-		"r2n": "Thomas L.",
-		"r2t": "Devis honnête et intervention rapide. Déménagement Marseille–Lyon sans stress. Merci !",
-		"r3n": "Marie D.",
-		"r3t": "Service impeccable du premier contact au déchargement. Prix transparent, équipe sympa.",
-		"r4n": "Pierre F.",
-		"r4t": "Déménagement d’entreprise géré avec soin. ARM Services a su s’adapter à nos contraintes horaires.",
-		"r5n": "Julie R.",
-		"r5t": "Enfin une société sérieuse. Devis gratuit, assurance incluse, tout s’est parfaitement passé."
+		"yoojoBadge": "Prestataire reconnu sur",
+		"yoojoStats": "Plus de {{count}} avis, {{rating}} étoiles.",
+		"yoojoCta": "Voir notre profil Yoojo",
+		"yoojoAria": "Profil ARM Services sur Yoojo — {{count}}+ avis, note {{rating}} sur 5",
+		"r1n": "Jasmyn",
+		"r1t": "Il est tout simplement parfait ! De bonne humeur, vaillant et pro actif. Un pro de Tetris en prime. Je le recommande vivement",
+		"r2n": "Emilie",
+		"r2t": "Je recommande fortement, très professionnel, très sympa, ponctuel, tout était parfait !",
+		"r3n": "Romuald",
+		"r3t": "Très réactif très bonne équipe professionnel et équipe pour ce type de travail. Je recommande vivement",
+		"r4n": "Wassim",
+		"r4t": "Henrik etait non seulement à l'heure et bien équipé mais surtout a été super efficace. Je le recommande vivement. Bonne humeur et professionnalisme étaient là tout le long de la prestation. N'hésitez pas !",
+		"source": "Quelques avis provenant de Yoojo"
 	},
 	"Faq": {
 		"title": "Questions fréquentes",
@@ -123,10 +124,8 @@
 	},
 	"QuoteCTA": {
 		"title": "Obtenez votre devis gratuit",
-		"lead": "Appelez-nous au {{phone}} ou envoyez une demande via le formulaire. Réponse rapide, sans engagement.",
-		"emailInfoPrefix": "Email de contact (à titre informatif) :",
-		"call": "Appeler le {{phone}}",
-		"online": "Demander un devis (formulaire)"
+		"lead": "Gratuit, sans engagement — décrivez votre projet et recevez une réponse rapide.",
+		"cta": "Demander un devis"
 	},
 	"FinalCTA": {
 		"ariaLabel": "Nous contacter",
@@ -137,8 +136,7 @@
 	},
 	"ContactForm": {
 		"openCta": "Demande de devis par formulaire",
-		"dialogTitle": "Demande de devis / contact",
-		"dialogIntro": "Les données sont envoyées à ContentForge (PUBLIC_CONTACT_FORM_URL et PUBLIC_CONTACT_FORM_TOKEN).",
+		"dialogTitle": "Demande de devis",
 		"fieldLastName": "Nom",
 		"fieldFirstName": "Prénom",
 		"fieldEmail": "Email",

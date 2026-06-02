@@ -33,10 +33,21 @@ export const siteConfig = {
 	tiktokUrl: 'https://www.tiktok.com/@arm.services86',
 	tiktokHandle: '@arm.services86',
 
+	yoojo: {
+		profileUrl:
+			'https://yoojo.fr/jobber/henrik-marseille-3493387?utm_campaign=share-profile&utm_medium=link&utm_source=jobber-app',
+		rating: 5,
+		/** Seuil affiché « Plus de X avis » (profil Yoojo : 36+ avis, note 5,0) */
+		reviewCountMin: 30,
+	},
+
 	/** @example '@armservices' — leave empty if unused */
 	twitterHandle: '' as string,
 
-	sameAs: ['https://www.tiktok.com/@arm.services86'] as string[],
+	sameAs: [
+		'https://www.tiktok.com/@arm.services86',
+		'https://yoojo.fr/jobber/henrik-marseille-3493387?utm_campaign=share-profile&utm_medium=link&utm_source=jobber-app',
+	] as string[],
 
 	ogImageWidth: 512,
 	ogImageHeight: 512,
