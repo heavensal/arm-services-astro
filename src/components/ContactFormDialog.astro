@@ -45,12 +45,13 @@ const formUi = {
 
 <dialog
 	id="arm-contact-dialog"
-	class="fixed inset-0 m-auto h-fit max-h-screen w-full max-w-lg overflow-y-auto rounded-xl border border-gray-200 bg-white p-0 text-left shadow-lg backdrop:bg-gray-900 backdrop:opacity-40 open:flex open:flex-col"
+	tabindex="-1"
+	class="fixed inset-4 m-auto h-fit max-h-full max-w-lg overflow-y-auto rounded-xl border border-gray-200 bg-white p-0 text-left shadow-lg outline-none backdrop:bg-gray-900 backdrop:opacity-40 open:flex open:flex-col"
 	aria-labelledby="arm-contact-title"
 	aria-describedby="arm-contact-intro"
 >
 	<div class="border-b border-gray-100 px-6 py-4">
-		<h3 id="arm-contact-title" class="text-xl text-center font-bold text-gray-900">
+		<h3 id="arm-contact-title" tabindex="-1" autofocus class="text-xl text-center font-bold text-gray-900 outline-none">
 			{t('ContactForm.dialogTitle')}
 		</h3>
 	</div>
@@ -191,6 +192,12 @@ const formUi = {
 				hideStatus();
 				dialog?.showModal();
 				lockScroll();
+				dialog?.focus({ preventScroll: true });
+				requestAnimationFrame(() => {
+					if (dialog?.contains(document.activeElement) && document.activeElement?.matches('input, textarea, select')) {
+						dialog.focus({ preventScroll: true });
+					}
+				});
 			});
 		});
 
