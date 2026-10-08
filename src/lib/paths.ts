@@ -12,6 +12,7 @@ export const pageRoutes = {
 	legalNotice: 'legal-notice',
 	privacyPolicy: 'privacy-policy',
 	termsOfService: 'terms-of-service',
+	blog: 'blog',
 } as const;
 
 export function homePathForLocale(locale: 'fr' | 'en'): string {

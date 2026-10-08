@@ -10,7 +10,7 @@ They are reusable base instructions for Astro projects.
 - Component patterns and usage
 - SEO configuration (`astro.config.mjs`, `Layout.astro`, `public/` assets)
 - Legal pages under `src/pages/` (`legal-notice`, `privacy-policy`, `terms-of-service`, plus `en/` mirrors)
-- i18n (`src/i18n/locales/`, `getFixedT(locale)`) and optional ContentForge FAQ
+- i18n (`src/i18n/locales/`, `getFixedT(locale)`) and optional ContentForge blocks (FAQ, reviews, articles), each toggled in `.env`
 - Styling guidelines, Armenian theme, and animations in `src/styles/global.css`
 
 Also read **`AGENTS.project.md`** for ARM Services–specific context (conversion, palette, component workflow).

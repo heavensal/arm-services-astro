@@ -11,6 +11,7 @@ Site vitrine pour ARM Services, entreprise de déménagement basée à Marseille
 - [Fonctionnalités](#fonctionnalités)
 - [Démarrage rapide](#démarrage-rapide)
 - [Structure du projet](#structure-du-projet)
+- [Contenu ContentForge](#contenu-contentforge)
 - [Configuration](#configuration)
 - [Composants](#composants)
 - [Configuration SEO](#configuration-seo)
@@ -24,7 +25,7 @@ Site vitrine pour ARM Services, entreprise de déménagement basée à Marseille
 
 - **SEO** : Open Graph, Twitter Cards, canonical URLs, hreflang (FR + EN), JSON-LD, sitemap, `robots.txt` généré
 - **i18n** : français / anglais (`fr.json`, `en.json`), route `/en/` ; switcher masqué si `ENABLE_MULTILANG=false`
-- **FAQ** : ContentForge si `CONTENTFORGE_ENABLED=true` + token ; sinon texte dans `fr.json` / `en.json` (les avis viennent toujours des traductions)
+- **FAQ, avis, blog** : chacun a son flag ContentForge (`true` / `false`). Détail dans [Contenu ContentForge](#contenu-contentforge)
 - **Formulaire de contact** : dialogue dans la section contact, `POST` vers ContentForge (`PUBLIC_CONTACT_FORM_URL` + **`PUBLIC_CONTACT_FORM_TOKEN`**, header `Authorization: Bearer`)
 - **Gabarit e-mail** : `src/templates/email/contact-message.html` et `buildArmContactEmailHtml()` dans `src/lib/email/contactMailHtml.ts` pour le service qui envoie les mails
 - **Sections landing** : Hero, TrustBar, Services, Process, Areas, WhyUs, Reviews, QuoteCTA, FinalCTA (inclut le formulaire), Footer
@@ -113,7 +114,23 @@ Après clonage, copier **`.env.example`** vers **`.env`** puis ajuster si besoin
 └── .cursor/rules/            # Règles Cursor AI
 ```
 
+Pages blog (générées seulement si `CONTENTFORGE_ARTICLES_ENABLED=true`) : `src/pages/blog/[...slug].astro` et `src/pages/en/blog/[...slug].astro`.
+
 ---
+
+## Contenu ContentForge
+
+ContentForge est le CMS (autre dépôt). Ce site ne fait qu’afficher. Trois blocs peuvent être branchés, **indépendamment** :
+
+| Variable | `true` | `false`, ou API injoignable |
+| --- | --- | --- |
+| `CONTENTFORGE_FAQ_ENABLED` | `GET /faqs` | textes `Faq.*` dans `fr.json` / `en.json` |
+| `CONTENTFORGE_REVIEWS_ENABLED` | `GET /reviews` (note 1–5 du modèle) | textes `Reviews.r*`, 5 étoiles |
+| `CONTENTFORGE_ARTICLES_ENABLED` | `GET /articles` et `GET /articles/:slug` → `/blog`, `/blog/[slug]` et `/en/blog…` | ces pages ne sont pas générées |
+
+`CONTENTFORGE_URL` et `CONTENTFORGE_API_TOKEN` sont communs. Un site peut donc publier un blog (`ARTICLES=true`) sans avis CMS (`REVIEWS=false`).
+
+La lecture a lieu **au build**. En production, les mêmes noms sont des secrets GitHub Actions (`deploy.yml`). Hero, services, processus, zones, pages légales, téléphone et devis restent dans ce dépôt.
 
 ## Configuration
 
@@ -290,7 +307,7 @@ Le workflow `.github/workflows/deploy.yml` build et déploie sur push vers `main
 
 1. **Repository** → **Settings** → **Pages** : source **GitHub Actions**
 2. Configurer `site` et `base` dans `astro.config.mjs`
-3. **Settings** → **Secrets and variables** → **Actions** : ajouter **`PUBLIC_CONTACT_FORM_URL`** et **`PUBLIC_CONTACT_FORM_TOKEN`** (le workflow les injecte au `pnpm run build`)
+3. **Settings** → **Secrets and variables** → **Actions** : ajouter **`PUBLIC_CONTACT_FORM_URL`**, **`PUBLIC_CONTACT_FORM_TOKEN`**, et si un bloc CMS est actif **`CONTENTFORGE_URL`**, **`CONTENTFORGE_API_TOKEN`**, **`CONTENTFORGE_FAQ_ENABLED`**, **`CONTENTFORGE_REVIEWS_ENABLED`**, **`CONTENTFORGE_ARTICLES_ENABLED`** (`true` ou `false`). Le workflow les injecte au `pnpm run build`.
 
 Le formulaire de contact nécessite **`PUBLIC_CONTACT_FORM_URL`** (ex. `https://contentforge.1344.fr/api/v1/send_form`) et **`PUBLIC_CONTACT_FORM_TOKEN`** dans `.env` (secrets GitHub Actions pour le déploiement). ContentForge doit autoriser le site en **CORS**.
 

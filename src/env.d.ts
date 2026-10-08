@@ -2,7 +2,9 @@
 
 interface ImportMetaEnv {
 	readonly ENABLE_MULTILANG?: string;
-	readonly CONTENTFORGE_ENABLED?: string;
+	readonly CONTENTFORGE_FAQ_ENABLED?: string;
+	readonly CONTENTFORGE_REVIEWS_ENABLED?: string;
+	readonly CONTENTFORGE_ARTICLES_ENABLED?: string;
 	readonly CONTENTFORGE_API_TOKEN?: string;
 	readonly CONTENTFORGE_URL?: string;
 	/** URL du backend qui reçoit le POST JSON du formulaire (exposée au client). */

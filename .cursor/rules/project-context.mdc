@@ -22,6 +22,7 @@ alwaysApply: true
 - Copy lives in **`src/i18n/locales/fr.json`** and **`en.json`**.
 - Section components require **`locale: 'fr' | 'en'`**.
 - **`ENABLE_MULTILANG=false`** (default): hides the hero language switcher; **`/en/`** and English legal URLs remain valid for SEO.
+- ContentForge blocks are independent env flags, read at build time: `CONTENTFORGE_FAQ_ENABLED`, `CONTENTFORGE_REVIEWS_ENABLED`, `CONTENTFORGE_ARTICLES_ENABLED` (`true` or `false`). FAQ and reviews fall back to i18n. Articles generate `/blog` and `/blog/[slug]` (and `/en/blog`) only when their flag is `true`. Hero, services, process, areas, legal pages, phone, and quote stay in this repo.
 
 ## SEO Markers
 

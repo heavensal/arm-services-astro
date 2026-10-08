@@ -33,11 +33,12 @@ These complement the base instructions in `AGENTS.md`.
 | `src/pages/terms-of-service.astro` / `en/terms-of-service.astro` | Terms (CGV) |
 | `src/i18n/locales/*.json` | All landing + legal copy |
 | `src/lib/seo.ts`, `src/lib/paths.ts` | hreflang helpers, JSON-LD |
-| `src/lib/contentforge.ts` | FAQ API base URL |
+| `src/lib/contentforge.ts` | Per-block flags and ContentForge fetch |
+| `src/pages/blog/`, `src/pages/en/blog/` | Blog index and article, only if `CONTENTFORGE_ARTICLES_ENABLED=true` |
 | `ContactFormDialog.astro` | Modal form: `POST` ContentForge `{ from_email, from_name, subject, message, fields }` + `Authorization: Bearer` to `PUBLIC_CONTACT_FORM_URL` |
 | `src/templates/email/contact-message.html` | Reference HTML for outbound email (placeholders) |
 | `src/lib/email/contactMailHtml.ts` | `buildArmContactEmailHtml()` for external mailer |
-| `.env` / `.env.example` | `ENABLE_MULTILANG`, `CONTENTFORGE_*`, **`PUBLIC_CONTACT_FORM_URL`**, **`PUBLIC_CONTACT_FORM_TOKEN`** |
+| `.env` / `.env.example` | `ENABLE_MULTILANG`, `CONTENTFORGE_FAQ_ENABLED`, `CONTENTFORGE_REVIEWS_ENABLED`, `CONTENTFORGE_ARTICLES_ENABLED`, `CONTENTFORGE_URL`, `CONTENTFORGE_API_TOKEN`, **`PUBLIC_CONTACT_FORM_URL`**, **`PUBLIC_CONTACT_FORM_TOKEN`** |
 | `src/styles/global.css` | Tailwind theme (Armenian colors) and animations |
 | `src/components/` | Landing page sections |
 | `public/` | Favicons, manifest, default OG image |

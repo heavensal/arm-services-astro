@@ -93,7 +93,8 @@
 	},
 	"Reviews": {
 		"title": "Ils nous font confiance",
-		"starsAria": "5 étoiles",
+		"starsAria": "{{count}} étoiles sur 5",
+		"sourceApi": "Témoignages clients",
 		"yoojoBadge": "Prestataire reconnu sur",
 		"yoojoStats": "Plus de {{count}} avis, {{rating}} étoiles.",
 		"yoojoCta": "Voir notre profil Yoojo",
@@ -121,6 +122,17 @@
 		"item3Answer": "Oui. Nous sommes basés à Marseille et intervenons partout en France sur devis.",
 		"item4Question": "Comment préparer mon déménagement ?",
 		"item4Answer": "Après validation du devis, nous planifions la date et vous indiquons les éventuelles consignes de préparation (emballage, accès, stationnement)."
+	},
+	"Blog": {
+		"metaTitle": "Blog | ARM Services",
+		"metaDescription": "Conseils et actualités déménagement d'ARM Services, à Marseille et partout en France.",
+		"articleMetaTitle": "{{title}} | ARM Services",
+		"h1": "Blog",
+		"intro": "Quelques articles sur le déménagement et nos interventions.",
+		"empty": "Aucun article publié pour le moment.",
+		"back": "← Retour à l'accueil",
+		"backToIndex": "← Tous les articles",
+		"callCta": "Appeler le {{phone}}"
 	},
 	"QuoteCTA": {
 		"title": "Obtenez votre devis gratuit",
@@ -157,7 +169,8 @@
 		"imageAlt": "Équipe ARM Services en plein déménagement",
 		"brand": "ARM Services",
 		"tagline": "Déménagement — Marseille & toute la France sur devis",
-		"navAria": "Mentions légales et politiques",
+		"navAria": "Navigation du pied de page",
+		"linkBlog": "Blog",
 		"linkLegal": "Mentions légales",
 		"linkPrivacy": "Politique de confidentialité",
 		"linkTerms": "Conditions générales",

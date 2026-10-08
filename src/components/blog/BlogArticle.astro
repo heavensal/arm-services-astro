@@ -1,0 +1,53 @@
+---
+import { getFixedT, type Locale } from '../../i18n/i18n';
+import { formatCmsDate, type CmsArticle } from '../../lib/contentforge-blog';
+import { pageHref, pageRoutes } from '../../lib/paths';
+import { siteConfig } from '../../site.config';
+
+interface Props {
+	locale: Locale;
+	article: CmsArticle;
+}
+
+const { locale, article } = Astro.props;
+const t = getFixedT(locale);
+const prefix = locale === 'en' ? 'en/' : '';
+const blogUrl = pageHref(`${prefix}${pageRoutes.blog}`);
+const date = formatCmsDate(article.publishedAt, locale);
+const telHref = `tel:${siteConfig.contact.phone.replace(/\s/g, '')}`;
+---
+
+<main class="min-h-screen bg-gray-50">
+	<article class="container mx-auto max-w-3xl px-4 py-12 md:py-16">
+		<header class="mb-10">
+			<a
+				href={blogUrl}
+				class="mb-4 inline-block text-sm font-medium text-red-armenian hover:text-blue-armenian focus:outline-none focus-visible:ring-2 focus-visible:ring-orange-armenian"
+			>
+				{t('Blog.backToIndex')}
+			</a>
+			<h1 class="text-3xl font-bold text-gray-900 md:text-4xl">{article.title}</h1>
+			{
+				date && (
+					<p class="mt-3 text-sm text-gray-500">
+						<time datetime={article.publishedAt ?? undefined}>{date}</time>
+					</p>
+				)
+			}
+			{article.description && <p class="mt-4 text-lg leading-relaxed text-gray-600">{article.description}</p>}
+		</header>
+		{
+			article.contentHtml && (
+				<div class="cms-content text-gray-700" set:html={article.contentHtml} />
+			)
+		}
+		<p class="mt-12">
+			<a
+				href={telHref}
+				class="inline-flex items-center justify-center rounded-lg bg-orange-armenian px-6 py-3 font-semibold text-white hover:brightness-95 focus:outline-none focus-visible:ring-2 focus-visible:ring-orange-armenian focus-visible:ring-offset-2"
+			>
+				{t('Blog.callCta', { phone: siteConfig.contact.phone })}
+			</a>
+		</p>
+	</article>
+</main>

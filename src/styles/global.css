@@ -179,3 +179,37 @@ body::-webkit-scrollbar-thumb {
 		opacity: 1;
 	}
 }
+
+/* HTML authored in ContentForge (Action Text). Inner tags are not Tailwind classes. */
+.cms-content :where(p, ul, ol, blockquote, pre, h2, h3) {
+	margin-top: 1rem;
+}
+
+.cms-content :where(h2, h3) {
+	font-weight: 600;
+	color: #111827;
+}
+
+.cms-content :where(a) {
+	color: var(--red-armenian);
+	text-decoration: underline;
+}
+
+.cms-content :where(a:hover) {
+	color: var(--blue-armenian);
+}
+
+.cms-content :where(ul) {
+	list-style: disc;
+	padding-left: 1.25rem;
+}
+
+.cms-content :where(ol) {
+	list-style: decimal;
+	padding-left: 1.25rem;
+}
+
+.cms-content :where(img) {
+	max-width: 100%;
+	height: auto;
+}

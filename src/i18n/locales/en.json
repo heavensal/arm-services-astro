@@ -93,7 +93,8 @@
 	},
 	"Reviews": {
 		"title": "They trust us",
-		"starsAria": "5 stars",
+		"starsAria": "{{count}} stars out of 5",
+		"sourceApi": "Customer testimonials",
 		"yoojoBadge": "Recognised provider on",
 		"yoojoStats": "{{count}}+ reviews, {{rating}} stars.",
 		"yoojoCta": "View our Yoojo profile",
@@ -121,6 +122,17 @@
 		"item3Answer": "Yes. We are based in Marseille and operate across France on quotation.",
 		"item4Question": "How should I prepare for my move?",
 		"item4Answer": "After the quote is approved, we schedule the date and share any preparation notes (packing, access, parking)."
+	},
+	"Blog": {
+		"metaTitle": "Blog | ARM Services",
+		"metaDescription": "Moving tips and news from ARM Services, in Marseille and across France.",
+		"articleMetaTitle": "{{title}} | ARM Services",
+		"h1": "Blog",
+		"intro": "A few articles about moving and our jobs.",
+		"empty": "No articles published yet.",
+		"back": "← Back to home",
+		"backToIndex": "← All articles",
+		"callCta": "Call {{phone}}"
 	},
 	"QuoteCTA": {
 		"title": "Get your free quote",
@@ -158,7 +170,8 @@
 		"imageAlt": "ARM Services team during a move",
 		"brand": "ARM Services",
 		"tagline": "Moving — Marseille & all of France by quotation",
-		"navAria": "Legal and policies",
+		"navAria": "Footer navigation",
+		"linkBlog": "Blog",
 		"linkLegal": "Legal notice",
 		"linkPrivacy": "Privacy policy",
 		"linkTerms": "Terms & conditions",
