@@ -1,4 +1,5 @@
 import type { Locale } from '../i18n/i18n';
+import { isPublishedLocale } from './seo';
 import { asList, fetchContentforge, isArticlesEnabled } from './contentforge';
 
 const SLUG = /^[a-z0-9]+(?:-[a-z0-9]+)*$/;
@@ -81,9 +82,31 @@ export async function fetchArticle(slug: string, locale: Locale): Promise<CmsArt
 	return pending;
 }
 
-/** Static paths for /blog and /blog/[slug]. Empty when the articles flag is off. */
+/** True when this locale is published and, for an article, that slug exists there. */
+async function publishesBlogPath(locale: Locale, slug?: string): Promise<boolean> {
+	if (!isArticlesEnabled() || !isPublishedLocale(locale)) return false;
+	if (!slug) return true;
+	const posts = await loadArticleIndex(locale);
+	return posts.some((post) => post.slug === slug);
+}
+
+/**
+ * Blog paths hreflang may announce.
+ * French-only sites omit `en`. A slug that exists in only one published locale omits the other.
+ */
+export async function publishedBlogPaths(
+	article: { slug: string } | null,
+): Promise<{ fr?: string; en?: string }> {
+	const slug = article?.slug;
+	const paths: { fr?: string; en?: string } = {};
+	if (await publishesBlogPath('fr', slug)) paths.fr = slug ? `blog/${slug}` : 'blog';
+	if (await publishesBlogPath('en', slug)) paths.en = slug ? `en/blog/${slug}` : 'en/blog';
+	return paths;
+}
+
+/** Static paths for /blog and /blog/[slug]. Empty when articles are off or the locale is not published. */
 export async function blogStaticPaths(locale: Locale): Promise<BlogPath[]> {
-	if (!isArticlesEnabled()) return [];
+	if (!isArticlesEnabled() || !isPublishedLocale(locale)) return [];
 	const posts = await loadArticleIndex(locale);
 	const index: BlogPath = {
 		params: { slug: undefined },

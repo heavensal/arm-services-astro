@@ -12,6 +12,7 @@ Site vitrine pour ARM Services, entreprise de déménagement basée à Marseille
 - [Démarrage rapide](#démarrage-rapide)
 - [Structure du projet](#structure-du-projet)
 - [Contenu ContentForge](#contenu-contentforge)
+- [Languages and hreflang](#languages-and-hreflang)
 - [Configuration](#configuration)
 - [Composants](#composants)
 - [Configuration SEO](#configuration-seo)
@@ -23,8 +24,8 @@ Site vitrine pour ARM Services, entreprise de déménagement basée à Marseille
 
 ## Fonctionnalités
 
-- **SEO** : Open Graph, Twitter Cards, canonical URLs, hreflang (FR + EN), JSON-LD, sitemap, `robots.txt` généré
-- **i18n** : français / anglais (`fr.json`, `en.json`), route `/en/` ; switcher masqué si `ENABLE_MULTILANG=false`
+- **SEO** : Open Graph, Twitter Cards, canonical URLs, hreflang (`fr` et `x-default` uniquement), JSON-LD, sitemap, `robots.txt` généré
+- **i18n** : français publié ; copies anglaises dans `en.json` et routes `/en/` sans être annoncées en hreflang. Voir [Languages and hreflang](#languages-and-hreflang)
 - **FAQ, avis, blog** : chacun a son flag ContentForge (`true` / `false`). Détail dans [Contenu ContentForge](#contenu-contentforge)
 - **Formulaire de contact** : dialogue dans la section contact, `POST` vers ContentForge (`PUBLIC_CONTACT_FORM_URL` + **`PUBLIC_CONTACT_FORM_TOKEN`**, header `Authorization: Bearer`)
 - **Gabarit e-mail** : `src/templates/email/contact-message.html` et `buildArmContactEmailHtml()` dans `src/lib/email/contactMailHtml.ts` pour le service qui envoie les mails
@@ -114,7 +115,7 @@ Après clonage, copier **`.env.example`** vers **`.env`** puis ajuster si besoin
 └── .cursor/rules/            # Règles Cursor AI
 ```
 
-Pages blog (générées seulement si `CONTENTFORGE_ARTICLES_ENABLED=true`) : `src/pages/blog/[...slug].astro` et `src/pages/en/blog/[...slug].astro`.
+Pages blog (générées seulement si `CONTENTFORGE_ARTICLES_ENABLED=true` et si la locale est dans `publishedLocales`) : `src/pages/blog/[...slug].astro` et `src/pages/en/blog/[...slug].astro`. Sur ARM Services le flag est `false` et `publishedLocales` est `['fr']`, donc aucune page blog.
 
 ---
 
@@ -126,11 +127,32 @@ ContentForge est le CMS (autre dépôt). Ce site ne fait qu’afficher. Trois bl
 | --- | --- | --- |
 | `CONTENTFORGE_FAQ_ENABLED` | `GET /faqs` | textes `Faq.*` dans `fr.json` / `en.json` |
 | `CONTENTFORGE_REVIEWS_ENABLED` | `GET /reviews` (note 1–5 du modèle) | textes `Reviews.r*`, 5 étoiles |
-| `CONTENTFORGE_ARTICLES_ENABLED` | `GET /articles` et `GET /articles/:slug` → `/blog`, `/blog/[slug]` et `/en/blog…` | ces pages ne sont pas générées |
+| `CONTENTFORGE_ARTICLES_ENABLED` | `GET /articles` et `GET /articles/:slug` → `/blog` et `/blog/[slug]`. `/en/blog` seulement si `en` est dans `publishedLocales` | ces pages ne sont pas générées |
 
-`CONTENTFORGE_URL` et `CONTENTFORGE_API_TOKEN` sont communs. Un site peut donc publier un blog (`ARTICLES=true`) sans avis CMS (`REVIEWS=false`).
+**ARM Services n’importe rien** : les trois flags restent `false` (fichier `.env` et secrets GitHub Actions). La FAQ et les avis viennent de `fr.json`. `/blog` n’est pas généré.
 
-La lecture a lieu **au build**. En production, les mêmes noms sont des secrets GitHub Actions (`deploy.yml`). Hero, services, processus, zones, pages légales, téléphone et devis restent dans ce dépôt.
+`CONTENTFORGE_URL` et `CONTENTFORGE_API_TOKEN` sont communs. Un autre site peut publier un blog (`ARTICLES=true`) sans avis CMS (`REVIEWS=false`).
+
+La lecture a lieu **au build**. En production, les mêmes noms sont des secrets GitHub Actions (`deploy.yml`). Pour ce site ils doivent rester vides ou `false`. Hero, services, processus, zones, pages légales, téléphone et devis restent dans ce dépôt.
+
+## Languages and hreflang
+
+ARM Services publishes French only. Some brochure sites publish French and English; this one does not.
+
+`src/site.config.ts` sets `publishedLocales` to `['fr']`. hreflang may list only those languages. On every page the head contains:
+
+- `hreflang="fr"` → the French URL for that page
+- `hreflang="x-default"` → the same French URL
+
+There is no `hreflang="en"`. `og:locale:alternate` is omitted. JSON-LD `inLanguage` is `fr-FR` only.
+
+`/en/` routes stay in the repo and still render for a direct visit. They are not language alternates. Their hreflang points at the French URL, not at themselves.
+
+`ENABLE_MULTILANG` only shows or hides the hero language switcher. It does not decide hreflang. It is `false` here.
+
+A site that really publishes English adds `'en'` to `publishedLocales` and keeps a real English page for every URL it announces. A blog article that exists in only one published locale does not advertise the missing translation: `/blog/mon-article` does not point at `/en/blog/mon-article` when that slug was not returned for English.
+
+ContentForge stays off on this site (`CONTENTFORGE_FAQ_ENABLED`, `CONTENTFORGE_REVIEWS_ENABLED`, and `CONTENTFORGE_ARTICLES_ENABLED` are all `false`), so no blog URLs are generated today. The hreflang rule above still applies to the home page and the legal pages, and to the blog if articles are turned on later.
 
 ## Configuration
 

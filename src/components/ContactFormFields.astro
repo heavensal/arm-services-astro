@@ -1,0 +1,70 @@
+---
+import { getFixedT, type Locale } from '../i18n/i18n';
+
+interface Props {
+	locale: Locale;
+}
+
+const { locale } = Astro.props;
+const t = getFixedT(locale);
+const fieldClass =
+	'w-full rounded-lg border border-gray-300 px-3 py-2 text-gray-900 focus:border-orange-armenian focus:outline-none focus:ring-2 focus:ring-orange-armenian';
+---
+
+<div>
+	<label for="arm-contact-last-name" class="mb-1 block text-sm font-medium text-gray-900">
+		{t('ContactForm.fieldLastName')}
+	</label>
+	<input id="arm-contact-last-name" name="lastName" type="text" autocomplete="family-name" required class={fieldClass} />
+</div>
+<div>
+	<label for="arm-contact-first-name" class="mb-1 block text-sm font-medium text-gray-900">
+		{t('ContactForm.fieldFirstName')}
+	</label>
+	<input id="arm-contact-first-name" name="firstName" type="text" autocomplete="given-name" required class={fieldClass} />
+</div>
+<div>
+	<label for="arm-contact-email" class="mb-1 block text-sm font-medium text-gray-900">
+		{t('ContactForm.fieldEmail')}
+	</label>
+	<input id="arm-contact-email" name="email" type="email" autocomplete="email" required class={fieldClass} />
+</div>
+<div>
+	<label for="arm-contact-phone" class="mb-1 block text-sm font-medium text-gray-900">
+		{t('ContactForm.fieldPhone')}
+	</label>
+	<input id="arm-contact-phone" name="phone" type="tel" autocomplete="tel" required class={fieldClass} />
+</div>
+<div>
+	<label for="arm-contact-company" class="mb-1 block text-sm font-medium text-gray-900">
+		{t('ContactForm.fieldCompany')}
+	</label>
+	<input id="arm-contact-company" name="company" type="text" autocomplete="organization" class={fieldClass} />
+</div>
+<div>
+	<label for="arm-contact-message" class="mb-1 block text-sm font-medium text-gray-900">
+		{t('ContactForm.fieldMessage')}
+	</label>
+	<textarea
+		id="arm-contact-message"
+		name="message"
+		rows="5"
+		placeholder={t('ContactForm.messagePlaceholder')}
+		class={`${fieldClass} placeholder:text-gray-400`}
+	></textarea>
+</div>
+<div>
+	<label for="arm-contact-photos" class="mb-1 block text-sm font-medium text-gray-900">
+		{t('ContactForm.fieldPhotos')}
+	</label>
+	<input
+		id="arm-contact-photos"
+		name="photos"
+		type="file"
+		accept="image/jpeg,image/png,image/webp"
+		multiple
+		aria-describedby="arm-contact-photos-hint"
+		class="block w-full text-sm text-gray-600 file:mr-3 file:rounded-lg file:border-0 file:bg-gray-100 file:px-3 file:py-2 file:text-sm file:font-medium file:text-gray-900 hover:file:bg-gray-200"
+	/>
+	<p id="arm-contact-photos-hint" class="mt-1 text-sm text-gray-600">{t('ContactForm.photosHint')}</p>
+</div>

@@ -18,6 +18,8 @@ These complement the base instructions in `AGENTS.md`.
 - The company provides moving and delivery services throughout France.
 - The website targets individual and professional clients seeking reliable moving services.
 - Primary conversion goal: phone calls and quote requests.
+- French-only site. `publishedLocales` is `['fr']`. hreflang is `fr` plus `x-default` on the French URL. Do not announce `en`.
+- ContentForge imports are off: the three `CONTENTFORGE_*_ENABLED` flags are `false`. FAQ and reviews come from `fr.json`. `/blog` is not generated.
 
 ## Key Files
 

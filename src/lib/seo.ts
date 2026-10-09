@@ -1,5 +1,23 @@
 import { siteConfig } from '../site.config';
 
+export type SiteLocale = 'fr' | 'en';
+
+const localeOrder: readonly SiteLocale[] = ['fr', 'en'];
+
+/** True when this brochure site publishes that language. ARM Services: French only. */
+export function isPublishedLocale(locale: SiteLocale): boolean {
+	return siteConfig.publishedLocales.some((published) => published === locale);
+}
+
+/**
+ * Open Graph alternate locale.
+ * Omitted on a single-language site so the head does not advertise a translation that is not published.
+ */
+export function publishedOgLocaleAlternate(pageLocale: SiteLocale): 'fr_FR' | 'en_US' | undefined {
+	if (!isPublishedLocale('fr') || !isPublishedLocale('en')) return undefined;
+	return pageLocale === 'fr' ? 'en_US' : 'fr_FR';
+}
+
 /** Canonical home URLs for FR / EN (using Astro `site` + `base`). */
 export function getAlternateLanguageUrls(
 	site: URL | undefined,
@@ -48,33 +66,46 @@ export function buildLandingJsonLd(alternates: {
 				'@id': `${alternates.fr}#website`,
 				url: alternates.fr,
 				name: siteConfig.name,
-				inLanguage: ['fr-FR', 'en-US'],
+				inLanguage: siteConfig.publishedLocales.map((locale) =>
+					locale === 'fr' ? 'fr-FR' : 'en-US',
+				),
 				publisher: { '@id': orgId },
 			},
 		],
 	};
 }
 
-/** hreflang entries: FR + EN always published for ARM (SEO), independent of language switcher UI. */
+/**
+ * hreflang for the locales in `siteConfig.publishedLocales` only.
+ * `x-default` repeats the site default (French on ARM Services).
+ * A URL is included only when the caller passes it: a missing translation must not be announced.
+ */
+export function buildAlternateLanguages(
+	urls: Partial<Record<SiteLocale, string | undefined>>,
+): { hreflang: string; href: string }[] | undefined {
+	const entries: { hreflang: string; href: string }[] = [];
+	for (const locale of localeOrder) {
+		const href = urls[locale];
+		if (!href || !isPublishedLocale(locale)) continue;
+		entries.push({ hreflang: locale, href });
+	}
+	const fallback = urls[siteConfig.lang];
+	if (fallback && isPublishedLocale(siteConfig.lang)) {
+		entries.push({ hreflang: 'x-default', href: fallback });
+	}
+	return entries.length ? entries : undefined;
+}
+
 export function buildHomeAlternateLanguages(
 	alternates: { fr: string; en: string } | undefined,
 ): { hreflang: string; href: string }[] | undefined {
 	if (!alternates) return undefined;
-	return [
-		{ hreflang: 'fr', href: alternates.fr },
-		{ hreflang: 'en', href: alternates.en },
-		{ hreflang: 'x-default', href: alternates.fr },
-	];
+	return buildAlternateLanguages(alternates);
 }
 
 export function buildLegalAlternateLanguages(
 	frUrl: string | undefined,
 	enUrl: string | undefined,
 ): { hreflang: string; href: string }[] | undefined {
-	if (!frUrl || !enUrl) return undefined;
-	return [
-		{ hreflang: 'fr', href: frUrl },
-		{ hreflang: 'en', href: enUrl },
-		{ hreflang: 'x-default', href: frUrl },
-	];
+	return buildAlternateLanguages({ fr: frUrl, en: enUrl });
 }

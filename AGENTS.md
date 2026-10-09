@@ -19,7 +19,9 @@ Also read **`AGENTS.project.md`** for ARM Services–specific context (conversio
 
 - All user-facing strings live in **`src/i18n/locales/fr.json`** and **`en.json`**, loaded via **`getFixedT(locale)`**.
 - Section components take a required **`locale: 'fr' | 'en'`** prop (see `LandingHome.astro`).
-- **`ENABLE_MULTILANG`** (`.env`): when `false`, the FR/EN switcher is hidden; English routes (`/en/`, legal pages under `en/`) remain available for SEO and direct links.
+- **`publishedLocales`** in `src/site.config.ts` is the hreflang list. ARM Services is French-only: `['fr']`, so the head has `fr` and `x-default` (both the French URL) and no `en`. `/en/` routes still render for a direct visit; they are not alternates. See README “Languages and hreflang”.
+- **`ENABLE_MULTILANG`** (`.env`): when `false`, the FR/EN switcher is hidden. It does not change hreflang.
+- ARM Services does not import ContentForge. `CONTENTFORGE_FAQ_ENABLED`, `CONTENTFORGE_REVIEWS_ENABLED`, and `CONTENTFORGE_ARTICLES_ENABLED` stay `false`.
 - Keep component and variable names in English.
 
 ## Architecture and Components

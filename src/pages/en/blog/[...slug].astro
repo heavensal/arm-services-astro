@@ -2,7 +2,7 @@
 import BlogArticle from '../../../components/blog/BlogArticle.astro';
 import BlogIndex from '../../../components/blog/BlogIndex.astro';
 import { getFixedT, type Locale } from '../../../i18n/i18n';
-import { blogStaticPaths } from '../../../lib/contentforge-blog';
+import { blogStaticPaths, publishedBlogPaths } from '../../../lib/contentforge-blog';
 import Layout from '../../../layouts/Layout.astro';
 import { absolutePageUrl, buildLegalAlternateLanguages } from '../../../lib/seo';
 
@@ -13,8 +13,7 @@ export async function getStaticPaths() {
 const locale: Locale = 'en';
 const t = getFixedT(locale);
 const { article, posts } = Astro.props;
-const frPath = article ? `blog/${article.slug}` : 'blog';
-const enPath = article ? `en/blog/${article.slug}` : 'en/blog';
+const blogPaths = await publishedBlogPaths(article);
 const title = article ? t('Blog.articleMetaTitle', { title: article.title }) : t('Blog.metaTitle');
 const description = article?.description || t('Blog.metaDescription');
 ---
@@ -22,12 +21,11 @@ const description = article?.description || t('Blog.metaDescription');
 <Layout
 	lang="en"
 	ogLocale="en_US"
-	ogLocaleAlternate="fr_FR"
 	title={title}
 	description={description}
 	alternateLanguages={buildLegalAlternateLanguages(
-		absolutePageUrl(Astro.site, frPath),
-		absolutePageUrl(Astro.site, enPath),
+		blogPaths.fr ? absolutePageUrl(Astro.site, blogPaths.fr) : undefined,
+		blogPaths.en ? absolutePageUrl(Astro.site, blogPaths.en) : undefined,
 	)}
 	skipToContentLabel={t('Layout.skipToContent')}
 	ogImageAlt={t('Layout.ogImageAlt')}
