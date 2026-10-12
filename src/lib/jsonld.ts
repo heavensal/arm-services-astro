@@ -48,7 +48,7 @@ export function buildHomeJsonLd(
 				name: siteConfig.name,
 				legalName: siteConfig.legal.name,
 				url: homeUrl,
-				description: copy.Hero.lead,
+				description: copy.LandingPage.metaDescription,
 				email: siteConfig.contact.email,
 				telephone: siteConfig.contact.phoneE164,
 				vatID: siteConfig.legal.vatId,
