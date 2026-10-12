@@ -7,6 +7,13 @@
 		"metaTitle": "ARM Services | Déménagement Marseille & France — Devis gratuit",
 		"metaDescription": "ARM Services, déménagement à Marseille et partout en France sur devis. Devis gratuit au 06 43 09 65 97. Assurance incluse, équipe professionnelle."
 	},
+	"NotFound": {
+		"metaTitle": "Page introuvable | ARM Services",
+		"metaDescription": "Cette adresse n'existe pas sur le site ARM Services.",
+		"title": "Cette page n'existe pas",
+		"lead": "L'adresse demandée ne correspond à aucune page de ce site.",
+		"home": "Retour à l'accueil"
+	},
 	"LanguageSwitcher": {
 		"ariaLabel": "Choisir la langue",
 		"labelFr": "FR",
@@ -22,7 +29,7 @@
 		"h1Line3": "",
 		"lead": "Rapidité, sérénité et assurance professionnelle incluse — votre déménagement, notre priorité.",
 		"primaryCta": "Contacter",
-		"secondaryCta": "Demander un devis"
+		"secondaryCta": "En Savoir Plus"
 	},
 	"TrustBar": {
 		"ariaLabel": "Nos engagements",
@@ -93,7 +100,8 @@
 	},
 	"Reviews": {
 		"title": "Ils nous font confiance",
-		"starsAria": "5 étoiles",
+		"starsAria": "{{count}} étoiles sur 5",
+		"sourceApi": "Témoignages clients",
 		"yoojoBadge": "Prestataire reconnu sur",
 		"yoojoStats": "Plus de {{count}} avis, {{rating}} étoiles.",
 		"yoojoCta": "Voir notre profil Yoojo",
@@ -122,6 +130,17 @@
 		"item4Question": "Comment préparer mon déménagement ?",
 		"item4Answer": "Après validation du devis, nous planifions la date et vous indiquons les éventuelles consignes de préparation (emballage, accès, stationnement)."
 	},
+	"Blog": {
+		"metaTitle": "Blog | ARM Services",
+		"metaDescription": "Conseils et actualités déménagement d'ARM Services, à Marseille et partout en France.",
+		"articleMetaTitle": "{{title}} | ARM Services",
+		"h1": "Blog",
+		"intro": "Quelques articles sur le déménagement et nos interventions.",
+		"empty": "Aucun article publié pour le moment.",
+		"back": "← Retour à l'accueil",
+		"backToIndex": "← Tous les articles",
+		"callCta": "Appeler le {{phone}}"
+	},
 	"QuoteCTA": {
 		"title": "Obtenez votre devis gratuit",
 		"lead": "Gratuit, sans engagement — décrivez votre projet et recevez une réponse rapide.",
@@ -143,6 +162,12 @@
 		"fieldPhone": "Téléphone",
 		"fieldCompany": "Société",
 		"fieldMessage": "Message d'informations",
+		"fieldPhotos": "Photos",
+		"photosHint": "3 maximum. JPEG, PNG ou WebP. Les photos sont réduites avant l'envoi.",
+		"errorPhotosCount": "3 photos maximum.",
+		"errorPhotosType": "Choisissez des photos JPEG, PNG ou WebP.",
+		"errorPhotosRead": "Impossible de lire une photo. Essayez un autre fichier.",
+		"errorPhotosSize": "Une photo est trop lourde, même après réduction.",
 		"messagePlaceholder": "Ex. : étages (départ / arrivée), adresses complètes, type de prestation (déménagement ou livraison seule), estimation du volume (m³), contraintes d’accès et de stationnement, créneaux souhaités pour le départ et l’arrivée, meubles lourds ou fragiles, besoin d’emballage, etc.",
 		"submit": "Envoyer",
 		"close": "Fermer",
@@ -157,7 +182,8 @@
 		"imageAlt": "Équipe ARM Services en plein déménagement",
 		"brand": "ARM Services",
 		"tagline": "Déménagement — Marseille & toute la France sur devis",
-		"navAria": "Mentions légales et politiques",
+		"navAria": "Navigation du pied de page",
+		"linkBlog": "Blog",
 		"linkLegal": "Mentions légales",
 		"linkPrivacy": "Politique de confidentialité",
 		"linkTerms": "Conditions générales",

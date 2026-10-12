@@ -16,6 +16,14 @@ export const siteConfig = {
 	lang: 'fr',
 	locale: 'fr_FR',
 
+	/**
+	 * Languages this site publishes, and therefore the only ones hreflang may list.
+	 * ARM Services is French-only, so this stays `['fr']`.
+	 * A bilingual brochure site adds `'en'` and sets `ENABLE_MULTILANG=true`.
+	 * Without that flag, no `/en/` URL is generated or linked.
+	 */
+	publishedLocales: ['fr'] as readonly ('fr' | 'en')[],
+
 	/** Browser theme color (mobile) — Armenian orange */
 	themeColor: '#F2A800',
 

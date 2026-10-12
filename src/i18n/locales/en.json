@@ -7,6 +7,13 @@
 		"metaTitle": "ARM Services | Moving in Marseille & France — Free quote",
 		"metaDescription": "ARM Services: home and office moves in Marseille and across France. Free quote at 06 43 09 65 97. Insurance included, professional crew."
 	},
+	"NotFound": {
+		"metaTitle": "Page not found | ARM Services",
+		"metaDescription": "This address does not exist on the ARM Services website.",
+		"title": "This page does not exist",
+		"lead": "The address you requested does not match any page on this site.",
+		"home": "Back to home"
+	},
 	"LanguageSwitcher": {
 		"ariaLabel": "Choose language",
 		"labelFr": "FR",
@@ -22,7 +29,7 @@
 		"h1Line3": "",
 		"lead": "Speed, peace of mind and professional insurance included — your move is our priority.",
 		"primaryCta": "Contact us",
-		"secondaryCta": "Request a quote"
+		"secondaryCta": "Learn more"
 	},
 	"TrustBar": {
 		"ariaLabel": "Our commitments",
@@ -93,7 +100,8 @@
 	},
 	"Reviews": {
 		"title": "They trust us",
-		"starsAria": "5 stars",
+		"starsAria": "{{count}} stars out of 5",
+		"sourceApi": "Customer testimonials",
 		"yoojoBadge": "Recognised provider on",
 		"yoojoStats": "{{count}}+ reviews, {{rating}} stars.",
 		"yoojoCta": "View our Yoojo profile",
@@ -122,6 +130,17 @@
 		"item4Question": "How should I prepare for my move?",
 		"item4Answer": "After the quote is approved, we schedule the date and share any preparation notes (packing, access, parking)."
 	},
+	"Blog": {
+		"metaTitle": "Blog | ARM Services",
+		"metaDescription": "Moving tips and news from ARM Services, in Marseille and across France.",
+		"articleMetaTitle": "{{title}} | ARM Services",
+		"h1": "Blog",
+		"intro": "A few articles about moving and our jobs.",
+		"empty": "No articles published yet.",
+		"back": "← Back to home",
+		"backToIndex": "← All articles",
+		"callCta": "Call {{phone}}"
+	},
 	"QuoteCTA": {
 		"title": "Get your free quote",
 		"lead": "Free, no obligation — describe your project and get a fast response.",
@@ -144,6 +163,12 @@
 		"fieldPhone": "Phone",
 		"fieldCompany": "Company",
 		"fieldMessage": "Information message",
+		"fieldPhotos": "Photos",
+		"photosHint": "3 maximum. JPEG, PNG, or WebP. Photos are reduced before they are sent.",
+		"errorPhotosCount": "3 photos maximum.",
+		"errorPhotosType": "Choose JPEG, PNG, or WebP photos.",
+		"errorPhotosRead": "A photo could not be read. Try another file.",
+		"errorPhotosSize": "A photo is still too large after reduction.",
 		"messagePlaceholder": "E.g. floors (origin / destination), full addresses, service type (full move or delivery only), estimated volume (m³), access and parking constraints, preferred departure and arrival time windows, heavy or fragile items, packing needs, etc.",
 		"submit": "Send",
 		"close": "Close",
@@ -158,7 +183,8 @@
 		"imageAlt": "ARM Services team during a move",
 		"brand": "ARM Services",
 		"tagline": "Moving — Marseille & all of France by quotation",
-		"navAria": "Legal and policies",
+		"navAria": "Footer navigation",
+		"linkBlog": "Blog",
 		"linkLegal": "Legal notice",
 		"linkPrivacy": "Privacy policy",
 		"linkTerms": "Terms & conditions",

@@ -28,7 +28,11 @@ export default defineConfig({
 	site,
 	base,
 	output: 'static',
-	integrations: [sitemap()],
+	integrations: [
+		sitemap({
+			filter: (page) => !new URL(page).pathname.replace(/\/$/, '').endsWith('/404'),
+		}),
+	],
 	prefetch: {
 		prefetchAll: true,
 		defaultStrategy: 'viewport',

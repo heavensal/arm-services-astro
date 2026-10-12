@@ -5,6 +5,7 @@
  */
 import '../styles/global.css';
 import { pageHref } from '../lib/paths';
+import { publishedOgLocaleAlternate } from '../lib/seo';
 import { siteConfig } from '../site.config';
 
 interface Props {
@@ -38,6 +39,9 @@ const {
 
 const htmlLang = langProp ?? siteConfig.lang;
 const ogLocale = ogLocaleProp ?? siteConfig.locale;
+const ogAlternate =
+	ogLocaleAlternate ??
+	(htmlLang === 'fr' || htmlLang === 'en' ? publishedOgLocaleAlternate(htmlLang) : undefined);
 const pageTitle = titleProp ?? `${siteConfig.name} — ${siteConfig.tagline}`;
 const description = descriptionProp ?? siteConfig.defaultDescription;
 
@@ -101,8 +105,8 @@ const base =
 		<meta property="og:type" content="website" />
 		<meta property="og:locale" content={ogLocale} />
 		{
-			ogLocaleAlternate && (
-				<meta property="og:locale:alternate" content={ogLocaleAlternate} />
+			ogAlternate && (
+				<meta property="og:locale:alternate" content={ogAlternate} />
 			)
 		}
 		<meta property="og:site_name" content={siteConfig.name} />

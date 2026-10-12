@@ -1,19 +1,10 @@
 ---
-import {
-	contentforgeApiUrl,
-	isContentforgeEnabled,
-} from '../lib/contentforge';
+import { fetchFaqs } from '../lib/contentforge-blocks';
 import { getFixedT, type Locale } from '../i18n/i18n';
 import { siteConfig } from '../site.config';
 
 interface Props {
 	locale: Locale;
-}
-
-interface ApiFaq {
-	answer?: string;
-	question?: string;
-	position?: number;
 }
 
 interface FaqItem {
@@ -39,53 +30,8 @@ const getFallbackItems = (): FaqItem[] =>
 		})
 		.filter((item): item is FaqItem => item !== null);
 
-const faqsUrl = contentforgeApiUrl('faqs');
-const apiToken = import.meta.env.CONTENTFORGE_API_TOKEN;
-
-const getFaqItems = async (): Promise<FaqItem[]> => {
-	const fallback = getFallbackItems();
-	if (
-		!isContentforgeEnabled() ||
-		!apiToken ||
-		typeof apiToken !== 'string'
-	) {
-		return fallback;
-	}
-	try {
-		const response = await fetch(faqsUrl, {
-			headers: {
-				Authorization: `Bearer ${apiToken}`,
-				Accept: 'application/json',
-			},
-		});
-		if (!response.ok) return fallback;
-		const faqs = await response.json();
-		const rawItems = Array.isArray(faqs)
-			? faqs
-			: Array.isArray(faqs?.data)
-				? faqs.data
-				: [];
-		const fromApi = rawItems
-			.filter(
-				(faq: ApiFaq) =>
-					typeof faq?.question === 'string' &&
-					faq.question.length > 0 &&
-					typeof faq?.answer === 'string' &&
-					faq.answer.length > 0,
-			)
-			.sort((a: ApiFaq, b: ApiFaq) => (a.position ?? 0) - (b.position ?? 0))
-			.map((faq: ApiFaq) => ({
-				answer: faq.answer as string,
-				question: faq.question as string,
-			}));
-		return fromApi.length ? fromApi : fallback;
-	} catch (error) {
-		console.error('Failed to load FAQs from API', error);
-		return fallback;
-	}
-};
-
-const items = await getFaqItems();
+const fromApi = await fetchFaqs(locale);
+const items = fromApi ?? getFallbackItems();
 ---
 
 <section

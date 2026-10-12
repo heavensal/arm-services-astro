@@ -18,6 +18,8 @@ These complement the base instructions in `AGENTS.md`.
 - The company provides moving and delivery services throughout France.
 - The website targets individual and professional clients seeking reliable moving services.
 - Primary conversion goal: phone calls and quote requests.
+- French-only site. `publishedLocales` is `['fr']`. hreflang is `fr` plus `x-default` on the French URL. Do not announce `en`.
+- ContentForge imports are off: the three `CONTENTFORGE_*_ENABLED` flags are `false`. FAQ and reviews come from `fr.json`. `/blog` is not generated.
 
 ## Key Files
 
@@ -27,17 +29,18 @@ These complement the base instructions in `AGENTS.md`.
 | `src/layouts/Layout.astro` | SEO: Meta tags, Open Graph, default title/description |
 | `src/site.config.ts` | SEO/contact/social single source of truth |
 | `src/pages/index.astro` | French homepage (`LandingHome`) |
-| `src/pages/en/index.astro` | English homepage |
-| `src/pages/legal-notice.astro` / `en/legal-notice.astro` | Legal notice |
-| `src/pages/privacy-policy.astro` / `en/privacy-policy.astro` | Privacy |
-| `src/pages/terms-of-service.astro` / `en/terms-of-service.astro` | Terms (CGV) |
+| `src/pages/en/[...slug].astro` | English home and legal pages, only if `ENABLE_MULTILANG=true` |
+| `src/pages/legal-notice.astro` | Legal notice |
+| `src/pages/privacy-policy.astro` | Privacy |
+| `src/pages/terms-of-service.astro` | Terms (CGV) |
 | `src/i18n/locales/*.json` | All landing + legal copy |
 | `src/lib/seo.ts`, `src/lib/paths.ts` | hreflang helpers, JSON-LD |
-| `src/lib/contentforge.ts` | FAQ API base URL |
+| `src/lib/contentforge.ts` | Per-block flags and ContentForge fetch |
+| `src/pages/blog/`, `src/pages/en/blog/` | Blog index and article, only if `CONTENTFORGE_ARTICLES_ENABLED=true` |
 | `ContactFormDialog.astro` | Modal form: `POST` ContentForge `{ from_email, from_name, subject, message, fields }` + `Authorization: Bearer` to `PUBLIC_CONTACT_FORM_URL` |
 | `src/templates/email/contact-message.html` | Reference HTML for outbound email (placeholders) |
 | `src/lib/email/contactMailHtml.ts` | `buildArmContactEmailHtml()` for external mailer |
-| `.env` / `.env.example` | `ENABLE_MULTILANG`, `CONTENTFORGE_*`, **`PUBLIC_CONTACT_FORM_URL`**, **`PUBLIC_CONTACT_FORM_TOKEN`** |
+| `.env` / `.env.example` | `ENABLE_MULTILANG`, `CONTENTFORGE_FAQ_ENABLED`, `CONTENTFORGE_REVIEWS_ENABLED`, `CONTENTFORGE_ARTICLES_ENABLED`, `CONTENTFORGE_URL`, `CONTENTFORGE_API_TOKEN`, **`PUBLIC_CONTACT_FORM_URL`**, **`PUBLIC_CONTACT_FORM_TOKEN`** |
 | `src/styles/global.css` | Tailwind theme (Armenian colors) and animations |
 | `src/components/` | Landing page sections |
 | `public/` | Favicons, manifest, default OG image |

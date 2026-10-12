@@ -11,6 +11,8 @@ Site vitrine pour ARM Services, entreprise de déménagement basée à Marseille
 - [Fonctionnalités](#fonctionnalités)
 - [Démarrage rapide](#démarrage-rapide)
 - [Structure du projet](#structure-du-projet)
+- [Contenu ContentForge](#contenu-contentforge)
+- [Languages and hreflang](#languages-and-hreflang)
 - [Configuration](#configuration)
 - [Composants](#composants)
 - [Configuration SEO](#configuration-seo)
@@ -22,9 +24,9 @@ Site vitrine pour ARM Services, entreprise de déménagement basée à Marseille
 
 ## Fonctionnalités
 
-- **SEO** : Open Graph, Twitter Cards, canonical URLs, hreflang (FR + EN), JSON-LD, sitemap, `robots.txt` généré
-- **i18n** : français / anglais (`fr.json`, `en.json`), route `/en/` ; switcher masqué si `ENABLE_MULTILANG=false`
-- **FAQ** : ContentForge si `CONTENTFORGE_ENABLED=true` + token ; sinon texte dans `fr.json` / `en.json` (les avis viennent toujours des traductions)
+- **SEO** : Open Graph, Twitter Cards, canonical URLs, hreflang (`fr` et `x-default` uniquement), JSON-LD, sitemap, `robots.txt` généré
+- **i18n** : français publié. `ENABLE_MULTILANG=false` ne génère aucune URL `/en/`. Voir [Languages and hreflang](#languages-and-hreflang)
+- **FAQ, avis, blog** : chacun a son flag ContentForge (`true` / `false`). Détail dans [Contenu ContentForge](#contenu-contentforge)
 - **Formulaire de contact** : dialogue dans la section contact, `POST` vers ContentForge (`PUBLIC_CONTACT_FORM_URL` + **`PUBLIC_CONTACT_FORM_TOKEN`**, header `Authorization: Bearer`)
 - **Gabarit e-mail** : `src/templates/email/contact-message.html` et `buildArmContactEmailHtml()` dans `src/lib/email/contactMailHtml.ts` pour le service qui envoie les mails
 - **Sections landing** : Hero, TrustBar, Services, Process, Areas, WhyUs, Reviews, QuoteCTA, FinalCTA (inclut le formulaire), Footer
@@ -101,10 +103,7 @@ Après clonage, copier **`.env.example`** vers **`.env`** puis ajuster si besoin
 │   │   ├── terms-of-service.astro
 │   │   ├── robots.txt.ts
 │   │   └── en/
-│   │       ├── index.astro
-│   │       ├── legal-notice.astro
-│   │       ├── privacy-policy.astro
-│   │       └── terms-of-service.astro
+│   │       └── [...slug].astro  # /en/ only when ENABLE_MULTILANG=true
 │   └── styles/
 │       └── global.css        # Tailwind + thème arménien + animations
 ├── astro.config.mjs          # SEO: Site URL et base path
@@ -113,7 +112,44 @@ Après clonage, copier **`.env.example`** vers **`.env`** puis ajuster si besoin
 └── .cursor/rules/            # Règles Cursor AI
 ```
 
+Pages blog (générées seulement si `CONTENTFORGE_ARTICLES_ENABLED=true` et si la locale est dans `publishedLocales`) : `src/pages/blog/[...slug].astro` et `src/pages/en/blog/[...slug].astro`. `/en/blog` exige aussi `ENABLE_MULTILANG=true`. Sur ARM Services les deux sont coupés (`ENABLE_MULTILANG=false`, articles `false`, `publishedLocales` = `['fr']`), donc aucune page blog et aucune URL `/en/`.
+
 ---
+
+## Contenu ContentForge
+
+ContentForge est le CMS (autre dépôt). Ce site ne fait qu’afficher. Trois blocs peuvent être branchés, **indépendamment** :
+
+| Variable | `true` | `false`, ou API injoignable |
+| --- | --- | --- |
+| `CONTENTFORGE_FAQ_ENABLED` | `GET /faqs` | textes `Faq.*` dans `fr.json` / `en.json` |
+| `CONTENTFORGE_REVIEWS_ENABLED` | `GET /reviews` (note 1–5 du modèle) | textes `Reviews.r*`, 5 étoiles |
+| `CONTENTFORGE_ARTICLES_ENABLED` | `GET /articles` et `GET /articles/:slug` → `/blog` et `/blog/[slug]`. `/en/blog` seulement si `ENABLE_MULTILANG=true` et `en` est dans `publishedLocales` | ces pages ne sont pas générées |
+
+**ARM Services n’importe rien** : les trois flags restent `false` (fichier `.env` et secrets GitHub Actions). La FAQ et les avis viennent de `fr.json`. `/blog` n’est pas généré.
+
+`CONTENTFORGE_URL` et `CONTENTFORGE_API_TOKEN` sont communs. Un autre site peut publier un blog (`ARTICLES=true`) sans avis CMS (`REVIEWS=false`).
+
+La lecture a lieu **au build**. En production, les mêmes noms sont des secrets GitHub Actions (`deploy.yml`). Pour ce site ils doivent rester vides ou `false`. Hero, services, processus, zones, pages légales, téléphone et devis restent dans ce dépôt.
+
+## Languages and hreflang
+
+ARM Services publishes French only. Some brochure sites publish French and English; this one does not.
+
+`src/site.config.ts` sets `publishedLocales` to `['fr']`. hreflang may list only those languages. On every page the head contains:
+
+- `hreflang="fr"` → the French URL for that page
+- `hreflang="x-default"` → the same French URL
+
+There is no `hreflang="en"`. `og:locale:alternate` is omitted. JSON-LD `inLanguage` is `fr-FR` only.
+
+`ENABLE_MULTILANG=false` (this site) generates no `/en/` URL and hides the hero switcher. hreflang stays `fr` and `x-default`.
+
+`ENABLE_MULTILANG=true` generates `/en/` (home and legal pages) and shows the switcher. hreflang lists `en` only when `'en'` is also in `publishedLocales`. `/en/blog` exists only when articles are enabled and English is published.
+
+A blog article that exists in only one published locale does not advertise the missing translation: `/blog/mon-article` does not point at `/en/blog/mon-article` when that slug was not returned for English.
+
+ContentForge stays off on this site (`CONTENTFORGE_FAQ_ENABLED`, `CONTENTFORGE_REVIEWS_ENABLED`, and `CONTENTFORGE_ARTICLES_ENABLED` are all `false`), so no blog URLs are generated today. The hreflang rule above still applies to the home page and the legal pages, and to the blog if articles are turned on later.
 
 ## Configuration
 
@@ -290,7 +326,7 @@ Le workflow `.github/workflows/deploy.yml` build et déploie sur push vers `main
 
 1. **Repository** → **Settings** → **Pages** : source **GitHub Actions**
 2. Configurer `site` et `base` dans `astro.config.mjs`
-3. **Settings** → **Secrets and variables** → **Actions** : ajouter **`PUBLIC_CONTACT_FORM_URL`** et **`PUBLIC_CONTACT_FORM_TOKEN`** (le workflow les injecte au `pnpm run build`)
+3. **Settings** → **Secrets and variables** → **Actions** : ajouter **`PUBLIC_CONTACT_FORM_URL`**, **`PUBLIC_CONTACT_FORM_TOKEN`**, et si un bloc CMS est actif **`CONTENTFORGE_URL`**, **`CONTENTFORGE_API_TOKEN`**, **`CONTENTFORGE_FAQ_ENABLED`**, **`CONTENTFORGE_REVIEWS_ENABLED`**, **`CONTENTFORGE_ARTICLES_ENABLED`** (`true` ou `false`). Le workflow les injecte au `pnpm run build`.
 
 Le formulaire de contact nécessite **`PUBLIC_CONTACT_FORM_URL`** (ex. `https://contentforge.1344.fr/api/v1/send_form`) et **`PUBLIC_CONTACT_FORM_TOKEN`** dans `.env` (secrets GitHub Actions pour le déploiement). ContentForge doit autoriser le site en **CORS**.
 

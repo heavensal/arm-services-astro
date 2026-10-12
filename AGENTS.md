@@ -6,11 +6,12 @@ They are reusable base instructions for Astro projects.
 ## First Steps
 
 **READ THE README.md FIRST.** It contains essential documentation about:
+
 - Project structure and file organization
 - Component patterns and usage
 - SEO configuration (`astro.config.mjs`, `Layout.astro`, `public/` assets)
-- Legal pages under `src/pages/` (`legal-notice`, `privacy-policy`, `terms-of-service`, plus `en/` mirrors)
-- i18n (`src/i18n/locales/`, `getFixedT(locale)`) and optional ContentForge FAQ
+- Legal pages under `src/pages/` (`legal-notice`, `privacy-policy`, `terms-of-service`). `/en/` exists only when `ENABLE_MULTILANG=true`
+- i18n (`src/i18n/locales/`, `getFixedT(locale)`) and optional ContentForge blocks (FAQ, reviews, articles), each toggled in `.env`
 - Styling guidelines, Armenian theme, and animations in `src/styles/global.css`
 
 Also read **`AGENTS.project.md`** for ARM Services–specific context (conversion, palette, component workflow).
@@ -19,7 +20,9 @@ Also read **`AGENTS.project.md`** for ARM Services–specific context (conversio
 
 - All user-facing strings live in **`src/i18n/locales/fr.json`** and **`en.json`**, loaded via **`getFixedT(locale)`**.
 - Section components take a required **`locale: 'fr' | 'en'`** prop (see `LandingHome.astro`).
-- **`ENABLE_MULTILANG`** (`.env`): when `false`, the FR/EN switcher is hidden; English routes (`/en/`, legal pages under `en/`) remain available for SEO and direct links.
+- **`publishedLocales`** in `src/site.config.ts` is the hreflang list. ARM Services is French-only: `['fr']`, so the head has `fr` and `x-default` (both the French URL) and no `en`. See README “Languages and hreflang”.
+- **`ENABLE_MULTILANG`** (`.env`): when `false`, no `/en/` page is generated and the hero switcher is hidden. When `true`, `/en/` home and legal pages exist. hreflang still follows `publishedLocales`.
+- ARM Services does not import ContentForge. `CONTENTFORGE_FAQ_ENABLED`, `CONTENTFORGE_REVIEWS_ENABLED`, and `CONTENTFORGE_ARTICLES_ENABLED` stay `false`.
 - Keep component and variable names in English.
 
 ## Architecture and Components

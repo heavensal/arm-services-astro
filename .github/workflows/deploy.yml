@@ -5,6 +5,8 @@ on:
     branches: [main]
   pull_request:
     branches: [main]
+  repository_dispatch:
+    types: [contentforge-rebuild]
 
 permissions:
   contents: read
@@ -12,7 +14,7 @@ permissions:
   id-token: write
 
 concurrency:
-  group: pages
+  group: pages-${{ github.ref }}
   cancel-in-progress: true
 
 jobs:
@@ -32,12 +34,18 @@ jobs:
         env:
           PUBLIC_CONTACT_FORM_URL: ${{ secrets.PUBLIC_CONTACT_FORM_URL }}
           PUBLIC_CONTACT_FORM_TOKEN: ${{ secrets.PUBLIC_CONTACT_FORM_TOKEN }}
+          CONTENTFORGE_URL: ${{ secrets.CONTENTFORGE_URL }}
+          CONTENTFORGE_API_TOKEN: ${{ secrets.CONTENTFORGE_API_TOKEN }}
+          # ARM Services imports nothing. Leave these unset or set them to the string false.
+          CONTENTFORGE_FAQ_ENABLED: ${{ secrets.CONTENTFORGE_FAQ_ENABLED }}
+          CONTENTFORGE_REVIEWS_ENABLED: ${{ secrets.CONTENTFORGE_REVIEWS_ENABLED }}
+          CONTENTFORGE_ARTICLES_ENABLED: ${{ secrets.CONTENTFORGE_ARTICLES_ENABLED }}
       - uses: actions/upload-pages-artifact@v3
         with:
           path: ./dist
 
   deploy:
-    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    if: github.event_name == 'repository_dispatch' || (github.event_name == 'push' && github.ref == 'refs/heads/main')
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
