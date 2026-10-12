@@ -1,8 +1,8 @@
 # ARM Services — Site Vitrine Déménagement
 
-Site vitrine pour ARM Services, entreprise de déménagement basée à Marseille. Construit avec Astro 6, Tailwind 4, SEO complet (sitemap, Open Graph), déploiement GitHub Pages.
+Site vitrine pour ARM Services, entreprise de déménagement basée à Marseille. Construit avec Astro 7, Tailwind 4, SEO complet (sitemap, Open Graph), déploiement GitHub Pages.
 
-**Prérequis :** Node.js ≥ 22.12 (voir `package.json` → `engines`).
+**Prérequis :** Node.js ≥ 24 (voir `package.json` → `engines`).
 
 ---
 
