@@ -2,4 +2,4 @@ allowBuilds:
   esbuild: true
   sharp: false
 minimumReleaseAgeExclude:
-  - astro@7.3.7
+  - i18next@26.4.4
