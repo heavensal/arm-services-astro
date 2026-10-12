@@ -29,10 +29,10 @@ These complement the base instructions in `AGENTS.md`.
 | `src/layouts/Layout.astro` | SEO: Meta tags, Open Graph, default title/description |
 | `src/site.config.ts` | SEO/contact/social single source of truth |
 | `src/pages/index.astro` | French homepage (`LandingHome`) |
-| `src/pages/en/index.astro` | English homepage |
-| `src/pages/legal-notice.astro` / `en/legal-notice.astro` | Legal notice |
-| `src/pages/privacy-policy.astro` / `en/privacy-policy.astro` | Privacy |
-| `src/pages/terms-of-service.astro` / `en/terms-of-service.astro` | Terms (CGV) |
+| `src/pages/en/[...slug].astro` | English home and legal pages, only if `ENABLE_MULTILANG=true` |
+| `src/pages/legal-notice.astro` | Legal notice |
+| `src/pages/privacy-policy.astro` | Privacy |
+| `src/pages/terms-of-service.astro` | Terms (CGV) |
 | `src/i18n/locales/*.json` | All landing + legal copy |
 | `src/lib/seo.ts`, `src/lib/paths.ts` | hreflang helpers, JSON-LD |
 | `src/lib/contentforge.ts` | Per-block flags and ContentForge fetch |

@@ -1,0 +1,75 @@
+---
+import LandingHome from '../../components/LandingHome.astro';
+import LegalNoticeArticle from '../../components/legal/LegalNoticeArticle.astro';
+import PrivacyArticle from '../../components/legal/PrivacyArticle.astro';
+import TermsArticle from '../../components/legal/TermsArticle.astro';
+import { getFixedT, isMultilangEnabled, type Locale } from '../../i18n/i18n';
+import Layout from '../../layouts/Layout.astro';
+import { pageRoutes } from '../../lib/paths';
+import {
+	absolutePageUrl,
+	buildHomeAlternateLanguages,
+	buildLandingJsonLd,
+	buildLegalAlternateLanguages,
+	getAlternateLanguageUrls,
+} from '../../lib/seo';
+
+type EnglishKind = 'home' | 'legal-notice' | 'privacy-policy' | 'terms-of-service';
+
+export function getStaticPaths() {
+	if (!isMultilangEnabled()) return [];
+	return [
+		{ params: { slug: undefined }, props: { kind: 'home' satisfies EnglishKind } },
+		{ params: { slug: pageRoutes.legalNotice }, props: { kind: 'legal-notice' satisfies EnglishKind } },
+		{ params: { slug: pageRoutes.privacyPolicy }, props: { kind: 'privacy-policy' satisfies EnglishKind } },
+		{
+			params: { slug: pageRoutes.termsOfService },
+			props: { kind: 'terms-of-service' satisfies EnglishKind },
+		},
+	];
+}
+
+interface Props {
+	kind: EnglishKind;
+}
+
+const { kind } = Astro.props;
+const locale: Locale = 'en';
+const t = getFixedT(locale);
+const meta = {
+	home: { title: t('LandingPage.metaTitle'), description: t('LandingPage.metaDescription') },
+	'legal-notice': { title: t('LegalNotice.metaTitle'), description: t('LegalNotice.metaDescription') },
+	'privacy-policy': { title: t('Privacy.metaTitle'), description: t('Privacy.metaDescription') },
+	'terms-of-service': { title: t('Terms.metaTitle'), description: t('Terms.metaDescription') },
+}[kind];
+const frenchPath = {
+	home: undefined,
+	'legal-notice': pageRoutes.legalNotice,
+	'privacy-policy': pageRoutes.privacyPolicy,
+	'terms-of-service': pageRoutes.termsOfService,
+}[kind];
+const homeAlternates = kind === 'home' ? getAlternateLanguageUrls(Astro.site) : undefined;
+const alternateLanguages =
+	kind === 'home'
+		? buildHomeAlternateLanguages(homeAlternates)
+		: buildLegalAlternateLanguages(
+				frenchPath ? absolutePageUrl(Astro.site, frenchPath) : undefined,
+				frenchPath ? absolutePageUrl(Astro.site, `en/${frenchPath}`) : undefined,
+			);
+---
+
+<Layout
+	lang="en"
+	ogLocale="en_US"
+	title={meta.title}
+	description={meta.description}
+	alternateLanguages={alternateLanguages}
+	jsonLd={homeAlternates ? buildLandingJsonLd(homeAlternates) : undefined}
+	skipToContentLabel={t('Layout.skipToContent')}
+	ogImageAlt={kind === 'home' ? t('Layout.ogImageAlt') : undefined}
+>
+	{kind === 'home' && <LandingHome locale={locale} />}
+	{kind === 'legal-notice' && <LegalNoticeArticle locale={locale} />}
+	{kind === 'privacy-policy' && <PrivacyArticle locale={locale} />}
+	{kind === 'terms-of-service' && <TermsArticle locale={locale} />}
+</Layout>

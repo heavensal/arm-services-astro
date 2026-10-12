@@ -32,8 +32,10 @@ export function getFixedT(locale: Locale) {
 }
 
 /**
- * Controls the FR/EN switcher in the hero only.
- * English routes remain available for SEO and direct links when this is false.
+ * `.env` switch for every `/en/` URL.
+ * `false`: French only — no English pages and no `/en/` links.
+ * `true`: `/en/` home and legal pages are generated, and the hero switcher is shown.
+ * hreflang still lists only `siteConfig.publishedLocales`.
  */
 export function isMultilangEnabled(): boolean {
 	return import.meta.env.ENABLE_MULTILANG === 'true';

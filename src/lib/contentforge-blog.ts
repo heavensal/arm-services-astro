@@ -44,7 +44,7 @@ function readSummary(item: unknown): CmsArticleSummary | null {
 const indexPromises = new Map<Locale, Promise<CmsArticleSummary[] | null>>();
 const articlePromises = new Map<string, Promise<CmsArticle | null>>();
 
-/** Article index, or null when the request failed. An empty array is a successful CMS with no posts. */
+/** Published summaries, or null when the index request failed. An empty array is a reachable API with no posts. */
 async function loadArticleIndex(locale: Locale): Promise<CmsArticleSummary[] | null> {
 	let pending = indexPromises.get(locale);
 	if (!pending) {
@@ -83,18 +83,13 @@ export async function fetchArticle(slug: string, locale: Locale): Promise<CmsArt
 	return pending;
 }
 
-/** True when this locale is published, the index loaded, and, for an article, that slug exists there. */
+/** True when this locale is published and the index loaded. For an article, that slug must exist there. */
 async function publishesBlogPath(locale: Locale, slug?: string): Promise<boolean> {
 	if (!isArticlesEnabled() || !isPublishedLocale(locale)) return false;
 	const posts = await loadArticleIndex(locale);
-	if (!posts) return false;
+	if (posts == null) return false;
 	if (!slug) return true;
 	return posts.some((post) => post.slug === slug);
-}
-
-/** True when /blog is generated for this locale. */
-export function isBlogPublished(locale: Locale): Promise<boolean> {
-	return publishesBlogPath(locale);
 }
 
 /**
@@ -111,11 +106,14 @@ export async function publishedBlogPaths(
 	return paths;
 }
 
-/** Static paths for /blog and /blog/[slug]. Empty when articles are off, the locale is unpublished, or the index request failed. */
+/** Static paths for /blog and /blog/[slug]. Empty when articles are off, the locale is not published, or the index request failed. */
 export async function blogStaticPaths(locale: Locale): Promise<BlogPath[]> {
 	if (!isArticlesEnabled() || !isPublishedLocale(locale)) return [];
 	const posts = await loadArticleIndex(locale);
-	if (!posts) return [];
+	if (posts == null) {
+		console.error(`ContentForge articles unavailable (${locale}); blog pages were not generated`);
+		return [];
+	}
 	const index: BlogPath = {
 		params: { slug: undefined },
 		props: { article: null, posts },

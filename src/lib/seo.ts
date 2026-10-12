@@ -1,11 +1,16 @@
+import { isMultilangEnabled } from '../i18n/i18n';
 import { siteConfig } from '../site.config';
 
 export type SiteLocale = 'fr' | 'en';
 
 const localeOrder: readonly SiteLocale[] = ['fr', 'en'];
 
-/** True when this brochure site publishes that language. ARM Services: French only. */
+/**
+ * True when this brochure site publishes that language.
+ * English also requires `ENABLE_MULTILANG=true`, so a French-only `.env` never announces `/en/`.
+ */
 export function isPublishedLocale(locale: SiteLocale): boolean {
+	if (locale === 'en' && !isMultilangEnabled()) return false;
 	return siteConfig.publishedLocales.some((published) => published === locale);
 }
 
@@ -66,9 +71,9 @@ export function buildLandingJsonLd(alternates: {
 				'@id': `${alternates.fr}#website`,
 				url: alternates.fr,
 				name: siteConfig.name,
-				inLanguage: siteConfig.publishedLocales.map((locale) =>
-					locale === 'fr' ? 'fr-FR' : 'en-US',
-				),
+				inLanguage: siteConfig.publishedLocales
+					.filter((locale) => isPublishedLocale(locale))
+					.map((locale) => (locale === 'fr' ? 'fr-FR' : 'en-US')),
 				publisher: { '@id': orgId },
 			},
 		],

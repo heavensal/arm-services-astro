@@ -19,7 +19,8 @@ export const siteConfig = {
 	/**
 	 * Languages this site publishes, and therefore the only ones hreflang may list.
 	 * ARM Services is French-only, so this stays `['fr']`.
-	 * A bilingual brochure site adds `'en'` — and must have a real page for every URL it announces.
+	 * A bilingual brochure site adds `'en'` and sets `ENABLE_MULTILANG=true`.
+	 * Without that flag, no `/en/` URL is generated or linked.
 	 */
 	publishedLocales: ['fr'] as readonly ('fr' | 'en')[],
 

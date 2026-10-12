@@ -1,7 +1,7 @@
 ---
 import { getFixedT, type Locale } from '../../i18n/i18n';
 import { formatCmsDate, type CmsArticle } from '../../lib/contentforge-blog';
-import { pageHref, pageRoutes } from '../../lib/paths';
+import { localePathPrefix, pageHref, pageRoutes } from '../../lib/paths';
 import { siteConfig } from '../../site.config';
 
 interface Props {
@@ -11,7 +11,7 @@ interface Props {
 
 const { locale, article } = Astro.props;
 const t = getFixedT(locale);
-const prefix = locale === 'en' ? 'en/' : '';
+const prefix = localePathPrefix(locale);
 const blogUrl = pageHref(`${prefix}${pageRoutes.blog}`);
 const date = formatCmsDate(article.publishedAt, locale);
 const telHref = `tel:${siteConfig.contact.phone.replace(/\s/g, '')}`;
