@@ -7,6 +7,13 @@
 		"metaTitle": "ARM Services | Déménagement Marseille & France — Devis gratuit",
 		"metaDescription": "ARM Services, déménagement à Marseille et partout en France sur devis. Devis gratuit au 06 43 09 65 97. Assurance incluse, équipe professionnelle."
 	},
+	"NotFound": {
+		"metaTitle": "Page introuvable | ARM Services",
+		"metaDescription": "Cette adresse n'existe pas sur le site ARM Services.",
+		"title": "Cette page n'existe pas",
+		"lead": "L'adresse demandée ne correspond à aucune page de ce site.",
+		"home": "Retour à l'accueil"
+	},
 	"LanguageSwitcher": {
 		"ariaLabel": "Choisir la langue",
 		"labelFr": "FR",

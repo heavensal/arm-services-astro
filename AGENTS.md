@@ -6,6 +6,7 @@ They are reusable base instructions for Astro projects.
 ## First Steps
 
 **READ THE README.md FIRST.** It contains essential documentation about:
+
 - Project structure and file organization
 - Component patterns and usage
 - SEO configuration (`astro.config.mjs`, `Layout.astro`, `public/` assets)

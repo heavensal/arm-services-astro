@@ -1,0 +1,66 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { getFixedT, isMultilangEnabled } from '../i18n/i18n';
+import { pageHref } from '../lib/paths';
+
+const fr = getFixedT('fr');
+const en = getFixedT('en');
+const showEnglish = isMultilangEnabled();
+const homeFr = pageHref('');
+const homeEn = pageHref('en/');
+const homeClass =
+	'mt-8 inline-flex cursor-pointer items-center justify-center rounded-lg bg-orange-armenian px-8 py-4 font-semibold text-white transition-colors hover:brightness-95 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-armenian focus-visible:ring-offset-2 focus-visible:ring-offset-gray-100';
+---
+
+<Layout
+	lang="fr"
+	ogLocale="fr_FR"
+	title={fr('NotFound.metaTitle')}
+	description={fr('NotFound.metaDescription')}
+	robots="noindex, nofollow"
+	skipToContentLabel={fr('Layout.skipToContent')}
+>
+	<main id="main-content" class="flex min-h-screen items-center bg-gray-100 px-4 py-16">
+		<section class="mx-auto w-full max-w-xl text-center" aria-labelledby="not-found-title" data-not-found="fr">
+			<p class="text-sm font-semibold text-red-armenian">404</p>
+			<h1 id="not-found-title" class="mt-3 text-3xl font-bold text-gray-900 md:text-4xl">
+				{fr('NotFound.title')}
+			</h1>
+			<p class="mt-4 text-lg leading-relaxed text-gray-600">{fr('NotFound.lead')}</p>
+			<a href={homeFr} class={homeClass}>{fr('NotFound.home')}</a>
+		</section>
+		{
+			showEnglish && (
+				<section class="mx-auto w-full max-w-xl text-center" aria-labelledby="not-found-title-en" data-not-found="en" hidden>
+					<p class="text-sm font-semibold text-red-armenian">404</p>
+					<h1 id="not-found-title-en" class="mt-3 text-3xl font-bold text-gray-900 md:text-4xl">
+						{en('NotFound.title')}
+					</h1>
+					<p class="mt-4 text-lg leading-relaxed text-gray-600">{en('NotFound.lead')}</p>
+					<a href={homeEn} class={homeClass}>
+						{en('NotFound.home')}
+					</a>
+				</section>
+			)
+		}
+	</main>
+	{
+		showEnglish && (
+			<script define:vars={{ enTitle: en('NotFound.metaTitle'), enSkip: en('Layout.skipToContent'), enPrefix: homeEn }}>
+				const path = window.location.pathname.replace(/\/$/, '') || '/';
+				const prefix = enPrefix.replace(/\/$/, '');
+				const english = path === prefix || path.startsWith(`${prefix}/`);
+				if (english) {
+					document.documentElement.lang = 'en';
+					document.title = enTitle;
+					const french = document.querySelector('[data-not-found="fr"]');
+					const englishPanel = document.querySelector('[data-not-found="en"]');
+					if (french instanceof HTMLElement) french.hidden = true;
+					if (englishPanel instanceof HTMLElement) englishPanel.hidden = false;
+					const skip = document.querySelector('.skip-link');
+					if (skip) skip.textContent = enSkip;
+				}
+			</script>
+		)
+	}
+</Layout>

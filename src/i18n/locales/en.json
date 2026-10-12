@@ -7,6 +7,13 @@
 		"metaTitle": "ARM Services | Moving in Marseille & France — Free quote",
 		"metaDescription": "ARM Services: home and office moves in Marseille and across France. Free quote at 06 43 09 65 97. Insurance included, professional crew."
 	},
+	"NotFound": {
+		"metaTitle": "Page not found | ARM Services",
+		"metaDescription": "This address does not exist on the ARM Services website.",
+		"title": "This page does not exist",
+		"lead": "The address you requested does not match any page on this site.",
+		"home": "Back to home"
+	},
 	"LanguageSwitcher": {
 		"ariaLabel": "Choose language",
 		"labelFr": "FR",
