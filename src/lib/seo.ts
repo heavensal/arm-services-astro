@@ -1,5 +1,8 @@
 import { isMultilangEnabled } from '../i18n/i18n';
+import { buildHomeJsonLd, buildLegalNoticeJsonLd } from './jsonld';
 import { siteConfig } from '../site.config';
+
+export { buildLegalNoticeJsonLd };
 
 export type SiteLocale = 'fr' | 'en';
 
@@ -45,39 +48,15 @@ export function absolutePageUrl(
 	return new URL(base + clean, site).href;
 }
 
-/** JSON-LD for home (Organization + WebSite). */
-export function buildLandingJsonLd(alternates: {
-	fr: string;
-	en: string;
-}): Record<string, unknown> {
-	const orgId = `${alternates.fr}#organization`;
-	const organization: Record<string, unknown> = {
-		'@type': 'Organization',
-		'@id': orgId,
-		name: siteConfig.name,
-		url: alternates.fr,
-		email: siteConfig.contact.email,
-		telephone: siteConfig.contact.phone,
-	};
-	if (siteConfig.sameAs.length > 0) {
-		organization.sameAs = [...siteConfig.sameAs];
-	}
-	return {
-		'@context': 'https://schema.org',
-		'@graph': [
-			organization,
-			{
-				'@type': 'WebSite',
-				'@id': `${alternates.fr}#website`,
-				url: alternates.fr,
-				name: siteConfig.name,
-				inLanguage: siteConfig.publishedLocales
-					.filter((locale) => isPublishedLocale(locale))
-					.map((locale) => (locale === 'fr' ? 'fr-FR' : 'en-US')),
-				publisher: { '@id': orgId },
-			},
-		],
-	};
+/** JSON-LD for home: MovingCompany (service area) + WebSite. */
+export function buildLandingJsonLd(
+	alternates: { fr: string; en: string },
+	locale: SiteLocale = 'fr',
+): Record<string, unknown> {
+	const inLanguage = siteConfig.publishedLocales
+		.filter((published) => isPublishedLocale(published))
+		.map((published) => (published === 'fr' ? 'fr-FR' : 'en-US'));
+	return buildHomeJsonLd(alternates.fr, locale, inLanguage);
 }
 
 /**

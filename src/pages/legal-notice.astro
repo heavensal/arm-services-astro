@@ -2,13 +2,14 @@
 import Layout from '../layouts/Layout.astro';
 import LegalNoticeArticle from '../components/legal/LegalNoticeArticle.astro';
 import { getFixedT, type Locale } from '../i18n/i18n';
-import { absolutePageUrl, buildLegalAlternateLanguages } from '../lib/seo';
+import { absolutePageUrl, buildLegalAlternateLanguages, buildLegalNoticeJsonLd } from '../lib/seo';
 import { pageRoutes } from '../lib/paths';
 
 const locale: Locale = 'fr';
 const t = getFixedT(locale);
 const frUrl = absolutePageUrl(Astro.site, pageRoutes.legalNotice);
 const enUrl = absolutePageUrl(Astro.site, `en/${pageRoutes.legalNotice}`);
+const homeUrl = absolutePageUrl(Astro.site, '');
 ---
 
 <Layout
@@ -17,6 +18,7 @@ const enUrl = absolutePageUrl(Astro.site, `en/${pageRoutes.legalNotice}`);
 	title={t('LegalNotice.metaTitle')}
 	description={t('LegalNotice.metaDescription')}
 	alternateLanguages={buildLegalAlternateLanguages(frUrl, enUrl)}
+	jsonLd={homeUrl ? buildLegalNoticeJsonLd(homeUrl) : undefined}
 	skipToContentLabel={t('Layout.skipToContent')}
 >
 	<LegalNoticeArticle locale={locale} />

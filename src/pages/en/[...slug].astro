@@ -11,6 +11,7 @@ import {
 	buildHomeAlternateLanguages,
 	buildLandingJsonLd,
 	buildLegalAlternateLanguages,
+	buildLegalNoticeJsonLd,
 	getAlternateLanguageUrls,
 } from '../../lib/seo';
 
@@ -49,6 +50,7 @@ const frenchPath = {
 	'terms-of-service': pageRoutes.termsOfService,
 }[kind];
 const homeAlternates = kind === 'home' ? getAlternateLanguageUrls(Astro.site) : undefined;
+const homeFr = absolutePageUrl(Astro.site, '');
 const alternateLanguages =
 	kind === 'home'
 		? buildHomeAlternateLanguages(homeAlternates)
@@ -64,7 +66,13 @@ const alternateLanguages =
 	title={meta.title}
 	description={meta.description}
 	alternateLanguages={alternateLanguages}
-	jsonLd={homeAlternates ? buildLandingJsonLd(homeAlternates) : undefined}
+	jsonLd={
+		kind === 'home' && homeAlternates
+			? buildLandingJsonLd(homeAlternates, 'en')
+			: kind === 'legal-notice' && homeFr
+				? buildLegalNoticeJsonLd(homeFr)
+				: undefined
+	}
 	skipToContentLabel={t('Layout.skipToContent')}
 	ogImageAlt={kind === 'home' ? t('Layout.ogImageAlt') : undefined}
 >
