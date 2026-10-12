@@ -41,15 +41,16 @@ function readSummary(item: unknown): CmsArticleSummary | null {
 	};
 }
 
-const indexPromises = new Map<Locale, Promise<CmsArticleSummary[]>>();
+const indexPromises = new Map<Locale, Promise<CmsArticleSummary[] | null>>();
 const articlePromises = new Map<string, Promise<CmsArticle | null>>();
 
-async function loadArticleIndex(locale: Locale): Promise<CmsArticleSummary[]> {
+/** Article index, or null when the request failed. An empty array is a successful CMS with no posts. */
+async function loadArticleIndex(locale: Locale): Promise<CmsArticleSummary[] | null> {
 	let pending = indexPromises.get(locale);
 	if (!pending) {
 		pending = (async () => {
 			const payload = await fetchContentforge('articles', locale);
-			if (payload == null) return [];
+			if (payload == null) return null;
 			return asList(payload).flatMap((item) => {
 				const summary = readSummary(item);
 				return summary ? [summary] : [];
@@ -82,12 +83,18 @@ export async function fetchArticle(slug: string, locale: Locale): Promise<CmsArt
 	return pending;
 }
 
-/** True when this locale is published and, for an article, that slug exists there. */
+/** True when this locale is published, the index loaded, and, for an article, that slug exists there. */
 async function publishesBlogPath(locale: Locale, slug?: string): Promise<boolean> {
 	if (!isArticlesEnabled() || !isPublishedLocale(locale)) return false;
-	if (!slug) return true;
 	const posts = await loadArticleIndex(locale);
+	if (!posts) return false;
+	if (!slug) return true;
 	return posts.some((post) => post.slug === slug);
+}
+
+/** True when /blog is generated for this locale. */
+export function isBlogPublished(locale: Locale): Promise<boolean> {
+	return publishesBlogPath(locale);
 }
 
 /**
@@ -104,10 +111,11 @@ export async function publishedBlogPaths(
 	return paths;
 }
 
-/** Static paths for /blog and /blog/[slug]. Empty when articles are off or the locale is not published. */
+/** Static paths for /blog and /blog/[slug]. Empty when articles are off, the locale is unpublished, or the index request failed. */
 export async function blogStaticPaths(locale: Locale): Promise<BlogPath[]> {
 	if (!isArticlesEnabled() || !isPublishedLocale(locale)) return [];
 	const posts = await loadArticleIndex(locale);
+	if (!posts) return [];
 	const index: BlogPath = {
 		params: { slug: undefined },
 		props: { article: null, posts },

@@ -116,6 +116,7 @@ export function initArmContactForm(): void {
 					from_email: email,
 					from_name: `${firstName} ${lastName}`.trim(),
 					subject: config.subject,
+					message: message || '—',
 					fields: {
 						nom: lastName,
 						prénom: firstName,
