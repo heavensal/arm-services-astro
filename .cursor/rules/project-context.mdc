@@ -12,10 +12,10 @@ alwaysApply: true
 - Project structure and file organization
 - Component patterns (`locale`, `getFixedT`, `LandingHome`)
 - SEO configuration and `// SEO:` markers (`astro.config.mjs`, Layout, `public/`)
-- Legal pages: `legal-notice`, `privacy-policy`, `terms-of-service`. English copies exist only when `ENABLE_MULTILANG=true`
+- Legal pages use French slugs: `mentions-legales`, `politique-de-confidentialite`, `conditions-generales`. English copies (`/en/legal-notice`, `/en/privacy-policy`, `/en/terms-of-service`) exist only when `ENABLE_MULTILANG=true`
 - Tailwind styling conventions, Armenian theme, and `global.css` animations
 
-**Also read `AGENTS.md` and `AGENTS.project.md`** (Codex / other agents use the same guidance).
+**Also read `AGENTS.md`, `AGENTS.project.md`, and `MULTILANG.md`.** `MULTILANG.md` is mandatory for languages, public URLs, slugs, and hreflang. Codex, Claude, Cursor, and GitHub Copilot use the same file.
 
 ## Content and Language
 

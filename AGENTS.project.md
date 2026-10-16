@@ -5,11 +5,11 @@ These complement the base instructions in `AGENTS.md`.
 
 ## First Steps
 
-**READ THE README.md FIRST** to understand:
+**READ THE README.md FIRST**, then **`MULTILANG.md`** (one language vs several: public slugs, `/en/`, hreflang). Understand:
 - How to configure the project (`astro.config.mjs`, `Layout.astro`, `public/` static assets)
 - Component patterns and usage
 - SEO configuration and `// SEO:` markers in code
-- Legal pages (English slugs, FR + `en/` routes), i18n JSON, `.env` / ContentForge / **`PUBLIC_CONTACT_FORM_URL`** + **`PUBLIC_CONTACT_FORM_TOKEN`**
+- Legal pages (French slugs; English slugs under `/en/` only when multilang is on), i18n JSON, `.env` / ContentForge / **`PUBLIC_CONTACT_FORM_URL`** + **`PUBLIC_CONTACT_FORM_TOKEN`**
 - Tailwind styling conventions, Armenian theme, and `global.css` animations
 
 ## Project Context
@@ -30,9 +30,9 @@ These complement the base instructions in `AGENTS.md`.
 | `src/site.config.ts` | SEO/contact/social single source of truth |
 | `src/pages/index.astro` | French homepage (`LandingHome`) |
 | `src/pages/en/[...slug].astro` | English home and legal pages, only if `ENABLE_MULTILANG=true` |
-| `src/pages/legal-notice.astro` | Legal notice |
-| `src/pages/privacy-policy.astro` | Privacy |
-| `src/pages/terms-of-service.astro` | Terms (CGV) |
+| `src/pages/mentions-legales.astro` | Legal notice (`/mentions-legales`) |
+| `src/pages/politique-de-confidentialite.astro` | Privacy (`/politique-de-confidentialite`) |
+| `src/pages/conditions-generales.astro` | Terms (`/conditions-generales`) |
 | `src/i18n/locales/*.json` | All landing + legal copy |
 | `src/lib/seo.ts`, `src/lib/paths.ts` | hreflang helpers, JSON-LD |
 | `src/lib/contentforge.ts` | Per-block flags and ContentForge fetch |

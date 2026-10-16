@@ -1,23 +1,23 @@
 ---
 import Layout from '../layouts/Layout.astro';
-import TermsArticle from '../components/legal/TermsArticle.astro';
+import PrivacyArticle from '../components/legal/PrivacyArticle.astro';
 import { getFixedT, type Locale } from '../i18n/i18n';
 import { absolutePageUrl, buildLegalAlternateLanguages } from '../lib/seo';
-import { pageRoutes } from '../lib/paths';
+import { legalSlugs } from '../lib/paths';
 
 const locale: Locale = 'fr';
 const t = getFixedT(locale);
-const frUrl = absolutePageUrl(Astro.site, pageRoutes.termsOfService);
-const enUrl = absolutePageUrl(Astro.site, `en/${pageRoutes.termsOfService}`);
+const frUrl = absolutePageUrl(Astro.site, legalSlugs.fr.privacyPolicy);
+const enUrl = absolutePageUrl(Astro.site, `en/${legalSlugs.en.privacyPolicy}`);
 ---
 
 <Layout
 	lang="fr"
 	ogLocale="fr_FR"
-	title={t('Terms.metaTitle')}
-	description={t('Terms.metaDescription')}
+	title={t('Privacy.metaTitle')}
+	description={t('Privacy.metaDescription')}
 	alternateLanguages={buildLegalAlternateLanguages(frUrl, enUrl)}
 	skipToContentLabel={t('Layout.skipToContent')}
 >
-	<TermsArticle locale={locale} />
+	<PrivacyArticle locale={locale} />
 </Layout>
