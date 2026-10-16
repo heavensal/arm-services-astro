@@ -1,131 +1,131 @@
-# Multilang sur un site vitrine
+# Multilang on a brochure site
 
-Règle obligatoire pour Codex, Claude, Cursor et GitHub Copilot.
-Lire ce fichier avant toute modification de langue, d’URL, de slug, de hreflang, de sitemap ou de page légale.
+Mandatory rule for Codex, Claude, Cursor, and GitHub Copilot.
+Read this file before any change to languages, URLs, slugs, hreflang, the sitemap, or legal pages.
 
-ARM Services est le cas « une seule langue ». Le dépôt sait aussi produire un site « plusieurs langues ». Les deux cas partagent le même code. Ce qui change, c’est ce que le site **publie**.
+ARM Services is the “one language” case. The repository can also produce a “several languages” site. Both cases share the same code. What changes is what the site **publishes**.
 
 ## Concept
 
-Un site vitrine est le site public (ici Astro). Il affiche. Il n’est pas le CMS.
-ContentForge, dans l’autre dépôt, rédige le blog, la FAQ et les avis. Le site vitrine les récupère au build, seulement si le flag du bloc est `true`. Hero, services, processus, zones, pages légales, téléphone et devis restent dans ce dépôt.
+A brochure site is the public site (Astro here). It displays. It is not the CMS.
+ContentForge, in the other repository, authors the blog, FAQ, and reviews. The brochure site fetches them at build time, only when that block’s flag is `true`. Hero, services, process, areas, legal pages, phone, and quote stay in this repository.
 
-Le modèle de langue est prêt pour le français et l’anglais. Chaque site choisit combien de langues il publie.
+The language model is ready for French and English. Each site chooses how many languages it publishes.
 
-- Le code, les noms de composants et les noms de variables restent en anglais : `TermsArticle`, `PrivacyArticle`, `legalSlugs`.
-- Le texte visible vient de `src/i18n/locales/fr.json` ou `en.json`, via `getFixedT(locale)`.
-- L’URL publique est dans la langue de la page. Un slug est un mot d’adresse : minuscules, traits d’union, sans accent, sans majuscule.
+- Code, component names, and variable names stay in English: `TermsArticle`, `PrivacyArticle`, `legalSlugs`.
+- Visible copy comes from `src/i18n/locales/fr.json` or `en.json`, via `getFixedT(locale)`.
+- The public URL is in the language of the page. A slug is an address word: lowercase, hyphens, no accent, no capital letter.
 
-`en.json` peut exister alors que le site ne publie que le français. Le fichier prépare l’anglais. Il ne crée pas d’URL `/en/`.
+`en.json` can exist while the site publishes French only. The file prepares English. It does not create a `/en/` URL.
 
-Le français est la langue par défaut. Il vit à la racine. Il n’y a pas de préfixe `/fr/`.
-L’anglais, quand il est publié, vit sous `/en/`.
+French is the default language. It lives at the root. There is no `/fr/` prefix.
+English, when it is published, lives under `/en/`.
 
-## Les deux interrupteurs
+## The two switches
 
-Les deux doivent être d’accord. N’en activer qu’un seul.
+Both must agree. Do not turn on only one.
 
-| Interrupteur | Où | Rôle |
+| Switch | Where | Role |
 |---|---|---|
-| `publishedLocales` | `src/site.config.ts` | Langues que le site annonce. hreflang, Open Graph et JSON-LD `inLanguage` ne citent que cette liste. |
-| `ENABLE_MULTILANG` | `.env`, lu par `isMultilangEnabled()` | `true` génère les pages `/en/` et affiche le sélecteur de langue. `false` n’en génère aucune. |
+| `publishedLocales` | `src/site.config.ts` | Languages the site announces. hreflang, Open Graph, and JSON-LD `inLanguage` cite only this list. |
+| `ENABLE_MULTILANG` | `.env`, read by `isMultilangEnabled()` | `true` generates `/en/` pages and shows the language switcher. `false` generates none. |
 
-`isPublishedLocale('en')` n’est vrai que si les deux sont actifs : `'en'` est dans `publishedLocales` **et** `ENABLE_MULTILANG=true`.
+`isPublishedLocale('en')` is true only when both are on: `'en'` is in `publishedLocales` **and** `ENABLE_MULTILANG=true`.
 
 | Site | `publishedLocales` | `ENABLE_MULTILANG` |
 |---|---|---|
-| Une langue (ARM Services aujourd’hui) | `['fr']` | `false` |
-| Plusieurs langues | `['fr', 'en']` | `true` |
+| One language (ARM Services today) | `['fr']` | `false` |
+| Several languages | `['fr', 'en']` | `true` |
 
-## Une langue
+## One language
 
-ARM Services publie uniquement le français.
+ARM Services publishes French only.
 
-Attendu :
+Expected:
 
-- Aucune URL `/en/`. Ni accueil, ni page légale, ni blog.
-- Le sélecteur de langue du hero est absent.
-- Le sitemap ne contient que des URL françaises.
-- hreflang : `fr` et `x-default`, les deux vers l’URL française de la page. Pas de `hreflang="en"`.
-- Pas de `og:locale:alternate`. JSON-LD `inLanguage` : `fr-FR` seulement.
-- Le pied de page et les canoniques utilisent le slug français.
-- `src/pages/en/[...slug].astro` retourne une liste vide. Le fichier reste dans le dépôt pour le jour où l’anglais est activé.
+- No `/en/` URL. Not the home page, not a legal page, not the blog.
+- The hero language switcher is absent.
+- The sitemap contains French URLs only.
+- hreflang: `fr` and `x-default`, both pointing at the French URL of the page. No `hreflang="en"`.
+- No `og:locale:alternate`. JSON-LD `inLanguage`: `fr-FR` only.
+- The footer and canonicals use the French slug.
+- `src/pages/en/[...slug].astro` returns an empty list. The file stays in the repository for the day English is turned on.
 
-Pages légales publiques :
+Public legal pages:
 
-| Page | Fichier de route | URL |
+| Page | Route file | URL |
 |---|---|---|
-| Mentions légales | `src/pages/mentions-legales.astro` | `/mentions-legales/` |
-| Politique de confidentialité | `src/pages/politique-de-confidentialite.astro` | `/politique-de-confidentialite/` |
-| Conditions générales | `src/pages/conditions-generales.astro` | `/conditions-generales/` |
+| Legal notice | `src/pages/mentions-legales.astro` | `/mentions-legales/` |
+| Privacy policy | `src/pages/politique-de-confidentialite.astro` | `/politique-de-confidentialite/` |
+| Terms | `src/pages/conditions-generales.astro` | `/conditions-generales/` |
 
-Les composants restent `LegalNoticeArticle`, `PrivacyArticle`, `TermsArticle`.
+Components stay `LegalNoticeArticle`, `PrivacyArticle`, `TermsArticle`.
 
-Ces URL ne doivent pas exister comme pages françaises :
+These URLs must not exist as French pages:
 
 - `/legal-notice/`
 - `/privacy-policy/`
 - `/terms-of-service/`
 
-Elles redirigent vers le slug français (`astro.config.mjs`, statut 301). La redirection reste en place même le jour où l’anglais est ajouté, parce que l’anglais n’occupe pas la racine : il occupe `/en/`.
+They redirect to the French slug (`astro.config.mjs`, status 301). The redirect stays in place even on the day English is added, because English does not occupy the root: it occupies `/en/`.
 
-## Plusieurs langues
+## Several languages
 
-Activer les deux interrupteurs ensemble. Le site publie alors le français à la racine et l’anglais sous `/en/`.
+Turn both switches on together. The site then publishes French at the root and English under `/en/`.
 
-Attendu :
+Expected:
 
-- `/` et `/en/` : la même accueil, chaque fois dans sa langue.
-- Le sélecteur de langue est visible.
-- hreflang cite `fr`, `en` et `x-default`. `x-default` répète l’URL française, langue par défaut du site.
-- `og:locale:alternate` cite l’autre langue.
-- Chaque page pointe vers sa traduction réelle. Une traduction absente n’est pas annoncée.
-- Le sitemap contient les URL françaises et les URL `/en/` générées.
+- `/` and `/en/`: the same home page, each in its language.
+- The language switcher is visible.
+- hreflang cites `fr`, `en`, and `x-default`. `x-default` repeats the French URL, the site default language.
+- `og:locale:alternate` cites the other language.
+- Each page points at its real translation. A missing translation is not announced.
+- The sitemap contains the French URLs and the generated `/en/` URLs.
 
-Le slug suit la langue de la page. La page française garde son slug français. La page anglaise reçoit le slug anglais, sous `/en/`.
+The slug follows the language of the page. The French page keeps its French slug. The English page gets the English slug, under `/en/`.
 
-| Page | Français | Anglais |
+| Page | French | English |
 |---|---|---|
-| Accueil | `/` | `/en/` |
-| Mentions légales | `/mentions-legales/` | `/en/legal-notice/` |
-| Politique de confidentialité | `/politique-de-confidentialite/` | `/en/privacy-policy/` |
-| Conditions générales | `/conditions-generales/` | `/en/terms-of-service/` |
+| Home | `/` | `/en/` |
+| Legal notice | `/mentions-legales/` | `/en/legal-notice/` |
+| Privacy policy | `/politique-de-confidentialite/` | `/en/privacy-policy/` |
+| Terms | `/conditions-generales/` | `/en/terms-of-service/` |
 
-Les slugs sont dans `legalSlugs` (`src/lib/paths.ts`). Les liens passent par `legalPath(locale, page)` : le préfixe `en/` n’est ajouté que si l’anglais est publié.
+Slugs live in `legalSlugs` (`src/lib/paths.ts`). Links go through `legalPath(locale, page)`: the `en/` prefix is added only when English is published.
 
-Exemple. La politique de confidentialité française est `/politique-de-confidentialite/`. Le jour où l’anglais est publié, la traduction est `/en/privacy-policy/`. L’URL française ne devient pas `/privacy-policy/`.
+Example. The French privacy policy is `/politique-de-confidentialite/`. On the day English is published, the translation is `/en/privacy-policy/`. The French URL does not become `/privacy-policy/`.
 
 ## Blog
 
-Le blog n’est pas une page du dépôt. Il est généré seulement si `CONTENTFORGE_ARTICLES_ENABLED=true` et si la langue est publiée.
+The blog is not a page stored in the repository. It is generated only when `CONTENTFORGE_ARTICLES_ENABLED=true` and the language is published.
 
-- Français : `/blog` et `/blog/{slug}`.
-- Anglais : `/en/blog` et `/en/blog/{slug}`, et seulement si l’anglais est publié.
-- Un article présent dans une seule langue n’annonce pas l’autre dans le hreflang.
+- French: `/blog` and `/blog/{slug}`.
+- English: `/en/blog` and `/en/blog/{slug}`, and only when English is published.
+- An article present in only one language does not announce the other in hreflang.
 
-Sur ARM Services les trois flags ContentForge restent `false`. Aucune URL `/blog` n’est générée. Le segment `blog` est le même dans les deux langues. Le slug d’article est celui renvoyé par ContentForge.
+On ARM Services the three ContentForge flags stay `false`. No `/blog` URL is generated. The `blog` segment is the same in both languages. The article slug is the one ContentForge returns.
 
-## Ce qu’il ne faut pas faire
+## What not to do
 
-- Publier `/privacy-policy/`, `/legal-notice/` ou `/terms-of-service/` à la racine d’un site seulement français.
-- Générer une page `/en/` parce que `en.json` existe, ou parce que le composant a un prop `locale`.
-- Annoncer `hreflang="en"`, un lien `/en/`, ou `og:locale:alternate` tant que l’anglais n’est pas publié.
-- Traduire les noms de fichiers de composants (`TermsArticle` reste `TermsArticle`).
-- Préfixer le français avec `/fr/`.
-- Rediriger `/en/privacy-policy` vers le français. Ce chemin est réservé à la page anglaise.
-- Activer `ENABLE_MULTILANG` sans ajouter `'en'` à `publishedLocales`, ou l’inverse.
-- Mettre une majuscule ou un accent dans un slug. `Politique-de-confidentialité` n’est pas une URL. L’URL est `/politique-de-confidentialite/`.
+- Publish `/privacy-policy/`, `/legal-notice/`, or `/terms-of-service/` at the root of a French-only site.
+- Generate a `/en/` page because `en.json` exists, or because the component has a `locale` prop.
+- Announce `hreflang="en"`, a `/en/` link, or `og:locale:alternate` while English is not published.
+- Translate component file names (`TermsArticle` stays `TermsArticle`).
+- Prefix French with `/fr/`.
+- Redirect `/en/privacy-policy` to French. That path is reserved for the English page.
+- Turn on `ENABLE_MULTILANG` without adding `'en'` to `publishedLocales`, or the reverse.
+- Put a capital letter or an accent in a slug. `Politique-de-confidentialité` is not a URL. The URL is `/politique-de-confidentialite/`.
 
-## Fichiers
+## Files
 
-| Fichier | Rôle |
+| File | Role |
 |---|---|
-| `src/site.config.ts` | `publishedLocales`, langue par défaut |
+| `src/site.config.ts` | `publishedLocales`, default language |
 | `.env` | `ENABLE_MULTILANG` |
 | `src/i18n/i18n.ts` | `isMultilangEnabled()`, `getFixedT(locale)` |
-| `src/lib/paths.ts` | `legalSlugs`, `legalPath`, préfixe `en/` |
-| `src/lib/seo.ts` | hreflang, canonique, Open Graph, JSON-LD |
-| `src/pages/*.astro` | Routes françaises, le nom du fichier est le slug |
-| `src/pages/en/[...slug].astro` | Routes anglaises, générées seulement si le flag est `true` |
-| `src/components/LanguageSwitcher.astro` | Sélecteur, rendu seulement si le flag est `true` |
-| `astro.config.mjs` | Redirections des anciens slugs anglais vers les slugs français |
+| `src/lib/paths.ts` | `legalSlugs`, `legalPath`, `en/` prefix |
+| `src/lib/seo.ts` | hreflang, canonical, Open Graph, JSON-LD |
+| `src/pages/*.astro` | French routes; the file name is the slug |
+| `src/pages/en/[...slug].astro` | English routes, generated only when the flag is `true` |
+| `src/components/LanguageSwitcher.astro` | Switcher, rendered only when the flag is `true` |
+| `astro.config.mjs` | Redirects from the old English slugs to the French slugs |

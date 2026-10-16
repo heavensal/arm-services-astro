@@ -23,7 +23,8 @@ Also read **`AGENTS.project.md`** for ARM Services–specific context (conversio
 - All user-facing strings live in **`src/i18n/locales/fr.json`** and **`en.json`**, loaded via **`getFixedT(locale)`**.
 - Section components take a required **`locale: 'fr' | 'en'`** prop (see `LandingHome.astro`).
 - **`publishedLocales`** in `src/site.config.ts` is the hreflang list. ARM Services is French-only: `['fr']`, so the head has `fr` and `x-default` (both the French URL) and no `en`. See README “Languages and hreflang”.
-- **`ENABLE_MULTILANG`** (`.env`): when `false`, no `/en/` page is generated and the hero switcher is hidden. When `true`, `/en/` home and legal pages exist. hreflang still follows `publishedLocales`.
+- **`ENABLE_MULTILANG`** (`.env`): when `false`, no `/en/` page is generated and the hero switcher is hidden. When `true`, `/en/` home and legal pages exist. hreflang still follows `publishedLocales`. English keys in `en.json` are filled in both cases.
+- To repeat this on another brochure site, follow `.cursor/skills/brochure-multilang/SKILL.md`. The agent is `.cursor/agents/brochure-multilang.md`.
 - ARM Services does not import ContentForge. `CONTENTFORGE_FAQ_ENABLED`, `CONTENTFORGE_REVIEWS_ENABLED`, and `CONTENTFORGE_ARTICLES_ENABLED` stay `false`.
 - Keep component and variable names in English.
 
