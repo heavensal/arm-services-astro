@@ -1,0 +1,43 @@
+---
+import { getFixedT, type Locale } from '../i18n/i18n';
+
+interface Props {
+	locale: Locale;
+}
+
+const { locale } = Astro.props;
+const t = getFixedT(locale);
+---
+
+<div
+	id="arm-contact-notice"
+	class="arm-contact-notice fixed inset-0 z-50 items-center justify-center bg-gray-900/80 p-6"
+	role="status"
+	aria-live="assertive"
+	aria-atomic="true"
+	hidden
+	tabindex="-1"
+>
+	<div class="arm-contact-notice-card w-full max-w-lg rounded-xl bg-white px-8 py-12 text-center shadow-lg">
+		<div data-arm-notice-sending>
+			<div class="relative mx-auto mb-6 size-24" aria-hidden="true">
+				<span class="arm-contact-send-pulse absolute inset-0 rounded-full bg-orange-armenian opacity-40"></span>
+				<span class="arm-contact-spinner absolute inset-2 rounded-full border-4 border-gray-200 border-t-orange-armenian"></span>
+				<svg class="arm-contact-send-icon absolute inset-0 m-auto size-8 text-orange-armenian" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true">
+					<path stroke-linecap="round" stroke-linejoin="round" d="M4 7h16v10H4z"></path>
+					<path stroke-linecap="round" stroke-linejoin="round" d="M4 7l8 6 8-6"></path>
+				</svg>
+			</div>
+			<p class="text-2xl font-bold text-gray-900">{t('ContactForm.sending')}</p>
+		</div>
+		<div data-arm-notice-success class="hidden">
+			<div class="arm-contact-success-mark mx-auto mb-6 flex size-24 items-center justify-center" aria-hidden="true">
+				<svg class="size-20 text-green-600" viewBox="0 0 48 48" fill="none">
+					<circle cx="24" cy="24" r="20" stroke="currentColor" stroke-width="3" opacity="0.25"></circle>
+					<path class="arm-contact-success-check" d="M14 25.5 20.5 32 34 17" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"></path>
+				</svg>
+			</div>
+			<p class="text-2xl font-bold text-gray-900">{t('ContactForm.success')}</p>
+		</div>
+	</div>
+</div>

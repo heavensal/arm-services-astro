@@ -71,7 +71,7 @@ export const siteConfig = {
 	yoojo: {
 		profileUrl: 'https://yoojo.fr/jobber/henrik-marseille-3493387',
 		rating: 5,
-		/** Seuil affiché « Plus de X avis » (profil Yoojo : 36+ avis, note 5,0) */
+		/** Displayed threshold "More than X reviews" (Yoojo profile: 36+ reviews, rating 5.0) */
 		reviewCountMin: 30,
 	},
 

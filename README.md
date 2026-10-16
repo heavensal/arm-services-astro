@@ -1,45 +1,46 @@
-# ARM Services — Site Vitrine Déménagement
+# ARM Services — Moving Company Brochure Site
 
-Site vitrine pour ARM Services, entreprise de déménagement basée à Marseille. Construit avec Astro 7, Tailwind 4, SEO complet (sitemap, Open Graph), déploiement GitHub Pages.
+Brochure site for ARM Services, a moving company based in Marseille. Built with Astro 7 and Tailwind 4, with full SEO (sitemap, Open Graph) and GitHub Pages deployment.
 
-**Prérequis :** Node.js ≥ 24 (voir `package.json` → `engines`).
+**Requirements:** Node.js ≥ 24 (see `package.json` → `engines`).
 
 ---
 
-## Table des matières
+## Table of contents
 
-- [Fonctionnalités](#fonctionnalités)
-- [Démarrage rapide](#démarrage-rapide)
-- [Structure du projet](#structure-du-projet)
-- [Contenu ContentForge](#contenu-contentforge)
+- [Features](#features)
+- [Quick start](#quick-start)
+- [Project structure](#project-structure)
+- [ContentForge content](#contentforge-content)
 - [Languages and hreflang](#languages-and-hreflang)
+- [Multilang: how and why](#multilang-how-and-why)
 - [Configuration](#configuration)
-- [Composants](#composants)
-- [Configuration SEO](#configuration-seo)
-- [Conventions de style](#conventions-de-style)
-- [Déploiement](#déploiement)
-- [Commandes](#commandes)
+- [Components](#components)
+- [SEO configuration](#seo-configuration)
+- [Style conventions](#style-conventions)
+- [Deployment](#deployment)
+- [Commands](#commands)
 
 ---
 
-## Fonctionnalités
+## Features
 
-- **SEO** : Open Graph, Twitter Cards, canonical URLs, hreflang (`fr` et `x-default` uniquement), JSON-LD, sitemap, `robots.txt` généré
-- **i18n** : français publié. `ENABLE_MULTILANG=false` ne génère aucune URL `/en/`. Voir [Languages and hreflang](#languages-and-hreflang)
-- **FAQ, avis, blog** : chacun a son flag ContentForge (`true` / `false`). Détail dans [Contenu ContentForge](#contenu-contentforge)
-- **Formulaire de contact** : dialogue dans la section contact, `POST` vers ContentForge (`PUBLIC_CONTACT_FORM_URL` + **`PUBLIC_CONTACT_FORM_TOKEN`**, header `Authorization: Bearer`)
-- **Gabarit e-mail** : `src/templates/email/contact-message.html` et `buildArmContactEmailHtml()` dans `src/lib/email/contactMailHtml.ts` pour le service qui envoie les mails
-- **Sections landing** : Hero, TrustBar, Services, Process, Areas, WhyUs, Reviews, QuoteCTA, FinalCTA (inclut le formulaire), Footer
-- **Pages légales** : Mentions légales, Politique de confidentialité, CGV
-- **Accessibilité** : HTML sémantique, labels ARIA
-- **Animations** : Fade-in, scroll reveal avec `prefers-reduced-motion`
-- **LLM-ready** : Instructions pour Cursor, GitHub Copilot et Codex
+- **SEO**: Open Graph, Twitter Cards, canonical URLs, hreflang (`fr` and `x-default` only), JSON-LD, sitemap, generated `robots.txt`
+- **i18n**: French is published. `ENABLE_MULTILANG=false` generates no `/en/` URL. English copy still lives in `en.json`. See [Languages and hreflang](#languages-and-hreflang) and [Multilang: how and why](#multilang-how-and-why)
+- **FAQ, reviews, blog**: each has its own ContentForge flag (`true` / `false`). Details in [ContentForge content](#contentforge-content)
+- **Contact form**: dialog in the contact section, `POST` to ContentForge (`PUBLIC_CONTACT_FORM_URL` + **`PUBLIC_CONTACT_FORM_TOKEN`**, `Authorization: Bearer` header)
+- **Email template**: `src/templates/email/contact-message.html` and `buildArmContactEmailHtml()` in `src/lib/email/contactMailHtml.ts` for the service that sends mail
+- **Landing sections**: Hero, TrustBar, Services, Process, Areas, WhyUs, Reviews, QuoteCTA, FinalCTA (includes the form), Footer
+- **Legal pages**: legal notice, privacy policy, terms of service
+- **Accessibility**: semantic HTML, ARIA labels
+- **Animations**: fade-in and scroll reveal, with `prefers-reduced-motion`
+- **LLM-ready**: instructions for Cursor, GitHub Copilot, and Codex
 
 ---
 
-## Démarrage rapide
+## Quick start
 
-### Installation
+### Install
 
 ```sh
 git clone https://github.com/YOUR_USER/arm-services-astro.git
@@ -48,17 +49,17 @@ pnpm install
 pnpm dev
 ```
 
-### Configuration initiale
+### Initial setup
 
-Après clonage, copier **`.env.example`** vers **`.env`** puis ajuster si besoin (`ENABLE_MULTILANG`, `CONTENTFORGE_*`, **`PUBLIC_CONTACT_FORM_URL`**, **`PUBLIC_CONTACT_FORM_TOKEN`**). Mettre à jour notamment :
+After cloning, copy **`.env.example`** to **`.env`**, then adjust if needed (`ENABLE_MULTILANG`, `CONTENTFORGE_*`, **`PUBLIC_CONTACT_FORM_URL`**, **`PUBLIC_CONTACT_FORM_TOKEN`**). In particular, update:
 
-1. **`astro.config.mjs`** — Définir `site` et `base` pour l'URL de déploiement
-2. **`src/site.config.ts`** — Identité du site, contact, réseaux, image OG
-3. **`src/i18n/locales/fr.json`** et **`en.json`** — Textes (accueil, sections, pages légales)
+1. **`astro.config.mjs`** — set `site` and `base` for the deployment URL
+2. **`src/site.config.ts`** — site identity, contact, social links, OG image
+3. **`src/i18n/locales/fr.json`** and **`en.json`** — copy (home, sections, legal pages)
 
 ---
 
-## Structure du projet
+## Project structure
 
 ```text
 /
@@ -69,8 +70,8 @@ Après clonage, copier **`.env.example`** vers **`.env`** puis ajuster si besoin
 │   └── android-chrome-512x512.png
 ├── src/
 │   ├── assets/
-│   │   └── images/           # Images importées (hero, etc.)
-│   ├── components/           # Sections landing
+│   │   └── images/           # Imported images (hero, etc.)
+│   ├── components/           # Landing sections
 │   │   ├── Hero.astro
 │   │   ├── TrustBar.astro
 │   │   ├── Services.astro
@@ -92,12 +93,12 @@ Après clonage, copier **`.env.example`** vers **`.env`** puis ajuster si besoin
 │   │   └── email/
 │   │       └── contact-message.html
 │   ├── layouts/
-│   │   └── Layout.astro      # SEO: Meta tags, Open Graph
+│   │   └── Layout.astro      # SEO: meta tags, Open Graph
 │   ├── i18n/
 │   │   ├── i18n.ts
 │   │   └── locales/          # fr.json, en.json
 │   ├── pages/
-│   │   ├── index.astro       # Page d'accueil
+│   │   ├── index.astro       # Home page
 │   │   ├── mentions-legales.astro
 │   │   ├── politique-de-confidentialite.astro
 │   │   ├── conditions-generales.astro
@@ -105,32 +106,32 @@ Après clonage, copier **`.env.example`** vers **`.env`** puis ajuster si besoin
 │   │   └── en/
 │   │       └── [...slug].astro  # /en/ only when ENABLE_MULTILANG=true
 │   └── styles/
-│       └── global.css        # Tailwind + thème arménien + animations
-├── astro.config.mjs          # SEO: Site URL et base path
-├── AGENTS.md                 # Instructions Codex de base
-├── AGENTS.project.md         # Instructions Codex spécifiques au projet
-└── .cursor/rules/            # Règles Cursor AI
+│       └── global.css        # Tailwind + Armenian theme + animations
+├── astro.config.mjs          # SEO: site URL and base path
+├── AGENTS.md                 # Base Codex instructions
+├── AGENTS.project.md         # Project-specific Codex instructions
+└── .cursor/rules/            # Cursor AI rules
 ```
 
-Pages blog (générées seulement si `CONTENTFORGE_ARTICLES_ENABLED=true` et si la locale est dans `publishedLocales`) : `src/pages/blog/[...slug].astro` et `src/pages/en/blog/[...slug].astro`. `/en/blog` exige aussi `ENABLE_MULTILANG=true`. Sur ARM Services les deux sont coupés (`ENABLE_MULTILANG=false`, articles `false`, `publishedLocales` = `['fr']`), donc aucune page blog et aucune URL `/en/`.
+Blog pages (generated only when `CONTENTFORGE_ARTICLES_ENABLED=true` and the locale is in `publishedLocales`): `src/pages/blog/[...slug].astro` and `src/pages/en/blog/[...slug].astro`. `/en/blog` also requires `ENABLE_MULTILANG=true`. On ARM Services both are off (`ENABLE_MULTILANG=false`, articles `false`, `publishedLocales` = `['fr']`), so there is no blog page and no `/en/` URL.
 
 ---
 
-## Contenu ContentForge
+## ContentForge content
 
-ContentForge est le CMS (autre dépôt). Ce site ne fait qu’afficher. Trois blocs peuvent être branchés, **indépendamment** :
+ContentForge is the CMS (a separate repository). This site only displays content. Three blocks can be connected, **independently**:
 
-| Variable | `true` | `false`, ou API injoignable |
+| Variable | `true` | `false`, or unreachable API |
 | --- | --- | --- |
-| `CONTENTFORGE_FAQ_ENABLED` | `GET /faqs` | textes `Faq.*` dans `fr.json` / `en.json` |
-| `CONTENTFORGE_REVIEWS_ENABLED` | `GET /reviews` (note 1–5 du modèle) | textes `Reviews.r*`, 5 étoiles |
-| `CONTENTFORGE_ARTICLES_ENABLED` | `GET /articles` et `GET /articles/:slug` → `/blog` et `/blog/[slug]`. `/en/blog` seulement si `ENABLE_MULTILANG=true` et `en` est dans `publishedLocales` | ces pages ne sont pas générées |
+| `CONTENTFORGE_FAQ_ENABLED` | `GET /faqs` | `Faq.*` strings in `fr.json` / `en.json` |
+| `CONTENTFORGE_REVIEWS_ENABLED` | `GET /reviews` (model rating 1–5) | `Reviews.r*` strings, 5 stars |
+| `CONTENTFORGE_ARTICLES_ENABLED` | `GET /articles` and `GET /articles/:slug` → `/blog` and `/blog/[slug]`. `/en/blog` only if `ENABLE_MULTILANG=true` and `en` is in `publishedLocales` | those pages are not generated |
 
-**ARM Services n’importe rien** : les trois flags restent `false` (fichier `.env` et secrets GitHub Actions). La FAQ et les avis viennent de `fr.json`. `/blog` n’est pas généré.
+**ARM Services imports nothing**: all three flags stay `false` (`.env` and GitHub Actions secrets). FAQ and reviews come from `fr.json`. `/blog` is not generated.
 
-`CONTENTFORGE_URL` et `CONTENTFORGE_API_TOKEN` sont communs. Un autre site peut publier un blog (`ARTICLES=true`) sans avis CMS (`REVIEWS=false`).
+`CONTENTFORGE_URL` and `CONTENTFORGE_API_TOKEN` are shared. Another site can publish a blog (`ARTICLES=true`) without CMS reviews (`REVIEWS=false`).
 
-La lecture a lieu **au build**. En production, les mêmes noms sont des secrets GitHub Actions (`deploy.yml`). Pour ce site ils doivent rester vides ou `false`. Hero, services, processus, zones, pages légales, téléphone et devis restent dans ce dépôt.
+Reads happen **at build time**. In production, the same names are GitHub Actions secrets (`deploy.yml`). For this site they must stay empty or `false`. Hero, services, process, areas, legal pages, phone, and quote stay in this repository.
 
 ## Languages and hreflang
 
@@ -153,25 +154,55 @@ A blog article that exists in only one published locale does not advertise the m
 
 ContentForge stays off on this site (`CONTENTFORGE_FAQ_ENABLED`, `CONTENTFORGE_REVIEWS_ENABLED`, and `CONTENTFORGE_ARTICLES_ENABLED` are all `false`), so no blog URLs are generated today. The hreflang rule above still applies to the home page and the legal pages, and to the blog if articles are turned on later.
 
+## Multilang: how and why
+
+One Astro project publishes either French alone or French and English. ARM Services publishes French. The next brochure site uses the same files and changes two switches. Cursor repeats that setup with the agent `.cursor/agents/brochure-multilang.md` and the skill `.cursor/skills/brochure-multilang/SKILL.md`. `MULTILANG.md` remains the URL rule.
+
+### Why the English file and the English URLs are separate
+
+`en.json` holds the English sentences. `ENABLE_MULTILANG` decides whether `/en/` pages are built. A French-only site still needs the sentences, so the day the flag becomes `true` the pages already have copy.
+
+`getFixedT` falls back to French (`fallbackLng: 'fr'` in `src/i18n/i18n.ts`). A key that exists only in `fr.json` would show French on an English URL. Every new or changed French key is therefore written in `en.json` in the same change, including when `ENABLE_MULTILANG=false`.
+
+The public site stays French until the build is asked for English. `getStaticPaths()` in `src/pages/en/[...slug].astro` returns an empty list unless `ENABLE_MULTILANG` is the string `true`. The route file stays in the repository, and no `/en/` HTML is emitted. hreflang goes through a second check, `isPublishedLocale()` in `src/lib/seo.ts`: English is announced only when `'en'` is also in `publishedLocales`. One switch alone does not publish English. On ARM Services the head stays `fr` and `x-default`, both pointing at the French URL.
+
+### How a page is chosen
+
+Visible strings go through `getFixedT(locale)`. Section components take `locale`. The French home is `src/pages/index.astro` with `locale` set to `'fr'`. The English home and the three English legal pages are one catch-all, `src/pages/en/[...slug].astro`, which renders the same components with `locale` set to `'en'`.
+
+French lives at the root. There is no `/fr/` prefix. English, when it is published, lives under `/en/`. The slug follows the language of the page: `/politique-de-confidentialite/` in French, `/en/privacy-policy/` in English. Links use `legalPath()` in `src/lib/paths.ts`, which adds `en/` only when the flag is on. The hero can always import `LanguageSwitcher.astro`; the component renders nothing while the flag is off.
+
+`/legal-notice`, `/privacy-policy`, and `/terms-of-service` at the root redirect 301 to the French slugs (`astro.config.mjs`). Those redirects stay after English is turned on, because English occupies `/en/`, and the root keeps the French address.
+
+`.env` is gitignored. GitHub Pages runs `pnpm run build` from `.github/workflows/deploy.yml`. A bilingual site adds `ENABLE_MULTILANG` to that step’s environment. The local file alone does not change the production build.
+
+### What the next site changes
+
+| Job | French only (this site) | French and English |
+|---|---|---|
+| Basic i18n | `getFixedT`, `locale` on each section, both JSON files | same |
+| English sentences | `en.json` filled, no `/en/` URL | `en.json` filled |
+| Publish `/en/` | `publishedLocales: ['fr']`, `ENABLE_MULTILANG=false` | `publishedLocales: ['fr', 'en']`, `ENABLE_MULTILANG=true` |
+
 ## Configuration
 
-### Configuration Astro (`astro.config.mjs`)
+### Astro configuration (`astro.config.mjs`)
 
-Mettre à jour `site` et `base` pour le déploiement :
+Update `site` and `base` for deployment:
 
 ```javascript
-// SEO: Domaine personnalisé
+// SEO: Custom domain
 const site = 'https://arm-services-demenagement.fr';
 const base = '/';
 
-// OU pour GitHub Pages sans domaine perso :
+// OR for GitHub Pages without a custom domain:
 // const site = 'https://heavensal.github.io';
 // const base = '/arm-services-astro';
 ```
 
-### Configuration SEO (`src/layouts/Layout.astro`)
+### SEO configuration (`src/layouts/Layout.astro`)
 
-Les valeurs par défaut du titre et description sont définies dans le Layout :
+Default title and description are set in the layout:
 
 ```typescript
 const {
@@ -183,161 +214,161 @@ const {
 
 ---
 
-## Composants
+## Components
 
-### Architecture des composants
+### Component architecture
 
-Les sections landing sont des composants Astro autonomes :
+Landing sections are standalone Astro components:
 
 ```astro
 ---
 /**
- * ComponentName — description courte de la section.
+ * ComponentName — short description of the section.
  */
 interface Props {
   phone?: string;
-  // autres props optionnelles
+  // other optional props
 }
 
 const { phone = "06 43 09 65 97" } = Astro.props;
 ---
 
 <section class="..." aria-label="Section description">
-  <!-- Contenu -->
+  <!-- Content -->
 </section>
 ```
 
-### Liste des composants
+### Component list
 
-| Composant | Description |
+| Component | Description |
 |-----------|-------------|
-| `Hero.astro` | Bannière plein écran avec image, H1 SEO, CTAs |
-| `TrustBar.astro` | Barre de confiance (chiffres clés) |
-| `Services.astro` | Grille des services proposés |
-| `Process.astro` | Étapes du processus de déménagement |
-| `Areas.astro` | Zones d'intervention |
-| `WhyUs.astro` | Pourquoi nous choisir |
-| `Reviews.astro` | Témoignages clients |
-| `QuoteCTA.astro` | Appel à l'action devis |
-| `FinalCTA.astro` | CTA final de contact |
-| `Footer.astro` | Pied de page avec liens légaux |
+| `Hero.astro` | Full-screen banner with image, SEO H1, CTAs |
+| `TrustBar.astro` | Trust bar (key figures) |
+| `Services.astro` | Grid of services offered |
+| `Process.astro` | Moving process steps |
+| `Areas.astro` | Service areas |
+| `WhyUs.astro` | Why choose us |
+| `Reviews.astro` | Customer testimonials |
+| `QuoteCTA.astro` | Quote call to action |
+| `FinalCTA.astro` | Final contact CTA |
+| `Footer.astro` | Footer with legal links |
 
-### Créer un nouveau composant
+### Create a new component
 
-1. Créer `src/components/NewSection.astro`
-2. Importer et ajouter dans `src/pages/index.astro`
+1. Create `src/components/NewSection.astro`
+2. Import it and add it in `src/pages/index.astro`
 
 ---
 
-## Configuration SEO
+## SEO configuration
 
-Les fichiers et éléments suivants nécessitent une mise à jour pour le SEO :
+The following files and elements need an update for SEO:
 
-### 1. URL du site (`astro.config.mjs`)
+### 1. Site URL (`astro.config.mjs`)
 
 ```javascript
-// SEO: Mettre à jour le domaine de production
+// SEO: Update the production domain
 const site = 'https://arm-services-demenagement.fr';
 const base = '/';
 ```
 
 ### 2. Meta tags (`src/layouts/Layout.astro`)
 
-Le Layout gère automatiquement :
-- Titre et description
-- URL canonique
+The layout sets these automatically:
+- Title and description
+- Canonical URL
 - Open Graph (type, title, description, url, locale, site_name, image)
 - Twitter Cards
 
-### 3. Fichiers statiques (`public/`)
+### 3. Static files (`public/`)
 
 - `site.webmanifest` — PWA manifest
-- `android-chrome-512x512.png` — Image OG par défaut
-- `favicon.svg`, `favicon.ico` — Favicons
+- `android-chrome-512x512.png` — default OG image
+- `favicon.svg`, `favicon.ico` — favicons
 
 ---
 
-## Conventions de style
+## Style conventions
 
-### Tailwind CSS — Règles strictes
+### Tailwind CSS — strict rules
 
-Ce projet utilise **Tailwind CSS 4** avec des conventions strictes.
+This project uses **Tailwind CSS 4** with strict conventions.
 
-#### ✅ FAIRE : Utiliser les classes Tailwind natives
+#### Do: use native Tailwind classes
 
 ```astro
 <div class="flex items-center justify-between gap-4 px-6 py-4">
-  <h2 class="text-2xl font-bold text-gray-900 md:text-3xl">Titre</h2>
+  <h2 class="text-2xl font-bold text-gray-900 md:text-3xl">Title</h2>
   <button class="rounded-lg bg-orange-armenian px-4 py-2 text-white hover:brightness-95">
-    Cliquer
+    Click
   </button>
 </div>
 ```
 
-#### ❌ NE PAS FAIRE : Utiliser les valeurs arbitraires
+#### Do not: use arbitrary values
 
 ```astro
-<!-- INTERDIT : Valeurs arbitraires avec crochets -->
+<!-- FORBIDDEN: arbitrary values with brackets -->
 <div class="w-[347px] mt-[23px] text-[#1a2b3c]">
 ```
 
-#### ❌ NE PAS FAIRE : Utiliser les styles inline
+#### Do not: use inline styles
 
 ```astro
-<!-- INTERDIT : Styles inline -->
+<!-- FORBIDDEN: inline styles -->
 <div style="margin-top: 23px; color: #1a2b3c;">
 ```
 
 ### Animations
 
-#### 1. D'abord : Animations Tailwind natives
+#### 1. First: native Tailwind animations
 
 ```astro
-<div class="animate-pulse">Chargement...</div>
+<div class="animate-pulse">Loading...</div>
 ```
 
-#### 2. Ensuite : Transitions Tailwind
+#### 2. Next: Tailwind transitions
 
 ```astro
 <button class="transition-colors duration-200 hover:bg-orange-600">
-  Survolez-moi
+  Hover me
 </button>
 ```
 
-#### 3. Si nécessaire : Keyframes dans `global.css`
+#### 3. If needed: keyframes in `global.css`
 
-Le projet utilise déjà des animations custom (`fade-in`, `services-reveal`) définies dans `global.css`. Respecter le pattern existant et inclure `prefers-reduced-motion`.
+The project already uses custom animations (`fade-in`, `services-reveal`) defined in `global.css`. Follow the existing pattern and include `prefers-reduced-motion`.
 
-### Palette de couleurs (Thème Arménien)
+### Color palette (Armenian theme)
 
-Définies dans `global.css` via `@theme` :
+Defined in `global.css` via `@theme`:
 
-- **Orange** : `orange-armenian` (`#F2A800`) — CTAs, accents principaux
-- **Rouge** : `red-armenian` (`#D90012`) — Accents secondaires
-- **Bleu** : `blue-armenian` (`#0033A0`) — Accents tertiaires
-- **Fond** : `gray-900`, `gray-100` (sections alternées)
-- **Texte** : `gray-900` (titres), `gray-600` (corps), `white` (sur fond sombre)
+- **Orange**: `orange-armenian` (`#F2A800`) — CTAs, primary accents
+- **Red**: `red-armenian` (`#D90012`) — secondary accents
+- **Blue**: `blue-armenian` (`#0033A0`) — tertiary accents
+- **Background**: `gray-900`, `gray-100` (alternating sections)
+- **Text**: `gray-900` (headings), `gray-600` (body), `white` (on dark backgrounds)
 
 ---
 
-## Déploiement
+## Deployment
 
 ### GitHub Pages
 
-Le workflow `.github/workflows/deploy.yml` build et déploie sur push vers `main`.
+The `.github/workflows/deploy.yml` workflow builds and deploys on push to `main`.
 
-1. **Repository** → **Settings** → **Pages** : source **GitHub Actions**
-2. Configurer `site` et `base` dans `astro.config.mjs`
-3. **Settings** → **Secrets and variables** → **Actions** : ajouter **`PUBLIC_CONTACT_FORM_URL`**, **`PUBLIC_CONTACT_FORM_TOKEN`**, et si un bloc CMS est actif **`CONTENTFORGE_URL`**, **`CONTENTFORGE_API_TOKEN`**, **`CONTENTFORGE_FAQ_ENABLED`**, **`CONTENTFORGE_REVIEWS_ENABLED`**, **`CONTENTFORGE_ARTICLES_ENABLED`** (`true` ou `false`). Le workflow les injecte au `pnpm run build`.
+1. **Repository** → **Settings** → **Pages**: source **GitHub Actions**
+2. Set `site` and `base` in `astro.config.mjs`
+3. **Settings** → **Secrets and variables** → **Actions**: add **`PUBLIC_CONTACT_FORM_URL`**, **`PUBLIC_CONTACT_FORM_TOKEN`**, and, if a CMS block is on, **`CONTENTFORGE_URL`**, **`CONTENTFORGE_API_TOKEN`**, **`CONTENTFORGE_FAQ_ENABLED`**, **`CONTENTFORGE_REVIEWS_ENABLED`**, **`CONTENTFORGE_ARTICLES_ENABLED`** (`true` or `false`). The workflow injects them at `pnpm run build`.
 
-Le formulaire de contact nécessite **`PUBLIC_CONTACT_FORM_URL`** (ex. `https://contentforge.1344.fr/api/v1/send_form`) et **`PUBLIC_CONTACT_FORM_TOKEN`** dans `.env` (secrets GitHub Actions pour le déploiement). ContentForge doit autoriser le site en **CORS**.
+The contact form needs **`PUBLIC_CONTACT_FORM_URL`** (for example `https://contentforge.1344.fr/api/v1/send_form`) and **`PUBLIC_CONTACT_FORM_TOKEN`** in `.env` (GitHub Actions secrets for deployment). ContentForge must allow the site in **CORS**.
 
-### Domaine personnalisé
+### Custom domain
 
-Pour utiliser un domaine personnalisé :
+To use a custom domain:
 
-1. Configurer le domaine dans les paramètres GitHub Pages
-2. Mettre à jour `astro.config.mjs` :
+1. Configure the domain in the GitHub Pages settings
+2. Update `astro.config.mjs`:
    ```javascript
    const site = 'https://arm-services-demenagement.fr';
    const base = '/';
@@ -345,20 +376,20 @@ Pour utiliser un domaine personnalisé :
 
 ---
 
-## Commandes
+## Commands
 
-| Commande | Action |
+| Command | Action |
 |----------|--------|
-| `pnpm install` | Installer les dépendances |
-| `pnpm dev` | Démarrer le serveur de dev |
-| `pnpm build` | Build production → `dist/` |
-| `pnpm preview` | Prévisualiser le build |
-| `pnpm astro add [integration]` | Ajouter une intégration Astro |
+| `pnpm install` | Install dependencies |
+| `pnpm dev` | Start the dev server |
+| `pnpm build` | Production build → `dist/` |
+| `pnpm preview` | Preview the build |
+| `pnpm astro add [integration]` | Add an Astro integration |
 
 ---
 
 ## Documentation
 
-- [Documentation Astro](https://docs.astro.build)
+- [Astro documentation](https://docs.astro.build)
 - [Tailwind CSS v4](https://tailwindcss.com/docs)
-- [GitHub Pages Deployment](https://docs.astro.build/en/guides/deploy/github/)
+- [GitHub Pages deployment](https://docs.astro.build/en/guides/deploy/github/)
