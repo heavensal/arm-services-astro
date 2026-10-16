@@ -4,7 +4,7 @@ When suggesting or generating code for this repository, follow these instruction
 
 ## First Steps
 
-**READ THE README.md FIRST.** It contains essential documentation about:
+**READ THE README.md FIRST.** Before changing languages, URLs, slugs, or hreflang, follow **`MULTILANG.md`**. The README contains essential documentation about:
 - Project structure and file organization
 - Component patterns and usage
 - SEO configuration

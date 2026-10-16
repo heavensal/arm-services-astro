@@ -98,9 +98,9 @@ Après clonage, copier **`.env.example`** vers **`.env`** puis ajuster si besoin
 │   │   └── locales/          # fr.json, en.json
 │   ├── pages/
 │   │   ├── index.astro       # Page d'accueil
-│   │   ├── legal-notice.astro
-│   │   ├── privacy-policy.astro
-│   │   ├── terms-of-service.astro
+│   │   ├── mentions-legales.astro
+│   │   ├── politique-de-confidentialite.astro
+│   │   ├── conditions-generales.astro
 │   │   ├── robots.txt.ts
 │   │   └── en/
 │   │       └── [...slug].astro  # /en/ only when ENABLE_MULTILANG=true
@@ -134,6 +134,8 @@ La lecture a lieu **au build**. En production, les mêmes noms sont des secrets 
 
 ## Languages and hreflang
 
+The rule for one language and for several languages is **`MULTILANG.md`**. Codex, Claude, Cursor, and GitHub Copilot follow that file.
+
 ARM Services publishes French only. Some brochure sites publish French and English; this one does not.
 
 `src/site.config.ts` sets `publishedLocales` to `['fr']`. hreflang may list only those languages. On every page the head contains:
@@ -143,9 +145,9 @@ ARM Services publishes French only. Some brochure sites publish French and Engli
 
 There is no `hreflang="en"`. `og:locale:alternate` is omitted. JSON-LD `inLanguage` is `fr-FR` only.
 
-`ENABLE_MULTILANG=false` (this site) generates no `/en/` URL and hides the hero switcher. hreflang stays `fr` and `x-default`.
+`ENABLE_MULTILANG=false` (this site) generates no `/en/` URL and hides the hero switcher. hreflang stays `fr` and `x-default`. Legal URLs use the French slug: `/mentions-legales`, `/politique-de-confidentialite`, `/conditions-generales`. The old English slugs (`/legal-notice`, `/privacy-policy`, `/terms-of-service`) redirect to those French URLs.
 
-`ENABLE_MULTILANG=true` generates `/en/` (home and legal pages) and shows the switcher. hreflang lists `en` only when `'en'` is also in `publishedLocales`. `/en/blog` exists only when articles are enabled and English is published.
+`ENABLE_MULTILANG=true` generates `/en/` (home and legal pages) and shows the switcher. English legal URLs keep the English slug: `/en/legal-notice`, `/en/privacy-policy`, `/en/terms-of-service`. hreflang lists `en` only when `'en'` is also in `publishedLocales`. `/en/blog` exists only when articles are enabled and English is published.
 
 A blog article that exists in only one published locale does not advertise the missing translation: `/blog/mon-article` does not point at `/en/blog/mon-article` when that slug was not returned for English.
 

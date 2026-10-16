@@ -37,7 +37,7 @@ export function getAlternateLanguageUrls(
 	return { fr, en };
 }
 
-/** Build absolute URL for a path segment (e.g. `legal-notice`, `en/legal-notice`). */
+/** Build absolute URL for a path segment (e.g. `politique-de-confidentialite`, `en/privacy-policy`). */
 export function absolutePageUrl(
 	site: URL | undefined,
 	pathFromBase: string,

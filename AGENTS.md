@@ -10,11 +10,13 @@ They are reusable base instructions for Astro projects.
 - Project structure and file organization
 - Component patterns and usage
 - SEO configuration (`astro.config.mjs`, `Layout.astro`, `public/` assets)
-- Legal pages under `src/pages/` (`legal-notice`, `privacy-policy`, `terms-of-service`). `/en/` exists only when `ENABLE_MULTILANG=true`
+- Legal pages under `src/pages/` use the locale’s slug: French `mentions-legales`, `politique-de-confidentialite`, `conditions-generales`. English copies (`/en/legal-notice`, `/en/privacy-policy`, `/en/terms-of-service`) exist only when `ENABLE_MULTILANG=true`
 - i18n (`src/i18n/locales/`, `getFixedT(locale)`) and optional ContentForge blocks (FAQ, reviews, articles), each toggled in `.env`
 - Styling guidelines, Armenian theme, and animations in `src/styles/global.css`
 
 Also read **`AGENTS.project.md`** for ARM Services–specific context (conversion, palette, component workflow).
+
+**`MULTILANG.md` is mandatory** before any change to languages, public URLs, slugs, hreflang, the sitemap, or legal pages. Codex, Claude, Cursor, and GitHub Copilot follow that file.
 
 ## Content and Language
 

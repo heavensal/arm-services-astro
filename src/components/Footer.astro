@@ -4,7 +4,7 @@ import footerImage from '../assets/images/footer_team_delivery.webp';
 import { getFixedT, type Locale } from '../i18n/i18n';
 import { publishedBlogPaths } from '../lib/contentforge-blog';
 import { siteConfig } from '../site.config';
-import { localePathPrefix, pageHref, pageRoutes } from '../lib/paths';
+import { legalPath, localePathPrefix, pageHref } from '../lib/paths';
 
 interface Props {
 	locale: Locale;
@@ -76,9 +76,9 @@ const hours = Array.isArray(hoursRaw)
 						{blogPath && (
 							<a href={pageHref(blogPath)} class="text-gray-400 hover:text-white transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-orange-armenian">{t('Footer.linkBlog')}</a>
 						)}
-						<a href={pageHref(`${pathPrefix}${pageRoutes.legalNotice}`)} class="text-gray-400 hover:text-white transition-colors">{t('Footer.linkLegal')}</a>
-						<a href={pageHref(`${pathPrefix}${pageRoutes.privacyPolicy}`)} class="text-gray-400 hover:text-white transition-colors">{t('Footer.linkPrivacy')}</a>
-						<a href={pageHref(`${pathPrefix}${pageRoutes.termsOfService}`)} class="text-gray-400 hover:text-white transition-colors">{t('Footer.linkTerms')}</a>
+						<a href={pageHref(legalPath(locale, 'legalNotice'))} class="text-gray-400 hover:text-white transition-colors">{t('Footer.linkLegal')}</a>
+						<a href={pageHref(legalPath(locale, 'privacyPolicy'))} class="text-gray-400 hover:text-white transition-colors">{t('Footer.linkPrivacy')}</a>
+						<a href={pageHref(legalPath(locale, 'termsOfService'))} class="text-gray-400 hover:text-white transition-colors">{t('Footer.linkTerms')}</a>
 					</nav>
 					<p class="text-center lg:text-right text-gray-400 whitespace-normal" set:html={t('Footer.legalLines', { legalId, capital })} />
 				</div>

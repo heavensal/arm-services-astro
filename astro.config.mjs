@@ -33,6 +33,11 @@ export default defineConfig({
 			filter: (page) => !new URL(page).pathname.replace(/\/$/, '').endsWith('/404'),
 		}),
 	],
+	redirects: {
+		'/legal-notice': { status: 301, destination: '/mentions-legales' },
+		'/privacy-policy': { status: 301, destination: '/politique-de-confidentialite' },
+		'/terms-of-service': { status: 301, destination: '/conditions-generales' },
+	},
 	prefetch: {
 		prefetchAll: true,
 		defaultStrategy: 'viewport',

@@ -5,7 +5,7 @@ import PrivacyArticle from '../../components/legal/PrivacyArticle.astro';
 import TermsArticle from '../../components/legal/TermsArticle.astro';
 import { getFixedT, isMultilangEnabled, type Locale } from '../../i18n/i18n';
 import Layout from '../../layouts/Layout.astro';
-import { pageRoutes } from '../../lib/paths';
+import { legalSlugs } from '../../lib/paths';
 import {
 	absolutePageUrl,
 	buildHomeAlternateLanguages,
@@ -21,10 +21,10 @@ export function getStaticPaths() {
 	if (!isMultilangEnabled()) return [];
 	return [
 		{ params: { slug: undefined }, props: { kind: 'home' satisfies EnglishKind } },
-		{ params: { slug: pageRoutes.legalNotice }, props: { kind: 'legal-notice' satisfies EnglishKind } },
-		{ params: { slug: pageRoutes.privacyPolicy }, props: { kind: 'privacy-policy' satisfies EnglishKind } },
+		{ params: { slug: legalSlugs.en.legalNotice }, props: { kind: 'legal-notice' satisfies EnglishKind } },
+		{ params: { slug: legalSlugs.en.privacyPolicy }, props: { kind: 'privacy-policy' satisfies EnglishKind } },
 		{
-			params: { slug: pageRoutes.termsOfService },
+			params: { slug: legalSlugs.en.termsOfService },
 			props: { kind: 'terms-of-service' satisfies EnglishKind },
 		},
 	];
@@ -45,9 +45,15 @@ const meta = {
 }[kind];
 const frenchPath = {
 	home: undefined,
-	'legal-notice': pageRoutes.legalNotice,
-	'privacy-policy': pageRoutes.privacyPolicy,
-	'terms-of-service': pageRoutes.termsOfService,
+	'legal-notice': legalSlugs.fr.legalNotice,
+	'privacy-policy': legalSlugs.fr.privacyPolicy,
+	'terms-of-service': legalSlugs.fr.termsOfService,
+}[kind];
+const englishPath = {
+	home: undefined,
+	'legal-notice': legalSlugs.en.legalNotice,
+	'privacy-policy': legalSlugs.en.privacyPolicy,
+	'terms-of-service': legalSlugs.en.termsOfService,
 }[kind];
 const homeAlternates = kind === 'home' ? getAlternateLanguageUrls(Astro.site) : undefined;
 const homeFr = absolutePageUrl(Astro.site, '');
@@ -56,7 +62,7 @@ const alternateLanguages =
 		? buildHomeAlternateLanguages(homeAlternates)
 		: buildLegalAlternateLanguages(
 				frenchPath ? absolutePageUrl(Astro.site, frenchPath) : undefined,
-				frenchPath ? absolutePageUrl(Astro.site, `en/${frenchPath}`) : undefined,
+				englishPath ? absolutePageUrl(Astro.site, `en/${englishPath}`) : undefined,
 			);
 ---
 
