@@ -73,6 +73,7 @@ export function initArmContactForm(): void {
 
 	document.querySelectorAll('[data-arm-contact-open]').forEach((btn) => {
 		btn.addEventListener('click', () => {
+			if (submitting) return;
 			hideStatus();
 			dialog.showModal();
 			document.body.style.overflow = 'hidden';
@@ -100,7 +101,7 @@ export function initArmContactForm(): void {
 			photos.clear();
 			hideStatus();
 		}
-		preserveForm = false;
+		if (!submitting) preserveForm = false;
 		if (!submitting) document.body.style.overflow = '';
 	});
 
@@ -135,7 +136,7 @@ export function initArmContactForm(): void {
 			if (error instanceof Error && error.message === 'contact-send') showFormError(config.ui.error);
 			else showFormError(message);
 		} finally {
-			submitting = false;
+			submitting = preserveForm = false;
 			if (submitBtn instanceof HTMLButtonElement) submitBtn.disabled = false;
 		}
 	});

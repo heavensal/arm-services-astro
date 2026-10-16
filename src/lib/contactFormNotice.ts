@@ -71,7 +71,7 @@ export function createContactNotice(root: HTMLElement): ContactNotice {
 
 	document.addEventListener('keydown', (event) => {
 		if (root.hidden) return;
-		if (event.key === 'Tab') event.preventDefault();
+		if (event.key === 'Tab' || event.key === 'Enter' || event.key === ' ') event.preventDefault();
 		if (event.key === 'Escape' && root.classList.contains('is-success')) {
 			event.preventDefault();
 			dismiss();
