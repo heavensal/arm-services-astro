@@ -37,13 +37,13 @@ const reviews = fromApi
 
 		<div class="mb-10 flex justify-center px-4">
 			<div class="relative flex w-full max-w-xl flex-col items-center gap-5 overflow-hidden rounded-2xl border border-blue-100 bg-white px-8 py-7 text-center shadow-md sm:flex-row sm:text-left">
-				{/* Bande bleue décorative en haut */}
+				{/* Decorative blue band at the top */}
 				<div class="absolute inset-x-0 top-0 h-1 bg-[#0078fa]" aria-hidden="true"></div>
 
-				{/* Séparateur vertical sur desktop */}
+				{/* Vertical divider on desktop */}
 				<div class="hidden sm:block w-px self-stretch bg-gray-100" aria-hidden="true"></div>
 
-				{/* Texte + logo inline */}
+				{/* Text and inline logo */}
 				<div class="flex-1">
 					<p class="font-bold text-gray-900 text-base flex flex-wrap items-center justify-center gap-x-2 sm:justify-start">
 						<span>{t('Reviews.yoojoBadge')}</span>
@@ -69,7 +69,7 @@ const reviews = fromApi
 					</p>
 				</div>
 
-				{/* CTA — seul élément avec le lien externe */}
+				{/* CTA — the only element with the external link */}
 				<a
 					href={yoojo.profileUrl}
 					target="_blank"

@@ -21,7 +21,7 @@ alwaysApply: true
 
 - Copy lives in **`src/i18n/locales/fr.json`** and **`en.json`**.
 - Section components require **`locale: 'fr' | 'en'`**.
-- **`publishedLocales`** in `src/site.config.ts` is `['fr']`. hreflang lists `fr` and `x-default` (the French URL) and never `en`. `ENABLE_MULTILANG=false` generates no `/en/` URL and hides the hero switcher. `true` generates `/en/` home and legal pages; hreflang still follows `publishedLocales`.
+- **`publishedLocales`** in `src/site.config.ts` is `['fr']`. hreflang lists `fr` and `x-default` (the French URL) and never `en`. `ENABLE_MULTILANG=false` generates no `/en/` URL and hides the hero switcher. `true` generates `/en/` home and legal pages; hreflang still follows `publishedLocales`. English keys in `en.json` are filled in both cases. To repeat this on another brochure site, follow `.cursor/skills/brochure-multilang/SKILL.md` (agent: `.cursor/agents/brochure-multilang.md`).
 - ContentForge blocks are independent env flags, read at build time. On ARM Services all three stay `false`: `CONTENTFORGE_FAQ_ENABLED`, `CONTENTFORGE_REVIEWS_ENABLED`, `CONTENTFORGE_ARTICLES_ENABLED`. FAQ and reviews stay in i18n. `/blog` is not generated. A future `true` on articles generates `/blog` only for published locales (`/en/blog` only if `ENABLE_MULTILANG=true` and `en` is published). Hero, services, process, areas, legal pages, phone, and quote stay in this repo.
 
 ## SEO Markers

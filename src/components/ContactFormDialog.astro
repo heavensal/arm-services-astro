@@ -1,6 +1,7 @@
 ---
 import { getFixedT, type Locale } from '../i18n/i18n';
 import ContactFormFields from './ContactFormFields.astro';
+import ContactFormNotice from './ContactFormNotice.astro';
 
 interface Props {
 	locale: Locale;
@@ -27,8 +28,6 @@ const contactConfig = JSON.stringify({
 	apiToken: contactApiToken,
 	subject: contactEmailSubject,
 	ui: {
-		sending: t('ContactForm.sending'),
-		success: t('ContactForm.success'),
 		error: t('ContactForm.error'),
 		errorNetwork: t('ContactForm.errorNetwork'),
 		errorConfig: t('ContactForm.errorConfig'),
@@ -56,10 +55,11 @@ const contactConfig = JSON.stringify({
 <dialog
 	id="arm-contact-dialog"
 	tabindex="-1"
-	class="fixed inset-x-0 m-auto h-fit max-h-[90vh] w-[90vw]! max-w-[90vw]! overflow-y-auto rounded-xl border border-gray-200 bg-white p-0 text-left shadow-lg outline-none backdrop:bg-gray-900 backdrop:opacity-40 open:flex open:flex-col"
+	class="fixed inset-x-0 m-auto h-fit w-[90vw]! max-w-[90vw]! bg-transparent p-0 text-left outline-none backdrop:bg-gray-900 backdrop:opacity-40 open:flex"
 	aria-labelledby="arm-contact-title"
 	aria-describedby="arm-contact-intro"
 >
+	<div class="arm-contact-dialog-panel flex max-h-[90vh] w-full flex-col overflow-y-auto rounded-xl border border-gray-200 bg-white shadow-lg">
 	<div class="border-b border-gray-100 px-6 py-4">
 		<h3 id="arm-contact-title" tabindex="-1" autofocus class="text-xl text-center font-bold text-gray-900 outline-none">
 			{t('ContactForm.dialogTitle')}
@@ -69,8 +69,9 @@ const contactConfig = JSON.stringify({
 		<ContactFormFields locale={locale} />
 		<p
 			id="arm-contact-status"
-			class="hidden rounded-lg px-3 py-2 text-sm border"
-			role="status"
+			class="hidden rounded-lg border px-3 py-2 text-sm outline-none"
+			role="alert"
+			tabindex="-1"
 		></p>
 		<div class="flex flex-wrap justify-center gap-3 border-t border-gray-100 pt-4">
 			<button
@@ -89,7 +90,10 @@ const contactConfig = JSON.stringify({
 			</button>
 		</div>
 	</form>
+	</div>
 </dialog>
+
+<ContactFormNotice locale={locale} />
 
 <script id="arm-contact-config" type="application/json" set:html={contactConfig}></script>
 <script>
