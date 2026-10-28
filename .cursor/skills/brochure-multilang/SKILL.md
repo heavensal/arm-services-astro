@@ -77,7 +77,7 @@ Set both together. `isPublishedLocale('en')` is true only when `'en'` is listed 
 - The same `getStaticPaths()` returns `/en/`, `/en/legal-notice`, `/en/privacy-policy`, `/en/terms-of-service`.
 - The switcher links `/` and `/en/`.
 - hreflang lists `fr`, `en`, and `x-default` (the French URL). A missing translation is omitted.
-- `/en/blog` exists only when `CONTENTFORGE_ARTICLES_ENABLED=true` and English is published. A slug returned for one locale is not announced for the other.
+- `/en/blog` exists only when `FORGE_ARTICLES_ENABLED=true` and English is published. A slug returned for one locale is not announced for the other.
 - `.env` is gitignored. Add `ENABLE_MULTILANG` to the `pnpm run build` environment in `.github/workflows/deploy.yml`. A local `.env` does not change the GitHub Pages build.
 
 These root redirects stay in both modes:

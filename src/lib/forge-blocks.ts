@@ -1,5 +1,5 @@
 import type { Locale } from '../i18n/i18n';
-import { asList, fetchContentforge, isFaqEnabled, isReviewsEnabled } from './contentforge';
+import { asList, fetchForge, isFaqEnabled, isReviewsEnabled } from './forge';
 
 export interface CmsFaq {
 	question: string;
@@ -10,7 +10,7 @@ export interface CmsFaq {
 /** Published FAQs, or null when the block is off or the API cannot be used. */
 export async function fetchFaqs(locale: Locale): Promise<CmsFaq[] | null> {
 	if (!isFaqEnabled()) return null;
-	const payload = await fetchContentforge('faqs', locale);
+	const payload = await fetchForge('faqs', locale);
 	if (payload == null) return null;
 	const items = asList(payload)
 		.flatMap((item): CmsFaq[] => {
@@ -39,7 +39,7 @@ export interface CmsReview {
 /** Published reviews with a 1–5 rating, or null when the block is off or unusable. */
 export async function fetchReviews(locale: Locale): Promise<CmsReview[] | null> {
 	if (!isReviewsEnabled()) return null;
-	const payload = await fetchContentforge('reviews', locale);
+	const payload = await fetchForge('reviews', locale);
 	if (payload == null) return null;
 	const items = asList(payload).flatMap((item): CmsReview[] => {
 		if (!item || typeof item !== 'object') return [];

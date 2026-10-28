@@ -180,7 +180,7 @@ body::-webkit-scrollbar-thumb {
 	}
 }
 
-/* HTML authored in ContentForge (Action Text). Inner tags are not Tailwind classes. */
+/* HTML authored in Forge (Action Text). Inner tags are not Tailwind classes. */
 .cms-content :where(p, ul, ol, blockquote, pre, h2, h3) {
 	margin-top: 1rem;
 }
