@@ -11,7 +11,7 @@ Brochure site for ARM Services, a moving company based in Marseille. Built with 
 - [Features](#features)
 - [Quick start](#quick-start)
 - [Project structure](#project-structure)
-- [ContentForge content](#contentforge-content)
+- [Forge content](#forge-content)
 - [Languages and hreflang](#languages-and-hreflang)
 - [Multilang: how and why](#multilang-how-and-why)
 - [Configuration](#configuration)
@@ -27,8 +27,8 @@ Brochure site for ARM Services, a moving company based in Marseille. Built with 
 
 - **SEO**: Open Graph, Twitter Cards, canonical URLs, hreflang (`fr` and `x-default` only), JSON-LD, sitemap, generated `robots.txt`
 - **i18n**: French is published. `ENABLE_MULTILANG=false` generates no `/en/` URL. English copy still lives in `en.json`. See [Languages and hreflang](#languages-and-hreflang) and [Multilang: how and why](#multilang-how-and-why)
-- **FAQ, reviews, blog**: each has its own ContentForge flag (`true` / `false`). Details in [ContentForge content](#contentforge-content)
-- **Contact form**: dialog in the contact section, `POST` to ContentForge (`PUBLIC_CONTACT_FORM_URL` + **`PUBLIC_CONTACT_FORM_TOKEN`**, `Authorization: Bearer` header)
+- **FAQ, reviews, blog**: each has its own Forge flag (`true` / `false`). Details in [Forge content](#forge-content)
+- **Contact form**: dialog in the contact section, `POST` to Forge (`PUBLIC_CONTACT_FORM_URL` + **`PUBLIC_CONTACT_FORM_TOKEN`**, `Authorization: Bearer` header)
 - **Email template**: `src/templates/email/contact-message.html` and `buildArmContactEmailHtml()` in `src/lib/email/contactMailHtml.ts` for the service that sends mail
 - **Landing sections**: Hero, TrustBar, Services, Process, Areas, WhyUs, Reviews, QuoteCTA, FinalCTA (includes the form), Footer
 - **Legal pages**: legal notice, privacy policy, terms of service
@@ -51,7 +51,7 @@ pnpm dev
 
 ### Initial setup
 
-After cloning, copy **`.env.example`** to **`.env`**, then adjust if needed (`ENABLE_MULTILANG`, `CONTENTFORGE_*`, **`PUBLIC_CONTACT_FORM_URL`**, **`PUBLIC_CONTACT_FORM_TOKEN`**). In particular, update:
+After cloning, copy **`.env.example`** to **`.env`**, then adjust if needed (`ENABLE_MULTILANG`, `FORGE_*`, **`PUBLIC_CONTACT_FORM_URL`**, **`PUBLIC_CONTACT_FORM_TOKEN`**). In particular, update:
 
 1. **`astro.config.mjs`** — set `site` and `base` for the deployment URL
 2. **`src/site.config.ts`** — site identity, contact, social links, OG image
@@ -88,7 +88,7 @@ After cloning, copy **`.env.example`** to **`.env`**, then adjust if needed (`EN
 │   │   │   └── contactMailHtml.ts
 │   │   ├── paths.ts
 │   │   ├── seo.ts
-│   │   └── contentforge.ts
+│   │   └── forge.ts
 │   ├── templates/
 │   │   └── email/
 │   │       └── contact-message.html
@@ -113,23 +113,23 @@ After cloning, copy **`.env.example`** to **`.env`**, then adjust if needed (`EN
 └── .cursor/rules/            # Cursor AI rules
 ```
 
-Blog pages (generated only when `CONTENTFORGE_ARTICLES_ENABLED=true` and the locale is in `publishedLocales`): `src/pages/blog/[...slug].astro` and `src/pages/en/blog/[...slug].astro`. `/en/blog` also requires `ENABLE_MULTILANG=true`. On ARM Services both are off (`ENABLE_MULTILANG=false`, articles `false`, `publishedLocales` = `['fr']`), so there is no blog page and no `/en/` URL.
+Blog pages (generated only when `FORGE_ARTICLES_ENABLED=true` and the locale is in `publishedLocales`): `src/pages/blog/[...slug].astro` and `src/pages/en/blog/[...slug].astro`. `/en/blog` also requires `ENABLE_MULTILANG=true`. On ARM Services both are off (`ENABLE_MULTILANG=false`, articles `false`, `publishedLocales` = `['fr']`), so there is no blog page and no `/en/` URL.
 
 ---
 
-## ContentForge content
+## Forge content
 
-ContentForge is the CMS (a separate repository). This site only displays content. Three blocks can be connected, **independently**:
+Forge is the CMS (a separate repository). This site only displays content. Three blocks can be connected, **independently**:
 
 | Variable | `true` | `false`, or unreachable API |
 | --- | --- | --- |
-| `CONTENTFORGE_FAQ_ENABLED` | `GET /faqs` | `Faq.*` strings in `fr.json` / `en.json` |
-| `CONTENTFORGE_REVIEWS_ENABLED` | `GET /reviews` (model rating 1–5) | `Reviews.r*` strings, 5 stars |
-| `CONTENTFORGE_ARTICLES_ENABLED` | `GET /articles` and `GET /articles/:slug` → `/blog` and `/blog/[slug]`. `/en/blog` only if `ENABLE_MULTILANG=true` and `en` is in `publishedLocales` | those pages are not generated |
+| `FORGE_FAQ_ENABLED` | `GET /faqs` | `Faq.*` strings in `fr.json` / `en.json` |
+| `FORGE_REVIEWS_ENABLED` | `GET /reviews` (model rating 1–5) | `Reviews.r*` strings, 5 stars |
+| `FORGE_ARTICLES_ENABLED` | `GET /articles` and `GET /articles/:slug` → `/blog` and `/blog/[slug]`. `/en/blog` only if `ENABLE_MULTILANG=true` and `en` is in `publishedLocales` | those pages are not generated |
 
 **ARM Services imports nothing**: all three flags stay `false` (`.env` and GitHub Actions secrets). FAQ and reviews come from `fr.json`. `/blog` is not generated.
 
-`CONTENTFORGE_URL` and `CONTENTFORGE_API_TOKEN` are shared. Another site can publish a blog (`ARTICLES=true`) without CMS reviews (`REVIEWS=false`).
+`FORGE_URL` and `FORGE_API_TOKEN` are shared. Another site can publish a blog (`ARTICLES=true`) without CMS reviews (`REVIEWS=false`).
 
 Reads happen **at build time**. In production, the same names are GitHub Actions secrets (`deploy.yml`). For this site they must stay empty or `false`. Hero, services, process, areas, legal pages, phone, and quote stay in this repository.
 
@@ -152,7 +152,7 @@ There is no `hreflang="en"`. `og:locale:alternate` is omitted. JSON-LD `inLangua
 
 A blog article that exists in only one published locale does not advertise the missing translation: `/blog/mon-article` does not point at `/en/blog/mon-article` when that slug was not returned for English.
 
-ContentForge stays off on this site (`CONTENTFORGE_FAQ_ENABLED`, `CONTENTFORGE_REVIEWS_ENABLED`, and `CONTENTFORGE_ARTICLES_ENABLED` are all `false`), so no blog URLs are generated today. The hreflang rule above still applies to the home page and the legal pages, and to the blog if articles are turned on later.
+Forge stays off on this site (`FORGE_FAQ_ENABLED`, `FORGE_REVIEWS_ENABLED`, and `FORGE_ARTICLES_ENABLED` are all `false`), so no blog URLs are generated today. The hreflang rule above still applies to the home page and the legal pages, and to the blog if articles are turned on later.
 
 ## Multilang: how and why
 
@@ -359,9 +359,9 @@ The `.github/workflows/deploy.yml` workflow builds and deploys on push to `main`
 
 1. **Repository** → **Settings** → **Pages**: source **GitHub Actions**
 2. Set `site` and `base` in `astro.config.mjs`
-3. **Settings** → **Secrets and variables** → **Actions**: add **`PUBLIC_CONTACT_FORM_URL`**, **`PUBLIC_CONTACT_FORM_TOKEN`**, and, if a CMS block is on, **`CONTENTFORGE_URL`**, **`CONTENTFORGE_API_TOKEN`**, **`CONTENTFORGE_FAQ_ENABLED`**, **`CONTENTFORGE_REVIEWS_ENABLED`**, **`CONTENTFORGE_ARTICLES_ENABLED`** (`true` or `false`). The workflow injects them at `pnpm run build`.
+3. **Settings** → **Secrets and variables** → **Actions**: add **`PUBLIC_CONTACT_FORM_URL`**, **`PUBLIC_CONTACT_FORM_TOKEN`**, and, if a CMS block is on, **`FORGE_URL`**, **`FORGE_API_TOKEN`**, **`FORGE_FAQ_ENABLED`**, **`FORGE_REVIEWS_ENABLED`**, **`FORGE_ARTICLES_ENABLED`** (`true` or `false`). The workflow injects them at `pnpm run build`.
 
-The contact form needs **`PUBLIC_CONTACT_FORM_URL`** (for example `https://contentforge.1344.fr/api/v1/send_form`) and **`PUBLIC_CONTACT_FORM_TOKEN`** in `.env` (GitHub Actions secrets for deployment). ContentForge must allow the site in **CORS**.
+The contact form needs **`PUBLIC_CONTACT_FORM_URL`** (for example `https://forge.1344.fr/api/v1/send_form`) and **`PUBLIC_CONTACT_FORM_TOKEN`** in `.env` (GitHub Actions secrets for deployment). Forge must allow the site in **CORS**.
 
 ### Custom domain
 

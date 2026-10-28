@@ -11,7 +11,7 @@ They are reusable base instructions for Astro projects.
 - Component patterns and usage
 - SEO configuration (`astro.config.mjs`, `Layout.astro`, `public/` assets)
 - Legal pages under `src/pages/` use the locale’s slug: French `mentions-legales`, `politique-de-confidentialite`, `conditions-generales`. English copies (`/en/legal-notice`, `/en/privacy-policy`, `/en/terms-of-service`) exist only when `ENABLE_MULTILANG=true`
-- i18n (`src/i18n/locales/`, `getFixedT(locale)`) and optional ContentForge blocks (FAQ, reviews, articles), each toggled in `.env`
+- i18n (`src/i18n/locales/`, `getFixedT(locale)`) and optional Forge blocks (FAQ, reviews, articles), each toggled in `.env`
 - Styling guidelines, Armenian theme, and animations in `src/styles/global.css`
 
 Also read **`AGENTS.project.md`** for ARM Services–specific context (conversion, palette, component workflow).
@@ -25,7 +25,7 @@ Also read **`AGENTS.project.md`** for ARM Services–specific context (conversio
 - **`publishedLocales`** in `src/site.config.ts` is the hreflang list. ARM Services is French-only: `['fr']`, so the head has `fr` and `x-default` (both the French URL) and no `en`. See README “Languages and hreflang”.
 - **`ENABLE_MULTILANG`** (`.env`): when `false`, no `/en/` page is generated and the hero switcher is hidden. When `true`, `/en/` home and legal pages exist. hreflang still follows `publishedLocales`. English keys in `en.json` are filled in both cases.
 - To repeat this on another brochure site, follow `.cursor/skills/brochure-multilang/SKILL.md`. The agent is `.cursor/agents/brochure-multilang.md`.
-- ARM Services does not import ContentForge. `CONTENTFORGE_FAQ_ENABLED`, `CONTENTFORGE_REVIEWS_ENABLED`, and `CONTENTFORGE_ARTICLES_ENABLED` stay `false`.
+- ARM Services does not import Forge. `FORGE_FAQ_ENABLED`, `FORGE_REVIEWS_ENABLED`, and `FORGE_ARTICLES_ENABLED` stay `false`.
 - Keep component and variable names in English.
 
 ## Architecture and Components

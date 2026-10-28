@@ -464,7 +464,7 @@ const en = {
 		openCta: 'Request a quote via form',
 		dialogTitle: 'Quote / contact request',
 		dialogIntro:
-			'Data is sent to ContentForge (PUBLIC_CONTACT_FORM_URL and PUBLIC_CONTACT_FORM_TOKEN).',
+			'Data is sent to Forge (PUBLIC_CONTACT_FORM_URL and PUBLIC_CONTACT_FORM_TOKEN).',
 		fieldLastName: 'Last name',
 		fieldFirstName: 'First name',
 		fieldEmail: 'Email',

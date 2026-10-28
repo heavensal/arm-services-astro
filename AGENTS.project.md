@@ -9,7 +9,7 @@ These complement the base instructions in `AGENTS.md`.
 - How to configure the project (`astro.config.mjs`, `Layout.astro`, `public/` static assets)
 - Component patterns and usage
 - SEO configuration and `// SEO:` markers in code
-- Legal pages (French slugs; English slugs under `/en/` only when multilang is on), i18n JSON, `.env` / ContentForge / **`PUBLIC_CONTACT_FORM_URL`** + **`PUBLIC_CONTACT_FORM_TOKEN`**
+- Legal pages (French slugs; English slugs under `/en/` only when multilang is on), i18n JSON, `.env` / Forge / **`PUBLIC_CONTACT_FORM_URL`** + **`PUBLIC_CONTACT_FORM_TOKEN`**
 - Tailwind styling conventions, Armenian theme, and `global.css` animations
 
 ## Project Context
@@ -19,7 +19,7 @@ These complement the base instructions in `AGENTS.md`.
 - The website targets individual and professional clients seeking reliable moving services.
 - Primary conversion goal: phone calls and quote requests.
 - French-only site. `publishedLocales` is `['fr']`. hreflang is `fr` plus `x-default` on the French URL. Do not announce `en`.
-- ContentForge imports are off: the three `CONTENTFORGE_*_ENABLED` flags are `false`. FAQ and reviews come from `fr.json`. `/blog` is not generated.
+- Forge imports are off: the three `FORGE_*_ENABLED` flags are `false`. FAQ and reviews come from `fr.json`. `/blog` is not generated.
 
 ## Key Files
 
@@ -35,19 +35,19 @@ These complement the base instructions in `AGENTS.md`.
 | `src/pages/conditions-generales.astro` | Terms (`/conditions-generales`) |
 | `src/i18n/locales/*.json` | All landing + legal copy |
 | `src/lib/seo.ts`, `src/lib/paths.ts` | hreflang helpers, JSON-LD |
-| `src/lib/contentforge.ts` | Per-block flags and ContentForge fetch |
-| `src/pages/blog/`, `src/pages/en/blog/` | Blog index and article, only if `CONTENTFORGE_ARTICLES_ENABLED=true` |
-| `ContactFormDialog.astro` | Modal form: `POST` ContentForge `{ from_email, from_name, subject, message, fields }` + `Authorization: Bearer` to `PUBLIC_CONTACT_FORM_URL` |
+| `src/lib/forge.ts` | Per-block flags and Forge fetch |
+| `src/pages/blog/`, `src/pages/en/blog/` | Blog index and article, only if `FORGE_ARTICLES_ENABLED=true` |
+| `ContactFormDialog.astro` | Modal form: `POST` Forge `{ from_email, from_name, subject, message, fields }` + `Authorization: Bearer` to `PUBLIC_CONTACT_FORM_URL` |
 | `src/templates/email/contact-message.html` | Reference HTML for outbound email (placeholders) |
 | `src/lib/email/contactMailHtml.ts` | `buildArmContactEmailHtml()` for external mailer |
-| `.env` / `.env.example` | `ENABLE_MULTILANG`, `CONTENTFORGE_FAQ_ENABLED`, `CONTENTFORGE_REVIEWS_ENABLED`, `CONTENTFORGE_ARTICLES_ENABLED`, `CONTENTFORGE_URL`, `CONTENTFORGE_API_TOKEN`, **`PUBLIC_CONTACT_FORM_URL`**, **`PUBLIC_CONTACT_FORM_TOKEN`** |
+| `.env` / `.env.example` | `ENABLE_MULTILANG`, `FORGE_FAQ_ENABLED`, `FORGE_REVIEWS_ENABLED`, `FORGE_ARTICLES_ENABLED`, `FORGE_URL`, `FORGE_API_TOKEN`, **`PUBLIC_CONTACT_FORM_URL`**, **`PUBLIC_CONTACT_FORM_TOKEN`** |
 | `src/styles/global.css` | Tailwind theme (Armenian colors) and animations |
 | `src/components/` | Landing page sections |
 | `public/` | Favicons, manifest, default OG image |
 
 ## Contact form (static / GitHub Pages)
 
-The site is **static**: email sending uses **ContentForge** (`PUBLIC_CONTACT_FORM_URL`, e.g. `…/api/v1/send_form`) with **`PUBLIC_CONTACT_FORM_TOKEN`** (Bearer). Configure **CORS** for `https://arm-services-demenagement.fr` and `http://localhost:4321` in dev. **SMTP** variables in `.env.example` document the **Rails** environment, not Astro.
+The site is **static**: email sending uses **Forge** (`PUBLIC_CONTACT_FORM_URL`, e.g. `…/api/v1/send_form`) with **`PUBLIC_CONTACT_FORM_TOKEN`** (Bearer). Configure **CORS** for `https://arm-services-demenagement.fr` and `http://localhost:4321` in dev. **SMTP** variables in `.env.example` document the **Rails** environment, not Astro.
 
 ## SEO Markers
 

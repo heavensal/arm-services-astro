@@ -1,6 +1,6 @@
 import type { Locale } from '../i18n/i18n';
 import { isPublishedLocale } from './seo';
-import { asList, fetchContentforge, isArticlesEnabled } from './contentforge';
+import { asList, fetchForge, isArticlesEnabled } from './forge';
 
 const SLUG = /^[a-z0-9]+(?:-[a-z0-9]+)*$/;
 
@@ -49,7 +49,7 @@ async function loadArticleIndex(locale: Locale): Promise<CmsArticleSummary[] | n
 	let pending = indexPromises.get(locale);
 	if (!pending) {
 		pending = (async () => {
-			const payload = await fetchContentforge('articles', locale);
+			const payload = await fetchForge('articles', locale);
 			if (payload == null) return null;
 			return asList(payload).flatMap((item) => {
 				const summary = readSummary(item);
@@ -67,7 +67,7 @@ export async function fetchArticle(slug: string, locale: Locale): Promise<CmsArt
 	let pending = articlePromises.get(cacheKey);
 	if (!pending) {
 		pending = (async () => {
-			const payload = await fetchContentforge(`articles/${slug}`, locale);
+			const payload = await fetchForge(`articles/${slug}`, locale);
 			const summary = readSummary(payload);
 			if (!summary || summary.slug !== slug) return null;
 			const contentHtml =
@@ -111,7 +111,7 @@ export async function blogStaticPaths(locale: Locale): Promise<BlogPath[]> {
 	if (!isArticlesEnabled() || !isPublishedLocale(locale)) return [];
 	const posts = await loadArticleIndex(locale);
 	if (posts == null) {
-		console.error(`ContentForge articles unavailable (${locale}); blog pages were not generated`);
+		console.error(`Forge articles unavailable (${locale}); blog pages were not generated`);
 		return [];
 	}
 	const index: BlogPath = {

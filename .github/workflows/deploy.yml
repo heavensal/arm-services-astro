@@ -6,7 +6,7 @@ on:
   pull_request:
     branches: [main]
   repository_dispatch:
-    types: [contentforge-rebuild]
+    types: [forge-rebuild]
 
 permissions:
   contents: read
@@ -34,12 +34,12 @@ jobs:
         env:
           PUBLIC_CONTACT_FORM_URL: ${{ secrets.PUBLIC_CONTACT_FORM_URL }}
           PUBLIC_CONTACT_FORM_TOKEN: ${{ secrets.PUBLIC_CONTACT_FORM_TOKEN }}
-          CONTENTFORGE_URL: ${{ secrets.CONTENTFORGE_URL }}
-          CONTENTFORGE_API_TOKEN: ${{ secrets.CONTENTFORGE_API_TOKEN }}
+          FORGE_URL: ${{ secrets.FORGE_URL }}
+          FORGE_API_TOKEN: ${{ secrets.FORGE_API_TOKEN }}
           # ARM Services imports nothing. Leave these unset or set them to the string false.
-          CONTENTFORGE_FAQ_ENABLED: ${{ secrets.CONTENTFORGE_FAQ_ENABLED }}
-          CONTENTFORGE_REVIEWS_ENABLED: ${{ secrets.CONTENTFORGE_REVIEWS_ENABLED }}
-          CONTENTFORGE_ARTICLES_ENABLED: ${{ secrets.CONTENTFORGE_ARTICLES_ENABLED }}
+          FORGE_FAQ_ENABLED: ${{ secrets.FORGE_FAQ_ENABLED }}
+          FORGE_REVIEWS_ENABLED: ${{ secrets.FORGE_REVIEWS_ENABLED }}
+          FORGE_ARTICLES_ENABLED: ${{ secrets.FORGE_ARTICLES_ENABLED }}
       - uses: actions/upload-pages-artifact@v3
         with:
           path: ./dist

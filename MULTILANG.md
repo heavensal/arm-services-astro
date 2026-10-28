@@ -8,7 +8,7 @@ ARM Services is the “one language” case. The repository can also produce a �
 ## Concept
 
 A brochure site is the public site (Astro here). It displays. It is not the CMS.
-ContentForge, in the other repository, authors the blog, FAQ, and reviews. The brochure site fetches them at build time, only when that block’s flag is `true`. Hero, services, process, areas, legal pages, phone, and quote stay in this repository.
+Forge, in the other repository, authors the blog, FAQ, and reviews. The brochure site fetches them at build time, only when that block’s flag is `true`. Hero, services, process, areas, legal pages, phone, and quote stay in this repository.
 
 The language model is ready for French and English. Each site chooses how many languages it publishes.
 
@@ -97,13 +97,13 @@ Example. The French privacy policy is `/politique-de-confidentialite/`. On the d
 
 ## Blog
 
-The blog is not a page stored in the repository. It is generated only when `CONTENTFORGE_ARTICLES_ENABLED=true` and the language is published.
+The blog is not a page stored in the repository. It is generated only when `FORGE_ARTICLES_ENABLED=true` and the language is published.
 
 - French: `/blog` and `/blog/{slug}`.
 - English: `/en/blog` and `/en/blog/{slug}`, and only when English is published.
 - An article present in only one language does not announce the other in hreflang.
 
-On ARM Services the three ContentForge flags stay `false`. No `/blog` URL is generated. The `blog` segment is the same in both languages. The article slug is the one ContentForge returns.
+On ARM Services the three Forge flags stay `false`. No `/blog` URL is generated. The `blog` segment is the same in both languages. The article slug is the one Forge returns.
 
 ## What not to do
 
